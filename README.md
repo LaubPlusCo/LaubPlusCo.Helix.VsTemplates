@@ -3,18 +3,18 @@
 Visual Studio extension for accelerating creating new Visual Studio solutions and projects so these follow the conventions described by Sitecore Helix.
 
 ## Installation
-The extension can be installed via Visual Studio Extensions and Updates or by downloading the vsix (latest version).
+The extension can be installed via Visual Studio Extensions and Updates or by downloading the vsix ([latest version]()).
 
-*Note:* You need to run Visual Studio as administrator to use this extension.   
-To always start Visual Studio as administrator
-* Right click Visual Studio shortcut  
-* Select "Properties" 
-* Click "Open File Location"  
-* Right click "devenv.exe"  
-* Select "Troubleshoot compatibility"  
-* Select "Troubleshoot program"  
-* Check "The program requires additional permissions"  
-* Next, Test and Finish  
+> **Note:** You need to run Visual Studio as administrator to use this extension.   
+> *Always start Visual Studio as administrator*
+> * Right click a shortcut to Visual Studio  
+> * Select "Properties" 
+> * Click "Open File Location"  
+> * Right click "devenv.exe"  
+> * Select "Troubleshoot compatibility"  
+> * Select "Troubleshoot program"  
+> * Check "The program requires additional permissions"  
+> * Next, Test and Finish  
 
 When the extension has been installed a new project template is available under Visual C# templates.
 
