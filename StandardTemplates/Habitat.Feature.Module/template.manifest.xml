@@ -1,0 +1,29 @@
+<templateManifest typeOfTemplate="Module">
+  <name>Helix Feature layer Module with Unicorn serialization</name>
+  <description>An empty Helix feature layer module with Unicorn serialization configured - Habitat v1.3 style module.</description>
+  <version>1.0.0</version>
+  <author>Anders Laub</author>
+  <sourceFolder>/src</sourceFolder>
+  <saveOnCreate>true</saveOnCreate>
+  <templateEngine type="LaubPlusCo.Foundation.HelixTemplating.TemplateEngine.DefaultHelixTemplateEngine, LaubPlusCo.Foundation.HelixTemplating" />
+  <replacementTokens>
+    
+    <token key="$moduleName$" displayName="Module name" default="$safeprojectname$"
+           validationType="LaubPlusCo.Foundation.HelixTemplating.Tokens.ValidateModuleNameToken, LaubPlusCo.Foundation.HelixTemplating" />
+
+    <token key="$moduleNamespace$" displayName="Module namespace" required="true" default="Feature.$safeprojectname$"
+           suggestType="LaubPlusCo.Foundation.HelixTemplating.Tokens.SuggestNamespaceToken, LaubPlusCo.Foundation.HelixTemplating"
+           validationType="LaubPlusCo.Foundation.HelixTemplating.Tokens.ValidateNamespaceToken, LaubPlusCo.Foundation.HelixTemplating" />
+
+    <token key="$sitecoreVersion$" displayName="Sitecore version (for Sitecore nuget packages)" default="8.2.161115" required="true"
+           validationType="LaubPlusCo.Foundation.HelixTemplating.Tokens.ValidateVersionNumberToken, LaubPlusCo.Foundation.HelixTemplating" />
+  
+  </replacementTokens>
+  <projectsToAttach>
+    <projectFile path="/src/Feature/$modulename$/code/$moduleNamespace$.csproj" />
+  </projectsToAttach>
+  <ignoreFiles>
+    <file path="/template.manifest.xml" />
+    <file path="/readme.md" />
+  </ignoreFiles>
+</templateManifest>

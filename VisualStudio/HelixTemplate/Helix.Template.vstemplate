@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Type="ProjectGroup" Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Sitecore Helix Modules and Solutions</Name>
+    <Description>Helix Templates</Description>
+    <Icon>Helix.Template.ico</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <RequiredFrameworkVersion>4.0</RequiredFrameworkVersion>
+    <SortOrder>1000</SortOrder>
+    <TemplateID>b197a1bf-d28a-4fa9-b89d-78284429a25c</TemplateID>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>DefaultName</DefaultName>
+    <ProvideDefaultName>false</ProvideDefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectCollection>
+    </ProjectCollection>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>LaubPlusCo.VisualStudio.Helix.Wizard, Version=1.0.0.0, Culture=Neutral, PublicKeyToken=ae97adacf967c007</Assembly>
+    <FullClassName>LaubPlusCo.VisualStudio.Helix.Wizard.HelixTemplateWizard</FullClassName>
+  </WizardExtension>
+</VSTemplate>

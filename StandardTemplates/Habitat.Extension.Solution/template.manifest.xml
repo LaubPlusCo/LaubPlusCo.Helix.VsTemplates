@@ -1,0 +1,36 @@
+<templateManifest typeOfTemplate="Solution">
+  <name>Solution for extending Sitecore Habitat Sitecore Helix Solution</name>
+  <description>Helix Solution that contains all necessary configuration to extend and built into a Sitecore Habitat instance. No modules included.</description>
+  <version>1.0.0</version>
+  <author>Anders Laub</author>
+  <sourceFolder>/src</sourceFolder>
+  <saveOnCreate>true</saveOnCreate>
+  <templateEngine type="LaubPlusCo.Foundation.HelixTemplating.TemplateEngine.DefaultHelixTemplateEngine, LaubPlusCo.Foundation.HelixTemplating" />
+  <replacementTokens>
+    <token key="$publishUrl$" displayName="Publish URL" required="true" default="http://habitat.dev.local/" />
+    <token key="$instanceRoot$" displayName="Instance root" required="true" default="C:\websites\Habitat.dev.local" isFolder="true" />
+    <token key="$licensefile$" displayName="License file" required="true" default="\Data\license.xml" />
+    <token key="$author$" displayName="Author name" required="true" default="$username$" />
+  </replacementTokens>
+  <projectsToAttach />
+  <virtualSolutionFolders>
+    <virtualSolutionFolder name="Build">
+      <file path="/.editorconfig" />
+      <file path="/.gitattributes" />
+      <file path="/.gitignore" />
+      <file path="/gulp-config.js" />
+      <file path="/gulpfile.js" />
+      <file path="/nuget.config" />
+      <file path="/package.json" />
+      <file path="/publishsettings.targets" />
+      <virtualSolutionFolder name="Scripts">
+        <file path="/scripts/habitat.js" />
+        <file path="/scripts/unicorn.js" />
+        <file path="/scripts/applytransform.targets" />
+      </virtualSolutionFolder>
+    </virtualSolutionFolder>
+  </virtualSolutionFolders>
+  <ignoreFiles>
+    <file path="/template.manifest.xml" />
+  </ignoreFiles>
+</templateManifest>

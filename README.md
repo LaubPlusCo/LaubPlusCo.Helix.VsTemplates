@@ -1,0 +1,2 @@
+# LaubPlusCo.Helix.VisualStudio.Templates
+
