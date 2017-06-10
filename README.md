@@ -1,3 +1,5 @@
+[newprojectdialog]: https://laubplusco-my.sharepoint.com/personal/anders_laub_laubplusco_net/_layouts/15/guestaccess.aspx?docid=05a5d33f484d2412fa9879d837c14a9aa&authkey=Aab9UNxwW3ZIfC47SA8hjsU "Sitecore Helix Modules & Solutions"
+
 # Sitecore Helix Module & Solution Templates for VisualStudio
 
 Visual Studio extension for accelerating creating new Visual Studio solutions and projects so these follow the conventions described by Sitecore Helix.
@@ -20,7 +22,7 @@ Visual Studio 2015 and 2017 are both supported but the built-in module templates
 
 When the extension has been installed a new project template is available under Visual C# templates.
 
-[Image]
+![alt text][newprojectdialog]
 
 When the template is used for the first time you will be asked to select a root directory for storing your Helix templates. This directory can be changed at any time from the Settings dialog. When an empty root folder is selected you will be asked if you want to install the built-in templates.
 
@@ -34,7 +36,9 @@ Please share templates that you create that can be used by others. A public Gith
 
 
 #### Template manifest
-All templates are described in xml format in a manifes, template.manifest.xml. This template should be in the root of the template folder.
+All templates are described in a manifest file, template.manifest.xml. The manifest location is used as the root of the template folder structure.
+
+
 
 
 [DESCRIPTION OF MANIFEST]
@@ -52,5 +56,6 @@ All templates are described in xml format in a manifes, template.manifest.xml. T
 
 
 
-All code is released as open source under the ISC license. Please remember to include the original license in any derivatives.
+All code is released as open source under the ISC license.  
+Please remember to include the original license in any derivatives.  
 Anders Laub - contact@laubplusco.net
