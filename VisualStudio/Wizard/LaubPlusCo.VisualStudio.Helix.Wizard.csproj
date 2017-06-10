@@ -51,6 +51,7 @@
     <Reference Include="EnvDTE90a, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.14.0, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.TemplateWizardInterface, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -73,16 +74,6 @@
     <Compile Include="Repositories\ProjectRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dialogs\LaubPlusCo.VisualStudio.Helix.Dialogs.csproj">
-      <Project>{39015c0e-25a4-4f4a-8f0d-8a6ba8d86548}</Project>
-      <Name>LaubPlusCo.VisualStudio.Helix.Dialogs</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Foundation\HelixTemplating\LaubPlusCo.Foundation.Helix.Templating.csproj">
-      <Project>{196eb1b2-6313-4c48-bbc0-0399b89e3ad8}</Project>
-      <Name>LaubPlusCo.Foundation.Helix.Templating</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="LaubPlusCo.VisualStudio.Helix.Wizard.key" />
     <None Include="LaubPlusCo.VisualStudio.Helix.Wizard.snk" />
   </ItemGroup>
@@ -90,6 +81,16 @@
     <Content Include="license.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Foundation\HelixTemplating\LaubPlusCo.Foundation.Helix.Templating.csproj">
+      <Project>{196eb1b2-6313-4c48-bbc0-0399b89e3ad8}</Project>
+      <Name>LaubPlusCo.Foundation.Helix.Templating</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dialogs\LaubPlusCo.VisualStudio.Helix.Dialogs.csproj">
+      <Project>{39015c0e-25a4-4f4a-8f0d-8a6ba8d86548}</Project>
+      <Name>LaubPlusCo.VisualStudio.Helix.Dialogs</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

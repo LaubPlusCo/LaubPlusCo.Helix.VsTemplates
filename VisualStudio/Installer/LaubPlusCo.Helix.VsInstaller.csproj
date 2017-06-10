@@ -44,6 +44,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -71,6 +72,7 @@
       <Name>LaubPlusCo.Foundation.Helix.Templating</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
     <ProjectReference Include="..\Dialogs\LaubPlusCo.VisualStudio.Helix.Dialogs.csproj">
       <Project>{39015C0E-25A4-4F4A-8F0D-8A6BA8D86548}</Project>
@@ -84,6 +86,7 @@
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <TemplateType>Project</TemplateType>
     </ProjectReference>
     <ProjectReference Include="..\Wizard\LaubPlusCo.VisualStudio.Helix.Wizard.csproj">
       <Project>{CE7847FD-D5AC-4E60-B5E4-C20DA3F47323}</Project>

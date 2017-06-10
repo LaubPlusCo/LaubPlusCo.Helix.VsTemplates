@@ -26,7 +26,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
           return (string)key.GetValue(RegistryObjectName, string.Empty);
         }
       }
-      catch (Exception exception)
+      catch (Exception)
       {
         return string.Empty;
       }
@@ -45,7 +45,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
           return true;
         }
       }
-      catch (Exception exception)
+      catch (Exception)
       {
         return false;
       }

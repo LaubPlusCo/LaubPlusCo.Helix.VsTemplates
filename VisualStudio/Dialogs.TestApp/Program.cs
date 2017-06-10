@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.ManifestDialog;
+using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs;
 
 namespace LaubPlusCo.VisualStudio.Helix.Dialogs.TestApp
 {
@@ -25,7 +25,7 @@ namespace LaubPlusCo.VisualStudio.Helix.Dialogs.TestApp
     {
       var helixManifestDialog = new ManifestDialog();
       helixManifestDialog.Initialize(@"c:\projects\Helix.Templates", @"c:\projects\TestFolder", ReplacementTokens, true);
-      helixManifestDialog.ShowDialog();
+      helixManifestDialog.ShowModal();
     }
   }
 }

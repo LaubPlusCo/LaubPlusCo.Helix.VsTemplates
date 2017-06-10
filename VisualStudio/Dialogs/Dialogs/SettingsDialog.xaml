@@ -1,7 +1,7 @@
-﻿<Window x:Class="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.ManifestDialog.SettingsDialog"
+﻿<platformUi:DialogWindow x:Class="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs.SettingsDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-
+        xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
         Title="Settings" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
   <Window.Resources>
     <ResourceDictionary>
@@ -41,4 +41,5 @@
 </Label>
     </StackPanel>
   </Grid>
-</Window>
+</platformUi:DialogWindow>
+

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.ManifestDialog {
+namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.ManifestDialog {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.ManifestDialog.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

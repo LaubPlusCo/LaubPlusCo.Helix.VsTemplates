@@ -19,7 +19,7 @@ using EnvDTE;
 using EnvDTE80;
 using LaubPlusCo.Foundation.HelixTemplating.TemplateEngine;
 using LaubPlusCo.VisualStudio.Helix.Wizard.Services;
-using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.ManifestDialog;
+using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs;
 using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model;
 using Microsoft.VisualStudio.TemplateWizard;
 
@@ -85,7 +85,7 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
     {
       var manifestBrowseDialog = new ManifestDialog();
       manifestBrowseDialog.Initialize(TemplatesRootDirectoryPathRepository.Get(), solutionRootDirectory, _replacementTokens, _isExclusive);
-      var dialogResult = manifestBrowseDialog.ShowDialog();
+      var dialogResult = manifestBrowseDialog.ShowModal();
       if (dialogResult.HasValue && dialogResult.Value)
         return manifestBrowseDialog.HelixProjectTemplate;
       return null;

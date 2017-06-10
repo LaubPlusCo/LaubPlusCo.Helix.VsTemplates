@@ -9,13 +9,14 @@ using System.Windows.Media;
 using LaubPlusCo.Foundation.HelixTemplating.Manifest;
 using LaubPlusCo.Foundation.HelixTemplating.Tokens;
 using TextBox = System.Windows.Controls.TextBox;
+using UserControl = System.Windows.Controls.UserControl;
 
-namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.ManifestDialog
+namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 {
   /// <summary>
   ///   Interaction logic for TokenInput.xaml
   /// </summary>
-  public partial class TokenInput
+  public partial class TokenInput : UserControl
   {
     private TokenDescription _tokenDescription;
 

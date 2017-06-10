@@ -1,0 +1,26 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0">
+  <Style TargetType="Window">
+    <Setter Property="BorderBrush" Value="{DynamicResource  {x:Static vsfx:VsBrushes.AccentBorderKey }}"/>
+    <Setter Property="Background" Value="{DynamicResource  {x:Static vsfx:VsBrushes.ToolWindowBackgroundKey }}"/>
+    <Setter Property="FontFamily" Value="{DynamicResource  {x:Static vsfx:VsFonts.EnvironmentFontFamilyKey }}"/>
+    <Setter Property="FontSize" Value="{DynamicResource  {x:Static vsfx:VsFonts.EnvironmentFontSizeKey }}"/>
+  </Style>
+  <Style TargetType="Label">
+    <Setter Property="Foreground" Value="{DynamicResource  {x:Static vsfx:VsColors.CaptionTextKey }}"/>
+    <Setter Property="FontFamily" Value="{DynamicResource  {x:Static vsfx:VsFonts.CaptionFontFamilyKey }}"/>
+    <Setter Property="FontSize" Value="{DynamicResource  {x:Static vsfx:VsFonts.Environment122PercentFontSizeKey }}"/>
+    <Setter Property="FontWeight" Value="DemiBold"/>
+  </Style>
+  <Style TargetType="TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource  {x:Static vsfx:VsColors.CaptionTextKey }}"/>
+    <Setter Property="FontFamily" Value="{DynamicResource  {x:Static vsfx:VsFonts.CaptionFontFamilyKey }}"/>
+    <Setter Property="FontSize" Value="{DynamicResource  {x:Static vsfx:VsFonts.EnvironmentFontSizeKey }}"/>
+  </Style>
+  <Style TargetType="Button">
+    <Setter Property="Foreground" Value="{DynamicResource  {x:Static vsfx:VsColors.ButtonTextKey }}"/>
+    <Setter Property="FontFamily" Value="{DynamicResource  {x:Static vsfx:VsFonts.EnvironmentFontFamilyKey }}"/>
+  </Style>
+</ResourceDictionary>

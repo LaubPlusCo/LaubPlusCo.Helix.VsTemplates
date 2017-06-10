@@ -1,6 +1,6 @@
 using System;
 
-namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.ManifestDialog
+namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 {
   public class TokenValueChangedArgs : EventArgs
   {

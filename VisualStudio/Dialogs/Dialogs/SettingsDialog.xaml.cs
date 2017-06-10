@@ -1,16 +1,16 @@
 ﻿using System.IO;
 using System.IO.Compression;
-using System.IO.Packaging;
 using System.Linq;
 using System.Windows;
 using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model;
+using Microsoft.VisualStudio.PlatformUI;
 
-namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.ManifestDialog
+namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 {
   /// <summary>
   ///   Interaction logic for SettingsDialog.xaml
   /// </summary>
-  public partial class SettingsDialog : Window
+  public partial class SettingsDialog : DialogWindow
   {
     public SettingsDialog()
     {

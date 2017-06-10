@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -8,13 +7,14 @@ using System.Windows.Controls;
 using LaubPlusCo.Foundation.HelixTemplating.Manifest;
 using LaubPlusCo.Foundation.HelixTemplating.Services;
 using LaubPlusCo.Foundation.HelixTemplating.TemplateEngine;
+using Microsoft.VisualStudio.PlatformUI;
 
-namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.ManifestDialog
+namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 {
   /// <summary>
   ///   Interaction logic for ManifestDialog.xaml
   /// </summary>
-  public partial class ManifestDialog : Window
+  public partial class ManifestDialog : DialogWindow
   {
     private HelixTemplateManifest[] _manifests;
 
@@ -23,6 +23,12 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.ManifestDialog
     private HelixTemplateManifest _selectedManifest;
 
     private bool? _isSolutionCreation;
+
+    public ManifestDialog(string helpTopic) : base(helpTopic)
+    {
+      InitializeComponent();
+      DataContext = this;
+    }
 
     public ManifestDialog()
     {
