@@ -3,7 +3,9 @@
 Visual Studio extension for accelerating creating new Visual Studio solutions and projects so these follow the conventions described by Sitecore Helix.
 
 ## Installation
-The extension can be installed via Visual Studio Extensions and Updates or by downloading the vsix ([latest version]()).
+The extension can be installed via Visual Studio Extensions and Updates or by downloading the vsix ([latest version](https://laubplusco-my.sharepoint.com/personal/anders_laub_laubplusco_net/_layouts/15/guestaccess.aspx?docid=0a66fed6f90534b2d8d138f229da9969b&authkey=AYFoh7rn2SYhPMfjsIghqHk)).
+
+Visual Studio 2015 and 2017 are both supported but the built-in module templates does not support being loaded in Visual Studio 2015. You will need to make your own templates or upgrade VS.
 
 > **Note:** You need to run Visual Studio as administrator to use this extension.   
 > *Always start Visual Studio as administrator*
