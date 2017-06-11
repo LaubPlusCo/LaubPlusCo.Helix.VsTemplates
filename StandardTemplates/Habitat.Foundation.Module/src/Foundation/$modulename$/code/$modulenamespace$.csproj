@@ -97,9 +97,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Config\Include\Feature\$moduleNamespace$.config" />
-    <Content Include="App_Config\Include\Feature\$moduleNamespace$.Serialization.config" />
+    <Content Include="App_Config\Include\Foundation\$moduleNamespace$.config" />
+    <Content Include="App_Config\Include\Foundation\$moduleNamespace$.Serialization.config" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
+    <None Include="\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

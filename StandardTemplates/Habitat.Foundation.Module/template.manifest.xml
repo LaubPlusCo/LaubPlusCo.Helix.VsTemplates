@@ -1,6 +1,6 @@
 <templateManifest typeOfTemplate="Module">
   <name>Helix Foundation layer Module with Unicorn serialization</name>
-  <description>An empty Helix Foundation layer module with Unicorn serialization configured - Habitat v1.3 style module.</description>
+  <description>An empty Helix Foundation layer module with Unicorn serialization configured - ala Habitat v1.3  module.</description>
   <version>1.0.0</version>
   <author>Anders Laub</author>
   <sourceFolder>/src</sourceFolder>
