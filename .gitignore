@@ -10,9 +10,6 @@ artifacts/
 *.user
 *.cache
 *.suo
-*.dll
-*.pdb
-*.vsix
 *.userprefs
 *DS_Store
 *.sln.ide
