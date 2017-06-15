@@ -50,7 +50,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
 
       var replaceFileTokensService = new ReplaceTokensInFilesService(copiedFilePaths, Manifest.ReplacementTokens);
       replaceFileTokensService.Replace();
-      MarkProjectContent(templateObjects);
+      MarkIfSkipped(templateObjects);
       CreateVirtualSolutionFolders(templateObjects);
       return new HelixProjectTemplate
       {
@@ -96,26 +96,34 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
       }
     }
 
-    protected virtual void MarkProjectContent(IList<ITemplateObject> templateObjects)
+    protected virtual void MarkIfSkipped(IList<ITemplateObject> templateObjects)
     {
       foreach (var templateObject in templateObjects)
       {
+        if (SkipAttach(templateObject.OriginalFullPath))
+        {
+          templateObject.SkipAttach = true;
+          if (templateObject.ChildObjects != null && templateObject.ChildObjects.Any())
+            SetSkipAttachFlag(templateObject.ChildObjects);
+          continue;
+        }
+
         if (templateObject.Type == TemplateObjectType.Project)
-          IsProjectContent(templateObjects.Where(to => to.Type != TemplateObjectType.Project));
+          SetSkipAttachFlag(templateObjects.Where(to => to.Type != TemplateObjectType.Project));
         if (templateObject.ChildObjects == null || !templateObject.ChildObjects.Any())
           continue;
-        MarkProjectContent(templateObject.ChildObjects);
+        MarkIfSkipped(templateObject.ChildObjects);
       }
     }
 
-    protected virtual void IsProjectContent(IEnumerable<ITemplateObject> projectContentTemplateObjects)
+    protected virtual void SetSkipAttachFlag(IEnumerable<ITemplateObject> skipAttachTemplateObjects)
     {
-      foreach (var projectContentTemplateObject in projectContentTemplateObjects)
+      foreach (var skipAttachTemplateObject in skipAttachTemplateObjects)
       {
-        projectContentTemplateObject.SkipAttach = true;
-        if (projectContentTemplateObject.ChildObjects == null || !projectContentTemplateObject.ChildObjects.Any())
+        skipAttachTemplateObject.SkipAttach = true;
+        if (skipAttachTemplateObject.ChildObjects == null || !skipAttachTemplateObject.ChildObjects.Any())
           continue;
-        IsProjectContent(projectContentTemplateObject.ChildObjects);
+        SetSkipAttachFlag(skipAttachTemplateObject.ChildObjects);
       }
     }
 

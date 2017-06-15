@@ -16,9 +16,9 @@
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" Path="ProjectTemplates" />
-    <Asset Type="Microsoft.VisualStudio.Assembly" Path="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.dll" AssemblyName="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs, Version=0.9.9.38488, Culture=neutral, PublicKeyToken=6a5054673095908c" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" Path="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.dll" AssemblyName="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs, Version=0.9.9.501, Culture=neutral, PublicKeyToken=6a5054673095908c" />
     <Asset Type="Microsoft.VisualStudio.Assembly" Path="LaubPlusCo.VisualStudio.Helix.Wizard.dll" AssemblyName="LaubPlusCo.VisualStudio.Helix.Wizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ae97adacf967c007" />
-    <Asset Type="Microsoft.VisualStudio.Assembly" Path="LaubPlusCo.Foundation.HelixTemplating.dll" AssemblyName="LaubPlusCo.Foundation.HelixTemplating, Version=0.9.9.38486, Culture=neutral, PublicKeyToken=b5032a56af0675ab" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" Path="LaubPlusCo.Foundation.HelixTemplating.dll" AssemblyName="LaubPlusCo.Foundation.HelixTemplating, Version=0.9.9.471, Culture=neutral, PublicKeyToken=b5032a56af0675ab" />
   </Assets>
   <Prerequisites>
     <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,16.0)" DisplayName="Visual Studio core editor" />

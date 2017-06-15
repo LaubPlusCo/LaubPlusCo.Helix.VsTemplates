@@ -9,14 +9,14 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
 
     public BuildDestinationPathService(string originalRoot, string destinationRoot)
     {
-      _originalRoot = originalRoot.ToLowerInvariant().Replace(@"\", "/");
-      _destinationRoot = destinationRoot.ToLowerInvariant().Replace(@"\", "/");
+      _originalRoot =  originalRoot.ToLowerInvariant().TrimEnd('\\', ' ').Replace(@"\", "/");
+      _destinationRoot = destinationRoot.ToLowerInvariant().TrimEnd('\\', ' ').Replace(@"\", "/");
     }
 
     public string Build(string originalFullPath)
     {
       originalFullPath = originalFullPath.Replace(@"\", "/");
-      return Regex.Unescape( Regex.Replace(originalFullPath, Regex.Escape(_originalRoot), Regex.Escape(_destinationRoot), RegexOptions.IgnoreCase)).Replace("/", "\\");
+      return Regex.Unescape(Regex.Replace(originalFullPath, Regex.Escape(_originalRoot), Regex.Escape(_destinationRoot), RegexOptions.IgnoreCase)).Replace("/", "\\");
     }
   }
 }

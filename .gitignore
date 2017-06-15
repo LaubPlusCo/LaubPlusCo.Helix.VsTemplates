@@ -1,8 +1,8 @@
 [Oo]bj/
 /**/[Bb]in/
 /**/[Bb]in/
-/**/[Bb]in/Debug
-/**/[Bb]in/Release
+/**/[Bb]in/[Dd]ebug
+/**/[Bb]in/[Rr]elease
 .nuget/
 _ReSharper.*
 packages/
