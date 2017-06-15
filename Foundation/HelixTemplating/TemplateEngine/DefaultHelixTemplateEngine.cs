@@ -112,7 +112,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
     {
       foreach (var projectContentTemplateObject in projectContentTemplateObjects)
       {
-        projectContentTemplateObject.IsProjectContent = true;
+        projectContentTemplateObject.SkipAttach = true;
         if (projectContentTemplateObject.ChildObjects == null || !projectContentTemplateObject.ChildObjects.Any())
           continue;
         IsProjectContent(projectContentTemplateObject.ChildObjects);
@@ -128,6 +128,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
           Type = IsSourceRoot(directory) ? TemplateObjectType.SourceRoot : TemplateObjectType.Folder,
           ChildObjects = GetTemplateObjectFromDirectory(directory),
           OriginalFullPath = directory,
+          SkipAttach = SkipAttach(directoryPath),
           DestinationFullPath = ReplaceTokensService.Replace(BuildDestinationPathService.Build(directory))
         }));
       return templateObjects;
@@ -141,6 +142,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
         Type = IsProjectToAttach(filePath) ? TemplateObjectType.Project : TemplateObjectType.File,
         ChildObjects = null,
         OriginalFullPath = filePath,
+        SkipAttach = SkipAttach(filePath),
         IsIgnored = isIgnored,
         DestinationFullPath = isIgnored ? "" : ReplaceTokensService.Replace(BuildDestinationPathService.Build(filePath))
       };
@@ -149,6 +151,11 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
     protected virtual bool IsIgnored(string filePath)
     {
       return Manifest.IgnoreFiles.Any(skipFilePath => skipFilePath.Equals(filePath, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    protected virtual bool SkipAttach(string path)
+    {
+      return Manifest.SkipAttachPaths.Any(p => p.Equals(path, StringComparison.InvariantCultureIgnoreCase));
     }
 
     protected virtual bool IsSourceRoot(string path)

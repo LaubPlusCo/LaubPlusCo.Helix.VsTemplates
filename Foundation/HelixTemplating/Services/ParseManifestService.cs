@@ -18,7 +18,6 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       ManifestFilePath = manifestFilePath;
       if (!File.Exists(ManifestFilePath))
         throw new ManifestParseException($"Could not find Manifest file {ManifestFilePath}");
-
     }
 
     protected virtual XPathNavigator RootNavigator { get; set; }
@@ -42,10 +41,18 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       ParseTemplateEngine();
       ParseReplacementTokens();
       ParseProjectsToAttach();
+      ParseSkipAttach();
       ParseVirtualSolutionFolders();
       ParseIgnoreFiles();
       ParseType();
       return Manifest;
+    }
+
+    private void ParseSkipAttach()
+    {
+      var skipAttachPaths = GetNodeByXPath("/templateManifest/skipAttach");
+      if (skipAttachPaths == null) return;
+      Manifest.SkipAttachPaths = GetPaths(skipAttachPaths).Concat(GetPaths(skipAttachPaths, "folder")).ToList(); ;
     }
 
     private void ParseType()
@@ -69,7 +76,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
     {
       var ignoreFilesNavigator = GetNodeByXPath("/templateManifest/ignoreFiles");
       if (ignoreFilesNavigator == null) return;
-      Manifest.IgnoreFiles = GetFiles(ignoreFilesNavigator);
+      Manifest.IgnoreFiles = GetPaths(ignoreFilesNavigator);
     }
 
     private void ParseVirtualSolutionFolders()
@@ -88,23 +95,23 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
         virtualSolutionFolders.Add(new VirtualSolutionFolder
         {
           Name = tokenNavigator.GetAttribute("name", ""),
-          Files = GetFiles(tokenNavigator),
+          Files = GetPaths(tokenNavigator),
           SubFolders = GetVirtualSolutionFolders(tokenNavigator)
         });
       }
       return virtualSolutionFolders;
     }
 
-    private IList<string> GetFiles(XPathNavigator tokenNavigator)
+    private IList<string> GetPaths(XPathNavigator tokenNavigator, string attributeName = "file")
     {
-      var filePaths = new List<string>();
-      foreach (XPathNavigator fileNavigator in tokenNavigator.SelectChildren("file", ""))
+      var paths = new List<string>();
+      foreach (XPathNavigator fileNavigator in tokenNavigator.SelectChildren(attributeName, ""))
       {
         var filePath = fileNavigator.GetAttribute("path", "");
-        if (string.IsNullOrEmpty(filePath)) throw new ManifestParseException("Missing file path attribute on file element.");
-        filePaths.Add(GetFullPath(filePath));
+        if (string.IsNullOrEmpty(filePath)) throw new ManifestParseException("Missing path attribute on element.");
+        paths.Add(GetFullPath(filePath));
       }
-      return filePaths;
+      return paths;
     }
 
     private void ParseProjectsToAttach()

@@ -16,7 +16,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
     public bool IsIgnored { get; set; }
     public IList<ITemplateObject> ChildObjects { get; set; }
     public bool IsCreated { get; set; }
-    public bool IsProjectContent { get; set; }
+    public bool SkipAttach { get; set; }
     public string Name => Type == TemplateObjectType.Folder || Type == TemplateObjectType.SourceRoot
       ? new DirectoryInfo(DestinationFullPath).Name : Path.GetFileNameWithoutExtension(DestinationFullPath);
   }

@@ -36,7 +36,7 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard.Services
       if (rootTemplateObject.ChildObjects.All(c => c.Type != TemplateObjectType.Project))
         solutionLocation.Add(rootTemplateObject.Name);
 
-      foreach (var templateObject in rootTemplateObject.ChildObjects.Where(to => !to.IsIgnored && !to.IsProjectContent))
+      foreach (var templateObject in rootTemplateObject.ChildObjects.Where(to => !to.IsIgnored && !to.SkipAttach))
       {
         if (templateObject.Type == TemplateObjectType.Folder)
         {

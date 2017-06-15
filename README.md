@@ -4,6 +4,9 @@
 
 Visual Studio extension that accelerates creating new Visual Studio solutions and projects that follow the conventions described in Sitecore Helix.
 
+> CURRENTLY IN PRE-RELEASE MODE. DOCUMENTATION WILL BE UPDATED SOON.
+
+
 ## Installation
 The extension can soon be installed via Visual Studio Extensions and Updates
 
@@ -52,57 +55,6 @@ Please share templates that you create that can be used by others. A public Gith
 
 #### Template manifest
 All templates are described in a manifest file, template.manifest.xml. The manifest location is used as the root of the template folder structure.
-
-
-
-```xml
-<templateManifest typeOfTemplate="[Solution | Module]"> <!-- Default Module -->
-  <name>[NAME OF TEMPLATE]</name> <!-- (Required) -->
-  <description>[DESCRIPTION OF TEMPLATE]</description> <!-- (Required) -->
-  <version>[TEMPLATE VERSION NUMBER]</version><!-- (Required) -->
-  <author>[TEMPLATE VERSION NUMBER]</author> <!-- (Required) -->
-  <sourceFolder>[RELATIVE PATH TO WHERE VISUAL STUDIO SHOULD START ATTACHING (/src)]</sourceFolder>< !-- (Required) -->
-  <saveOnCreate>[SAVE ALL SOLUTION WHEN DONE]</saveOnCreate> <!-- (Required) -->
-  <templateEngine type="[SEE SECTION ON TEMPLATE ENGINE FOR DETAILS]" /> <!-- (Required) -->
-  <replacementTokens> <!-- (Required) -->
-    <!-- (Required) You can create any number of replacement tokens that can be used in both your template files and filenames  
-         The standard Visual Studio Project replacement variables can be used as default values.
-         Note: This extension uses a custom replacement implementation that is case-insensitive.
-         see: https://docs.microsoft.com/da-dk/visualstudio/ide/template-parameters -->
-    <token  key="$[TOKEN KEY]$" 
-            displayName="[DISPLAY NAME IN DIALOG]" 
-            default="[(OPTIONAL) DEFAULLT VALUE]"
-            validationType="[(OPTIONAL) IValidateToken IMPLEMENTATION]" 
-            suggestType="[(OPTIONAL) ISuggestToken IMPLEMENTATION]"
-            isFolder="[(default)false|true]"
-            />
-    ...
-    [SEE SECTION ON TOKEN REPLACEMENT FOR MORE DETAILS]
-  </replacementTokens>
-  <projectsToAttach> <!-- (Required but can be left empty) -->
-  <!--  List of project files files that should be attach to Visual Studio solution. 
-        Only project files listed here will be attached to the Visual Studio solution.
-        Any project types that are supported by your Visual Studio can be on this list  -->
-    <projectFile path="/src/Foundation/$modulename$/code/$moduleNamespace$.csproj" />
-  </projectsToAttach>
-  <virtualSolutionFolders> <!-- (Optional) -->
-  <!-- (Optional) Virtual solution folders are solution folders in Visual Studio that are used for grouping and do not have a corresponding folder in the file system.
-       A virtual solution folder can have any number of subfolders and files
-       Example: the Build solution folder -->
-    <virtualSolutionFolder name="[NAME OF VIRTUAL SOLUTION FOLDER]">
-      <file path="[RELATIVE FILE PATH]" />
-      <virtualSolutionFolder name="[NAME OF VIRTUAL SOLUTION FOLDER]">
-        <file path="[RELATIVE FILE PATH]" />
-      </virtualSolutionFolder>
-    </virtualSolutionFolder>
-  </virtualSolutionFolders>
-  <ignoreFiles>  <!-- (Required) -->
-  <!-- (Required) List of ignored files are not copied as part of the template - template.manifest.xml should always be on this list  -->
-    <file path="/template.manifest.xml" />
-    ...
-  </ignoreFiles>
-</templateManifest>
-```
 
 
 #### Token replacement

@@ -18,6 +18,9 @@
   <projectsToAttach>
     <projectFile path="/src/Feature/$modulename$/code/$moduleNamespace$.csproj" />
   </projectsToAttach>
+  <skipAttach>
+    <folder path="/src/Feature/$modulename$/serialization" />
+  </skipAttach>
   <ignoreFiles>
     <file path="/template.manifest.xml" />
   </ignoreFiles>

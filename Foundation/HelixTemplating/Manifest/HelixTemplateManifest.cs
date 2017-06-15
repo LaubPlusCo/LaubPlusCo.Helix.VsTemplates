@@ -28,11 +28,11 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Manifest
     {
       var manifestFileInfo = new FileInfo(manifestFile);
       ManifestFileName = manifestFileInfo.Name;
-      Debug.Assert(manifestFileInfo.Directory != null, "manifestFileInfo.Directory != null");
       ManifestRootPath = manifestFileInfo.Directory.FullName;
       Tokens = new List<TokenDescription>();
       ProjectsToAttach = new List<string>();
       IgnoreFiles = new List<string>();
+      SkipAttachPaths = new List<string>();
     }
 
     public string Name { get; set; }
@@ -45,6 +45,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Manifest
     public IHelixTemplateEngine TemplateEngine { get; set; }
     public IList<TokenDescription> Tokens { get; set; }
     public IList<string> ProjectsToAttach { get; set; }
+    public IList<string> SkipAttachPaths { get; set; }
     public IList<string> IgnoreFiles { get; set; }
     public IList<VirtualSolutionFolder> VirtualSolutionFolders { get; set; }
     public TemplateType TemplateType { get; set; }

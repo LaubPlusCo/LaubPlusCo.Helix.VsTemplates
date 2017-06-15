@@ -11,7 +11,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
     bool IsIgnored { get; set; }
     IList<ITemplateObject> ChildObjects { get; set; }
     bool IsCreated { get; set; }
-    bool IsProjectContent { get; set; }
+    bool SkipAttach { get; set; }
     string Name { get; }
   }
 }

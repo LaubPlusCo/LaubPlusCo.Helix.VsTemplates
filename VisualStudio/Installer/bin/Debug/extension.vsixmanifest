@@ -1,6 +1,6 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
   <Metadata>
-    <Identity Id="LaubCo.Helix.VsInstaller.Anders Laub.8dfd2e63-cc8c-48c0-bc01-f8718ee55772" Version="0.9.6" Language="en-US" Publisher="Anders Laub" />
+    <Identity Id="LaubCo.Helix.VsInstaller.Anders Laub.8dfd2e63-cc8c-48c0-bc01-f8718ee55772" Version="0.9.9" Language="en-US" Publisher="Anders Laub" />
     <DisplayName>Sitecore Helix Visual Studio Templates</DisplayName>
     <Description xml:space="preserve">Sitecore Helix Visual Studio project and solution templates</Description>
     <License>license.txt</License>
@@ -8,7 +8,7 @@
     <PreviewImage>helix.templates.png</PreviewImage>
     <Tags>Sitecore, Helix, Project templates, Solution templates</Tags>
   </Metadata>
-  <Installation InstalledByMsi="false">
+  <Installation InstalledByMsi="false" AllUsers="true">
     <InstallationTarget Version="[14.0,16.0)" Id="Microsoft.VisualStudio.Community" />
   </Installation>
   <Dependencies>
@@ -16,9 +16,9 @@
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" Path="ProjectTemplates" />
-    <Asset Type="Microsoft.VisualStudio.Assembly" Path="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.dll" AssemblyName="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6a5054673095908c" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" Path="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.dll" AssemblyName="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs, Version=0.9.9.38488, Culture=neutral, PublicKeyToken=6a5054673095908c" />
     <Asset Type="Microsoft.VisualStudio.Assembly" Path="LaubPlusCo.VisualStudio.Helix.Wizard.dll" AssemblyName="LaubPlusCo.VisualStudio.Helix.Wizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ae97adacf967c007" />
-    <Asset Type="Microsoft.VisualStudio.Assembly" Path="LaubPlusCo.Foundation.HelixTemplating.dll" AssemblyName="LaubPlusCo.Foundation.HelixTemplating, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b5032a56af0675ab" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" Path="LaubPlusCo.Foundation.HelixTemplating.dll" AssemblyName="LaubPlusCo.Foundation.HelixTemplating, Version=0.9.9.38486, Culture=neutral, PublicKeyToken=b5032a56af0675ab" />
   </Assets>
   <Prerequisites>
     <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,16.0)" DisplayName="Visual Studio core editor" />
