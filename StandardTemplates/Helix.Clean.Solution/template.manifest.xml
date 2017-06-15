@@ -1,6 +1,6 @@
 <templateManifest typeOfTemplate="Solution">
-  <name>Helix Solution prepared for extending Sitecore Habitat</name>
-  <description>Helix Solution that contains all necessary configuration to extend and built into a Sitecore Habitat instance. No modules included.</description>
+  <name>Clean Helix Solution</name>
+  <description>A blank Helix Solution.</description>
   <version>1.0.0</version>
   <author>Anders Laub</author>
   <sourceFolder>/src</sourceFolder>
