@@ -73,9 +73,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\TokenInput.xaml">
+    <Page Include="Dialogs\TokenFolderInput.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Dialogs\TokenSelectionInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Dialogs\TokenTextInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Themes\App.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -94,8 +102,18 @@
     <Compile Include="Dialogs\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\TokenInput.xaml.cs">
-      <DependentUpon>TokenInput.xaml</DependentUpon>
+    <Compile Include="Dialogs\TokenFolderInput.xaml.cs">
+      <DependentUpon>TokenFolderInput.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Dialogs\TokenInputControl.cs" />
+    <Compile Include="Dialogs\TokenSelectionInput.xaml.cs">
+      <DependentUpon>TokenSelectionInput.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Dialogs\TokenTextInput.xaml.cs">
+      <DependentUpon>TokenTextInput.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Dialogs\TokenValueChangedArgs.cs" />
     <Compile Include="Model\TemplatesRootDirectoryPathRepository.cs" />

@@ -13,10 +13,12 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
   public class ParseManifestService
   {
     protected ReplaceTokensService ReplaceTokensService;
-    public ParseManifestService(string manifestFilePath, IDictionary<string, string> replacementTokens)
+    public ParseManifestService(string manifestFilePath)
     {
       ManifestFilePath = manifestFilePath;
-      ReplaceTokensService = new ReplaceTokensService(replacementTokens);
+      if (!File.Exists(ManifestFilePath))
+        throw new ManifestParseException($"Could not find Manifest file {ManifestFilePath}");
+
     }
 
     protected virtual XPathNavigator RootNavigator { get; set; }
@@ -24,11 +26,9 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
     protected string ManifestFilePath { get; set; }
     protected virtual ManifestTypeInstantiator ManifestTypeInstantiator { get; set; }
 
-    public virtual HelixTemplateManifest Parse()
+    public virtual HelixTemplateManifest Parse(IDictionary<string, string> replacementTokens)
     {
-      if (!File.Exists(ManifestFilePath))
-        return null;
-      Manifest = new HelixTemplateManifest(ManifestFilePath);
+      Manifest = new HelixTemplateManifest(ManifestFilePath) {ReplacementTokens = replacementTokens};
       ManifestTypeInstantiator = new ManifestTypeInstantiator();
       return Parse(File.ReadAllText(ManifestFilePath));
     }
@@ -123,17 +123,20 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       var replacemenTokenNavigator = GetRequiredNodeByXPath("/templateManifest/replacementTokens");
       foreach (XPathNavigator tokenNavigator in replacemenTokenNavigator.SelectChildren("token", ""))
       {
+        var selectionOptions = GetTokenSelectOptions(tokenNavigator);
+        var tokenInputType = selectionOptions.Any() ? TokenInputForm.Selection 
+          :  Enum.TryParse(tokenNavigator.GetAttribute("input", ""), out TokenInputForm inputFormat) ? inputFormat : TokenInputForm.Text;
+
         var tokenDescription = new TokenDescription
         {
           DisplayName = tokenNavigator.GetAttribute("displayName", ""),
           Key = tokenNavigator.GetAttribute("key", ""),
           Default = tokenNavigator.GetAttribute("default", ""),
-          IsFolder = GetBooleanAttribute("isFolder", tokenNavigator, false),
+          InputType = tokenInputType,
+          SelectionOptions = selectionOptions,
           IsRequired = GetBooleanAttribute("required", tokenNavigator, true)
         };
 
-        if (!string.IsNullOrEmpty(tokenDescription.Default))
-          tokenDescription.Default = ReplaceTokensService.Replace(tokenDescription.Default);
         var validatorType = tokenNavigator.GetAttribute("validationType", "");
         if (!string.IsNullOrEmpty(validatorType))
           tokenDescription.Validator = ManifestTypeInstantiator.CreateInstance<IValidateToken>(validatorType);
@@ -142,6 +145,40 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
           tokenDescription.Suggestor = ManifestTypeInstantiator.CreateInstance<ISuggestToken>(suggestorType);
         Manifest.Tokens.Add(tokenDescription);
       }
+      ExpandDefaultValues(0);
+    }
+
+    private void ExpandDefaultValues(int noOfRuns)
+    {
+      foreach (var tokenDescription in Manifest.Tokens.Where(t => !string.IsNullOrEmpty(t.Default) && !t.Default.Contains("$")).ToArray())
+      {
+        if (Manifest.ReplacementTokens.ContainsKey(tokenDescription.Key)) continue;
+        Manifest.ReplacementTokens.Add(tokenDescription.Key, tokenDescription.Default);
+      }
+      ReplaceTokensService = new ReplaceTokensService(Manifest.ReplacementTokens);
+      foreach (var tokenDescription in Manifest.Tokens.Where(t => !string.IsNullOrEmpty(t.Default) && t.Default.Contains("$")))
+      {
+        tokenDescription.Default = ReplaceTokensService.Replace(tokenDescription.Default);
+      }
+      if (!Manifest.Tokens.Any(t => t.Default.Contains("$")) || noOfRuns >= 4) return;
+      noOfRuns++;
+      ExpandDefaultValues(noOfRuns);
+    }
+
+    private KeyValuePair<string, string>[] GetTokenSelectOptions(XPathNavigator tokenNavigator)
+    {
+      var tokenSelectOptions = new Dictionary<string,string>();
+      foreach (XPathNavigator optionNavigator in tokenNavigator.SelectChildren("option", ""))
+      {
+        var key = optionNavigator.GetAttribute("key", "");
+        var name = optionNavigator.GetAttribute("name", "");
+        if (string.IsNullOrEmpty(key) && string.IsNullOrEmpty(name)) throw new ManifestParseException("Token select option miss both name and key");
+        key = string.IsNullOrWhiteSpace(key) ? name : key;
+        if (tokenSelectOptions.ContainsKey(key)) throw new ManifestParseException($"Token select options has duplicate key {key}");
+        name = string.IsNullOrWhiteSpace(name) ? key : name;
+        tokenSelectOptions.Add(key, name);
+      }
+      return tokenSelectOptions.ToArray();
     }
 
     private bool GetBooleanAttribute(string attr, XPathNavigator navigator, bool defaultValue)

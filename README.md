@@ -2,7 +2,7 @@
 
 # Sitecore Helix Module & Solution Templates for VisualStudio
 
-Visual Studio extension that accelerates creating new Visual Studio solutions and projects that follow the conventions described by Sitecore Helix.
+Visual Studio extension that accelerates creating new Visual Studio solutions and projects that follow the conventions described in Sitecore Helix.
 
 ## Installation
 The extension can soon be installed via Visual Studio Extensions and Updates or download the vsix from here ([latest version](https://laubplusco-my.sharepoint.com/personal/anders_laub_laubplusco_net/_layouts/15/guestaccess.aspx?docid=0a66fed6f90534b2d8d138f229da9969b&authkey=AYFoh7rn2SYhPMfjsIghqHk)).

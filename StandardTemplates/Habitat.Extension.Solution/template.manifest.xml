@@ -1,5 +1,5 @@
 <templateManifest typeOfTemplate="Solution">
-  <name>Helix Solution for extending Sitecore Habitat</name>
+  <name>Helix Solution prepared for extending Sitecore Habitat</name>
   <description>Helix Solution that contains all necessary configuration to extend and built into a Sitecore Habitat instance. No modules included.</description>
   <version>1.0.0</version>
   <author>Anders Laub</author>
@@ -7,10 +7,10 @@
   <saveOnCreate>true</saveOnCreate>
   <templateEngine type="LaubPlusCo.Foundation.HelixTemplating.TemplateEngine.DefaultHelixTemplateEngine, LaubPlusCo.Foundation.HelixTemplating" />
   <replacementTokens>
-    <token key="$publishUrl$" displayName="Publish URL" required="true" default="http://habitat.dev.local/" />
-    <token key="$instanceRoot$" displayName="Instance root" required="true" default="C:\websites\Habitat.dev.local" isFolder="true" />
-    <token key="$licensefile$" displayName="License file" required="true" default="\Data\license.xml" />
-    <token key="$author$" displayName="Author name" required="true" default="$username$" />
+    <token key="$publishUrl$" displayName="Publish URL" required="true" default="http://habitat.dev.local/" input="Text" />
+    <token key="$instanceRoot$" displayName="Instance root" required="true" default="C:\websites\Habitat.dev.local" input="Folder" />
+    <token key="$licensefile$" displayName="License file" required="true" default="\Data\license.xml" input="Text" />
+    <token key="$author$" displayName="Author name" required="true" default="$username$" input="Text" />
   </replacementTokens>
   <projectsToAttach />
   <virtualSolutionFolders>
@@ -22,6 +22,7 @@
       <file path="/gulpfile.js" />
       <file path="/nuget.config" />
       <file path="/package.json" />
+      <file path="/README.md" />
       <file path="/publishsettings.targets" />
       <virtualSolutionFolder name="Scripts">
         <file path="/scripts/habitat.js" />

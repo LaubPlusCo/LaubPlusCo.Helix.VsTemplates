@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using LaubPlusCo.Foundation.HelixTemplating.Manifest;
 using LaubPlusCo.Foundation.HelixTemplating.Services;
 using LaubPlusCo.Foundation.HelixTemplating.TemplateEngine;
+using LaubPlusCo.Foundation.HelixTemplating.Tokens;
 using Microsoft.VisualStudio.PlatformUI;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
@@ -18,9 +19,9 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
   {
     private HelixTemplateManifest[] _manifests;
 
-    private IDictionary<string, string> _replacementTokens;
-
     private HelixTemplateManifest _selectedManifest;
+
+    private IDictionary<string, string> _initialTokens;
 
     private bool? _isSolutionCreation;
 
@@ -43,12 +44,12 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     public IEnumerable<TokenDescription> TokenDescriptions { get; set; }
 
-    public void Initialize(string rootDirectory, string solutionRoot, IDictionary<string, string> replacementTokens, bool? isSolutionCreation)
+    public void Initialize(string rootDirectory, string solutionRoot, IDictionary<string, string> initialTokens, bool? isSolutionCreation)
     {
-      _replacementTokens = replacementTokens;
+      _initialTokens = initialTokens.ToDictionary(t => t.Key, t => t.Value);
       _isSolutionCreation = isSolutionCreation;
       SolutionRoot = solutionRoot;
-      var readAllManifestService = new ReadAllManifestFilesService(rootDirectory, _replacementTokens);
+      var readAllManifestService = new ReadAllManifestFilesService(rootDirectory, initialTokens);
       _manifests = readAllManifestService.Read();
       if (isSolutionCreation.HasValue)
       {
@@ -86,7 +87,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     {
       InputControlsPanel.Children.Clear();
 
-      var tokenInputs = _selectedManifest.Tokens.Select(t => new TokenInput() { TokenDescription = t }).ToArray();
+      var tokenInputs = _selectedManifest.Tokens.Select(GetTokenInputControl).ToArray();
       foreach (var dependentSuggestion in tokenInputs.Where(t => t.Suggestor != null && t.Suggestor.DependentOnKeys.Any()))
       {
         var inputs = tokenInputs.Where(input => dependentSuggestion.Suggestor.DependentOnKeys.Contains(input.TokenKey));
@@ -103,6 +104,21 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       TemplateAuthor.Text = $"author: {_selectedManifest.Author}";
     }
 
+    private TokenInputControl GetTokenInputControl(TokenDescription tokenDescription)
+    {
+      switch (tokenDescription.InputType)
+      {
+        case TokenInputForm.Text:
+          return new TokenTextInput(tokenDescription);
+        case TokenInputForm.Folder:
+          return new TokenFolderInput(tokenDescription);
+        case TokenInputForm.Selection:
+          return new TokenSelectionInput(tokenDescription);
+        default:
+          return new TokenTextInput(tokenDescription);
+      }
+    }
+
     protected void SettingsButton_Clicked(object sender, RoutedEventArgs e)
     {
       var settingsDialog = new SettingsDialog();
@@ -110,7 +126,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       if (!settingsUpdated.HasValue || !settingsUpdated.Value)
         return;
       var rootDirectory = settingsDialog.RootDirectory;
-      Initialize(rootDirectory, SolutionRoot, _replacementTokens, _isSolutionCreation);
+      Initialize(rootDirectory, SolutionRoot, _initialTokens, _isSolutionCreation);
       _selectedManifest = _manifests[AvailableManifests.SelectedIndex];
       SetSelectedManifest();
     }
@@ -128,8 +144,16 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       }
 
       foreach (var tokenInput in tokenInputs)
-        _replacementTokens.Add(tokenInput.TokenKey, tokenInput.TokenValue);
-      HelixProjectTemplate = _selectedManifest.TemplateEngine.Run(_selectedManifest, SolutionRoot, _replacementTokens);
+      {
+        if (_selectedManifest.ReplacementTokens.ContainsKey(tokenInput.TokenKey))
+        { 
+          _selectedManifest.ReplacementTokens[tokenInput.TokenKey] = tokenInput.TokenValue;
+          continue;
+        }
+        _selectedManifest.ReplacementTokens.Add(tokenInput.TokenKey, tokenInput.TokenValue);
+      }
+
+      HelixProjectTemplate = _selectedManifest.TemplateEngine.Run(_selectedManifest, SolutionRoot);
       if (HelixProjectTemplate == null)
         DialogResult = false;
       DialogResult = true;
@@ -137,11 +161,11 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     }
 
 
-    private IEnumerable<TokenInput> GetTokenInputs()
+    private IEnumerable<TokenInputControl> GetTokenInputs()
     {
       foreach (var inputChild in InputControlsPanel.Children)
       {
-        var tokenInput = (TokenInput)inputChild;
+        var tokenInput = (TokenInputControl)inputChild;
         if (tokenInput == null) continue;
         yield return tokenInput;
       }
@@ -149,7 +173,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     private void HelixLogo_Clicked(object sender, RoutedEventArgs e)
     {
-      Process.Start(new ProcessStartInfo("https://helix.sitecore.net"));
+      Process.Start(new ProcessStartInfo("http://helix.sitecore.net"));
       e.Handled = true;
     }
 

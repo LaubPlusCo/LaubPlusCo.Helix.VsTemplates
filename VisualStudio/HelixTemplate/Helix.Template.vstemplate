@@ -2,7 +2,7 @@
 <VSTemplate Type="ProjectGroup" Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
   <TemplateData>
     <Name>Sitecore Helix Modules and Solutions</Name>
-    <Description>Helix Templates</Description>
+    <Description>Templates for creating Sitecore Helix Modules and Solutions from within Visual Studio.</Description>
     <Icon>Helix.Template.ico</Icon>
     <ProjectType>CSharp</ProjectType>
     <RequiredFrameworkVersion>4.0</RequiredFrameworkVersion>

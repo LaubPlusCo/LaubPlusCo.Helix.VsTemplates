@@ -48,5 +48,6 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Manifest
     public IList<string> IgnoreFiles { get; set; }
     public IList<VirtualSolutionFolder> VirtualSolutionFolders { get; set; }
     public TemplateType TemplateType { get; set; }
+    public IDictionary<string,string> ReplacementTokens { get; set; }
   }
 }

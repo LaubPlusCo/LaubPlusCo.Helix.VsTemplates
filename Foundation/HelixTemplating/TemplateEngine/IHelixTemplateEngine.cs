@@ -5,6 +5,6 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
 {
   public interface IHelixTemplateEngine
   {
-    IHelixProjectTemplate Run(HelixTemplateManifest manifest, string solutionRootPath, IDictionary<string, string> replacemenTokens);
+    IHelixProjectTemplate Run(HelixTemplateManifest manifest, string solutionRootPath);
   }
 }

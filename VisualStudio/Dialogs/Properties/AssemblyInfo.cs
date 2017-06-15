@@ -3,6 +3,7 @@ using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Markup;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
@@ -16,6 +17,7 @@ using System.Windows;
 [assembly: AssemblyCopyright("Copyright © Laub + Co  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: XmlnsDefinition("http://schemas.microsoft.com/client/2007", "LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

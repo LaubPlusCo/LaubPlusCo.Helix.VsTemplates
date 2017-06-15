@@ -1,6 +1,6 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
   <Metadata>
-    <Identity Id="LaubCo.Helix.VsInstaller.Anders Laub.8dfd2e63-cc8c-48c0-bc01-f8718ee55772" Version="0.9.2" Language="en-US" Publisher="Anders Laub" />
+    <Identity Id="LaubCo.Helix.VsInstaller.Anders Laub.8dfd2e63-cc8c-48c0-bc01-f8718ee55772" Version="0.9.6" Language="en-US" Publisher="Anders Laub" />
     <DisplayName>Sitecore Helix Visual Studio Templates</DisplayName>
     <Description xml:space="preserve">Sitecore Helix Visual Studio project and solution templates</Description>
     <License>license.txt</License>
@@ -9,7 +9,7 @@
     <Tags>Sitecore, Helix, Project templates, Solution templates</Tags>
   </Metadata>
   <Installation InstalledByMsi="false">
-    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[14.0,16.0)" />
+    <InstallationTarget Version="[14.0,16.0)" Id="Microsoft.VisualStudio.Community" />
   </Installation>
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" Version="[4.5,)" />

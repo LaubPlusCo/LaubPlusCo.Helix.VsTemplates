@@ -29,10 +29,10 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
     protected virtual BuildDestinationPathService BuildDestinationPathService { get; set; }
     protected virtual string DestinationRootPath { get; set; }
 
-    public IHelixProjectTemplate Run(HelixTemplateManifest manifest, string solutionRootPath, IDictionary<string, string> replacementTokens)
+    public IHelixProjectTemplate Run(HelixTemplateManifest manifest, string solutionRootPath)
     {
       Manifest = manifest;
-      ReplaceTokensService = new ReplaceTokensService(replacementTokens);
+      ReplaceTokensService = new ReplaceTokensService(Manifest.ReplacementTokens);
       DestinationRootPath = solutionRootPath;
       BuildDestinationPathService = new BuildDestinationPathService(Manifest.ManifestRootPath, DestinationRootPath);
       var templateObjects = new List<ITemplateObject>();
@@ -45,10 +45,10 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
         {
           Manifest = Manifest,
           TemplateObjects = templateObjects,
-          ReplacementTokens = replacementTokens
+          ReplacementTokens = Manifest.ReplacementTokens
         };
 
-      var replaceFileTokensService = new ReplaceTokensInFilesService(copiedFilePaths, replacementTokens);
+      var replaceFileTokensService = new ReplaceTokensInFilesService(copiedFilePaths, Manifest.ReplacementTokens);
       replaceFileTokensService.Replace();
       MarkProjectContent(templateObjects);
       CreateVirtualSolutionFolders(templateObjects);
@@ -56,7 +56,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
       {
         Manifest = Manifest,
         TemplateObjects = templateObjects,
-        ReplacementTokens = replacementTokens
+        ReplacementTokens = Manifest.ReplacementTokens
       };
     }
 

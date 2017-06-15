@@ -11,9 +11,10 @@
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\package.json" />
     <Content Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\template.manifest.xml" />
-    <Content Include="$(MSBuildThisFileDirectory)Habitat.Feature.Module\template.manifest.xml" />
-    <Content Include="$(MSBuildThisFileDirectory)Habitat.Foundation.Module\template.manifest.xml" />
-    <Content Include="$(MSBuildThisFileDirectory)Habitat.Project.Module\template.manifest.xml" />
+    <Content Include="$(MSBuildThisFileDirectory)Helix.Clean.Module\template.manifest.xml" />
+    <Content Include="$(MSBuildThisFileDirectory)HabitatStyle.Feature.Module\template.manifest.xml" />
+    <Content Include="$(MSBuildThisFileDirectory)HabitatStyle.Foundation.Module\template.manifest.xml" />
+    <Content Include="$(MSBuildThisFileDirectory)HabitatStyle.Project.Module\template.manifest.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\.editorconfig" />
@@ -30,47 +31,47 @@
     <None Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\scripts\Unicorn\MicroCHAP.dll" />
     <None Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\scripts\Unicorn\Sync.ps1" />
     <None Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\scripts\Unicorn\Unicorn.psm1" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Feature.Module\README.md" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Feature.Module\src\Feature\$modulename$\code\README.md" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Feature.Module\src\Feature\%24modulename%24\code\%24modulenamespace%24.csproj" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Feature.Module\src\Feature\%24modulename%24\code\App_Config\Include\Feature\%24modulenamespace%24.config" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Feature.Module\src\Feature\%24modulename%24\code\App_Config\Include\Feature\%24modulenamespace%24.Serialization.config" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Feature.Module\src\Feature\%24modulename%24\code\packages.config" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Feature.Module\src\Feature\%24modulename%24\code\Properties\PublishProfiles\Local.pubxml" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Feature.Module\src\Feature\%24modulename%24\code\serialization\%24moduleName%24.Renderings\%24modulenamespace%24.yml" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Feature.Module\src\Feature\%24modulename%24\code\serialization\%24moduleName%24.Templates\%24modulenamespace%24.yml" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Feature.Module\src\Feature\%24modulename%24\code\Views\web.config" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Foundation.Module\README.md" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Foundation.Module\src\Foundation\$modulename$\code\$modulenamespace$.csproj" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Foundation.Module\src\Foundation\$modulename$\code\packages.config" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Foundation.Module\src\Foundation\$modulename$\code\Properties\PublishProfiles\Local.pubxml" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Foundation.Module\src\Foundation\$modulename$\code\README.md" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Foundation.Module\src\Foundation\$modulename$\code\serialization\$moduleName$.Templates\$modulenamespace$.yml" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Foundation.Module\src\Foundation\%24modulename%24\code\App_Config\Include\Foundation\%24modulenamespace%24.config" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Foundation.Module\src\Foundation\%24modulename%24\code\App_Config\Include\Foundation\%24modulenamespace%24.Serialization.config" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Project.Module\README.md" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Project.Module\src\Project\$modulename$\code\$modulenamespace$.csproj" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Project.Module\src\Project\$modulename$\code\App_Config\Include\Feature\$modulenamespace$.config" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Project.Module\src\Project\$modulename$\code\App_Config\Include\Feature\$modulenamespace$.Serialization.config" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Project.Module\src\Project\$modulename$\code\packages.config" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Project.Module\src\Project\$modulename$\code\Properties\PublishProfiles\Local.pubxml" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Project.Module\src\Project\$modulename$\code\README.md" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Project.Module\src\Project\$modulename$\code\serialization\$moduleName$.Renderings\$modulenamespace$.yml" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Project.Module\src\Project\$modulename$\code\serialization\$moduleName$.Templates\$modulenamespace$.yml" />
-    <None Include="$(MSBuildThisFileDirectory)Habitat.Project.Module\src\Project\$modulename$\code\Views\web.config" />
+    <None Include="$(MSBuildThisFileDirectory)Helix.Clean.Module\src\%24layerName%24\$modulename$\code\$modulenamespace$.csproj" />
+    <None Include="$(MSBuildThisFileDirectory)Helix.Clean.Module\src\%24layerName%24\$modulename$\code\packages.config" />
+    <None Include="$(MSBuildThisFileDirectory)Helix.Clean.Module\src\%24layerName%24\$modulename$\code\Properties\PublishProfiles\Local.pubxml" />
+    <None Include="$(MSBuildThisFileDirectory)Helix.Clean.Module\src\%24layerName%24\$modulename$\code\README.md" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Feature.Module\src\Feature\$modulename$\code\README.md" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Feature.Module\src\Feature\$modulename$\code\$modulenamespace$.csproj" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Feature.Module\src\Feature\$modulename$\code\App_Config\Include\Feature\$modulenamespace$.config" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Feature.Module\src\Feature\$modulename$\code\App_Config\Include\Feature\$modulenamespace$.Serialization.config" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Feature.Module\src\Feature\$modulename$\code\packages.config" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Feature.Module\src\Feature\$modulename$\code\Properties\PublishProfiles\Local.pubxml" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Feature.Module\src\Feature\$modulename$\code\Views\web.config" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Foundation.Module\src\Foundation\$modulename$\code\$modulenamespace$.csproj" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Foundation.Module\src\Foundation\$modulename$\code\packages.config" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Foundation.Module\src\Foundation\$modulename$\code\Properties\PublishProfiles\Local.pubxml" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Foundation.Module\src\Foundation\$modulename$\code\README.md" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Foundation.Module\src\Foundation\$modulename$\code\App_Config\Include\Foundation\$modulenamespace$.config" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Foundation.Module\src\Foundation\$modulename$\code\App_Config\Include\Foundation\$modulenamespace$.Serialization.config" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Project.Module\src\Project\$modulename$\code\$modulenamespace$.csproj" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Project.Module\src\Project\$modulename$\code\App_Config\Include\Feature\$modulenamespace$.config" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Project.Module\src\Project\$modulename$\code\App_Config\Include\Feature\$modulenamespace$.Serialization.config" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Project.Module\src\Project\$modulename$\code\packages.config" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Project.Module\src\Project\$modulename$\code\Properties\PublishProfiles\Local.pubxml" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Project.Module\src\Project\$modulename$\code\README.md" />
+    <None Include="$(MSBuildThisFileDirectory)HabitatStyle.Project.Module\src\Project\$modulename$\code\Views\web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Habitat.Feature.Module\src\Feature\%24modulename%24\code\Properties\AssemblyInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Habitat.Feature.Module\src\Feature\%24modulename%24\code\Templates.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Habitat.Foundation.Module\src\Foundation\$modulename$\code\Properties\AssemblyInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Habitat.Foundation.Module\src\Foundation\$modulename$\code\Templates.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Habitat.Project.Module\src\Project\$modulename$\code\Properties\AssemblyInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Habitat.Project.Module\src\Project\$modulename$\code\Templates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helix.Clean.Module\src\%24layerName%24\$modulename$\code\Properties\AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helix.Clean.Module\src\%24layerName%24\$modulename$\code\Templates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HabitatStyle.Feature.Module\src\Feature\$modulename$\code\Properties\AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HabitatStyle.Feature.Module\src\Feature\$modulename$\code\Templates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HabitatStyle.Foundation.Module\src\Foundation\$modulename$\code\Properties\AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HabitatStyle.Foundation.Module\src\Foundation\$modulename$\code\Templates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HabitatStyle.Project.Module\src\Project\$modulename$\code\Properties\AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HabitatStyle.Project.Module\src\Project\$modulename$\code\Templates.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\src\Feature\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\src\Foundation\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\src\Project\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Habitat.Feature.Module\src\Feature\%24modulename%24\code\Views\%24moduleName%24\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\" />
+    <Folder Include="$(MSBuildThisFileDirectory)HabitatStyle.Extension.Solution\" />
+    <Folder Include="$(MSBuildThisFileDirectory)HabitatStyle.Extension.Solution\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Helix.Clean.Module\" />
+    <Folder Include="$(MSBuildThisFileDirectory)HabitatStyle.Feature.Module\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Helix.Clean.Module\src\%24layerName%24\%24modulename%24\code\App_Config\Include\%24layerName%24\" />
   </ItemGroup>
 </Project>

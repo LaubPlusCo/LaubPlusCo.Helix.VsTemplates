@@ -68,6 +68,7 @@
     <Compile Include="Tokens\IValidateToken.cs" />
     <Compile Include="Tokens\IValidateTokenResult.cs" />
     <Compile Include="Services\ReplaceTokensService.cs" />
+    <Compile Include="Tokens\TokenInputForm.cs" />
     <Compile Include="Tokens\ValidateVersionNumberToken.cs" />
     <Compile Include="Tokens\ValidateTokenResult.cs" />
     <Compile Include="TemplateEngine\HelixProjectTemplate.cs" />
