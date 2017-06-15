@@ -1,8 +1,8 @@
 [Oo]bj/
 /**/[Bb]in/
 /**/[Bb]in/
-/**/[Bb]in/[Dd]ebug
-/**/[Bb]in/[Rr]elease
+/**/[Bb]in/[Dd]ebug/
+/**/[Bb]in/[Rr]elease/
 .nuget/
 _ReSharper.*
 packages/
@@ -10,6 +10,9 @@ artifacts/
 *.user
 *.cache
 *.suo
+*.dll
+*.pdb
+*.vsix
 *.userprefs
 *DS_Store
 *.sln.ide
