@@ -9,6 +9,11 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 {
   public abstract class TokenInputControl : UserControl
   {
+    protected TokenInputControl()
+    {
+      
+    }
+
     public TokenInputControl[] DependendTokenInputs;
 
     public TokenDescription TokenDescription { get; set; }

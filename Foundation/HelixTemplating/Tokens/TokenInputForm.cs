@@ -10,6 +10,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Tokens
   {
     Text,
     Folder,
-    Selection
+    Selection,
+    Checkbox
   }
 }

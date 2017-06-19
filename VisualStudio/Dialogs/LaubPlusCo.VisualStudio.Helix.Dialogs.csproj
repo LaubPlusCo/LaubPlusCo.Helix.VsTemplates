@@ -73,6 +73,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\TokenCheckboxInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\TokenFolderInput.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
@@ -101,6 +105,9 @@
     </Compile>
     <Compile Include="Dialogs\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\TokenCheckboxInput.xaml.cs">
+      <DependentUpon>TokenCheckboxInput.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\TokenFolderInput.xaml.cs">
       <DependentUpon>TokenFolderInput.xaml</DependentUpon>

@@ -15,6 +15,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Principal;
+using System.Windows;
 using EnvDTE;
 using EnvDTE80;
 using LaubPlusCo.Foundation.HelixTemplating.TemplateEngine;
@@ -35,6 +37,12 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
     private bool? _isExclusive;
     public void RunStarted(object automationObject, Dictionary<string, string> replacementTokens, WizardRunKind runKind, object[] customParams)
     {
+      if (!IsAdministrator())
+      {
+        MessageBox.Show("You need to run Visual Studio as administrator to use these templates.\n\nPlease close Visual Studio and start as Administrator.", "Security", MessageBoxButton.OK);
+        DeleteAutoCreatedDirectory();
+      }
+
       _dte = automationObject as DTE2;
       _replacementTokens = replacementTokens;
       _destinationDirectory = replacementTokens["$destinationdirectory$"];
@@ -46,6 +54,12 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
         ShowInitSetupDialog();
 
       ShowManifestDialog();
+    }
+
+    private static bool IsAdministrator()
+    {
+      return (new WindowsPrincipal(WindowsIdentity.GetCurrent()))
+        .IsInRole(WindowsBuiltInRole.Administrator);
     }
 
     public bool IsFirstRun => string.IsNullOrEmpty(TemplatesRootDirectoryPathRepository.Get()) || !Directory.Exists(TemplatesRootDirectoryPathRepository.Get());

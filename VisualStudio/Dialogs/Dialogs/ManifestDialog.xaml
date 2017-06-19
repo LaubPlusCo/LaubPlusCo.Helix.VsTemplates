@@ -56,7 +56,7 @@
     <Grid VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Margin="10,0,10,10">
       <StackPanel HorizontalAlignment="Stretch">
         <Label>Available Helix Templates</Label>
-        <ComboBox HorizontalAlignment="Left" Width="Auto" MaxWidth="550" MinWidth="450" Height="25" Name="AvailableManifests" ItemsSource="{Binding AvailableManifestsCollection}" SelectedItem="{Binding SelectedManifestComboItem}" >
+        <ComboBox HorizontalAlignment="Left" Width="Auto" MaxWidth="550" MinWidth="450" Height="25" Name="AvailableManifestsComboBox" ItemsSource="{Binding AvailableManifestsCollection}" SelectedItem="{Binding SelectedManifestComboItem}" >
         </ComboBox>
         <TextBlock FontSize="10" HorizontalAlignment="Left" Name="TemplateDescription" Width="Auto" MaxWidth="450" TextWrapping="WrapWithOverflow" Margin="0,0,10,5"></TextBlock>
         <TextBlock FontStyle="Italic" HorizontalAlignment="Left" FontSize="10" Name="TemplateAuthor" MaxWidth="450" Width="Auto" TextWrapping="WrapWithOverflow"></TextBlock>

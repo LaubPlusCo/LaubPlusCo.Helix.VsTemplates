@@ -62,7 +62,8 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         return;
       }
       SetAvailableManifestsCollection(_manifests);
-      AvailableManifests.SelectedIndex = 0;
+      AvailableManifestsComboBox.Items.Refresh();
+      AvailableManifestsComboBox.SelectedIndex = 0;
     }
 
     protected void SetAvailableManifestsCollection(IEnumerable<HelixTemplateManifest> helixTemplateManifests)
@@ -73,13 +74,13 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         {
           Content = helixTemplateManifest.Name + " " + helixTemplateManifest.Version
         });
-      AvailableManifests.SelectionChanged += SelectionChanged;
+      AvailableManifestsComboBox.SelectionChanged += SelectionChanged;
     }
 
     protected void SelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
     {
-      SelectedManifestComboItem = AvailableManifestsCollection[AvailableManifests.SelectedIndex];
-      _selectedManifest = _manifests[AvailableManifests.SelectedIndex];
+      SelectedManifestComboItem = AvailableManifestsCollection[AvailableManifestsComboBox.SelectedIndex];
+      _selectedManifest = _manifests[AvailableManifestsComboBox.SelectedIndex];
       SetSelectedManifest();
     }
 
@@ -125,9 +126,10 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       var settingsUpdated = settingsDialog.ShowDialog();
       if (!settingsUpdated.HasValue || !settingsUpdated.Value)
         return;
+
       var rootDirectory = settingsDialog.RootDirectory;
       Initialize(rootDirectory, SolutionRoot, _initialTokens, _isSolutionCreation);
-      _selectedManifest = _manifests[AvailableManifests.SelectedIndex];
+      _selectedManifest = _manifests[AvailableManifestsComboBox.SelectedIndex];
       SetSelectedManifest();
     }
 
@@ -179,7 +181,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     private void LaubLogo_Clicked(object sender, RoutedEventArgs e)
     {
-      Process.Start(new ProcessStartInfo("https://laubplusco.net"));
+      Process.Start(new ProcessStartInfo("https://laubplusco.net/?origin=vstemplates"));
       e.Handled = true;
     }
 

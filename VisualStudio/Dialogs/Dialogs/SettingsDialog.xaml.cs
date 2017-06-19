@@ -72,27 +72,28 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       return new DirectoryInfo(selectedRootpath).EnumerateFiles("template.manifest.xml", SearchOption.AllDirectories).Any();
     }
 
-    private void Cancel_Click(object sender, RoutedEventArgs e)
-    {
-      DialogResult = false;
-      Close();
-    }
-
     private void UnpackTemplates_Clicked(object sender, RoutedEventArgs e)
     {
       var rootDirectory = TemplatesRootDirectoryPathRepository.Get();
       if (string.IsNullOrEmpty(rootDirectory) || !Directory.Exists(rootDirectory))
-        MessageBox.Show(this, "You need to select a valid root directory.", "Error", MessageBoxButton.OK);
+      { 
+        MessageBox.Show(this, "You need to set a valid root directory.", "Error", MessageBoxButton.OK);
+        return;
+      }
+      UnpackBuiltInButton.IsEnabled = false;
       if (Directory.EnumerateDirectories(rootDirectory).Any())
       {
         var overwriteConfirmResult = MessageBox.Show("This will overwrite changes made to built-in templates in this root folder.\nAre you sure you want to continue?\n\nNote: Always make your modifications changes in copies and never directly in the built-in example templates.", "Confirm", MessageBoxButton.YesNo);
         if (overwriteConfirmResult != MessageBoxResult.Yes)
         {
+          UnpackBuiltInButton.IsEnabled = true;
           return;
         }
         DeleteExistingBuiltInTemplates(rootDirectory);
       }
       UnzipTemplatesArchive(rootDirectory);
+      MessageBox.Show("Built-in templates updated", "", MessageBoxButton.OK);
+      UnpackBuiltInButton.IsEnabled = true;
     }
 
     private void DeleteExistingBuiltInTemplates(string rootDirectory)

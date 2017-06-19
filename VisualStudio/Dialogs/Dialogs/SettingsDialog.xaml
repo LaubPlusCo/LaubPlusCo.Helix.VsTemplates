@@ -35,7 +35,7 @@
       <Label Margin="5,5,5,0" FontWeight="DemiBold">Helix Templates root folder</Label>
       <TextBox Height="25" Width="350" Name="RootDirectoryPath" Margin="5" />
       <Button Content="OK" IsDefault="True" Click="SaveSettings_Click" Margin="5" />
-      <Button Style="{StaticResource ImageButton}" Background="{StaticResource UnpackButtonImage}" BorderThickness="0" MinHeight="80" MinWidth="81" HorizontalAlignment="Center" Margin="0,20,0,0" Click="UnpackTemplates_Clicked" />
+      <Button Style="{StaticResource ImageButton}" Background="{StaticResource UnpackButtonImage}" BorderThickness="0" MinHeight="80" MinWidth="81" HorizontalAlignment="Center" Margin="0,20,0,0" Click="UnpackTemplates_Clicked" Name="UnpackBuiltInButton" />
       <Label HorizontalAlignment="Center" FontSize="10" Margin="0" >
         <TextBlock  FontWeight="DemiBold" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center">Install/re-install<LineBreak/> built-in templates</TextBlock>
 </Label>
