@@ -4,16 +4,18 @@
 
 Visual Studio extension that accelerates creating new Visual Studio solutions and projects that follow the conventions described in Sitecore Helix.
 
-> CURRENTLY IN PRE-RELEASE MODE. DOCUMENTATION WILL BE UPDATED SOON.
+> THE EXTENSION IS IN PRE-RELEASE MODE. DOCUMENTATION WILL BE UPDATED SOON.    
+> 
+> *Please send feedback, comments and issues to @anderslaub on the Sitecore community Slack*
 
 
 ## Installation
-The extension can soon be installed via Visual Studio Extensions and Updates
+The extension can be installed via Visual Studio Extensions and Updates
 
 Visual Studio 2015 and 2017 are both supported but the built-in module templates does not support being loaded in Visual Studio 2015. You will need to make your own templates or upgrade VS.
 
-> **Note:** You need to run Visual Studio as administrator to use this extension.   
-> *Always start Visual Studio as administrator*
+> **Important Note:** You need to run Visual Studio as administrator to use this extension.   
+> *Guide to always start Visual Studio as administrator*
 > * Right click a shortcut to Visual Studio  
 > * Select "Properties" 
 > * Click "Open File Location"  
@@ -21,7 +23,8 @@ Visual Studio 2015 and 2017 are both supported but the built-in module templates
 > * Select "Troubleshoot compatibility"  
 > * Select "Troubleshoot program"  
 > * Check "The program requires additional permissions"  
-> * Next, Test and Finish  
+> * Next, Test and Finish
+> * -or install the extension called *RunAsAdmin** 
 
 When the extension has been installed a new project template is available under Visual C# templates.
 
