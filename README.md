@@ -55,7 +55,6 @@ Template folders includes a manifest file (see description below) that defines t
 
 Please share templates that you create that can be used by others. A public Github repo will be made available for this soon.
 
-
 #### Template manifest
 All templates are described in a manifest file, template.manifest.xml. The manifest location is used as the root of the template folder structure.
 

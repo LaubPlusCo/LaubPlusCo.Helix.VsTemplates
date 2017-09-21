@@ -78,7 +78,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)HabitatStyle.Project.Module\src\Project\$modulename$\code\Templates.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\src\Feature\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\src\Foundation\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\src\Project\" />
     <Folder Include="$(MSBuildThisFileDirectory)Helix.Clean.Module\" />
     <Folder Include="$(MSBuildThisFileDirectory)Helix.Clean.Module\src\%24layerName%24\%24modulename%24\code\App_Config\Include\%24layerName%24\" />
     <Folder Include="$(MSBuildThisFileDirectory)Helix.Clean.Solution\src\Feature\" />
