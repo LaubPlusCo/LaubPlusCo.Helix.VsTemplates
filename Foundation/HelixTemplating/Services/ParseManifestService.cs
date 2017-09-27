@@ -27,9 +27,16 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
 
     public virtual HelixTemplateManifest Parse(IDictionary<string, string> replacementTokens)
     {
-      Manifest = new HelixTemplateManifest(ManifestFilePath) {ReplacementTokens = replacementTokens};
-      ManifestTypeInstantiator = new ManifestTypeInstantiator();
-      return Parse(File.ReadAllText(ManifestFilePath));
+      try
+      {
+        Manifest = new HelixTemplateManifest(ManifestFilePath) { ReplacementTokens = replacementTokens };
+        ManifestTypeInstantiator = new ManifestTypeInstantiator();
+        return Parse(File.ReadAllText(ManifestFilePath));
+      }
+      catch (Exception)
+      {
+        return null;
+      }
     }
 
     protected HelixTemplateManifest Parse(string fileContent)

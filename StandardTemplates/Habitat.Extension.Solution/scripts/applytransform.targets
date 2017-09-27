@@ -3,17 +3,17 @@
   <Target Name="ApplyTransform">
     <ItemGroup>
       <Transform Include="$(TransformFile)" />
-      
+
       <ConfigsToTransform Include="$(FileToTransform)" Condition="Exists(@(Transform))">
         <TransformPath>%(Transform.Identity)</TransformPath>
       </ConfigsToTransform>
     </ItemGroup>
-    <Message Text="@(ConfigsToTransform)"     ></Message>
+    <Message Text="@(ConfigsToTransform)"></Message>
     <Message Text="@(Transform)"></Message>
 
-    <TransformXml Source="$(WebConfigToTransform)\%(ConfigsToTransform.Identity)" 
+    <TransformXml Source="$(WebConfigToTransform)\%(ConfigsToTransform.Identity)"
                   Transform="%(ConfigsToTransform.TransformPath)"
-                  Destination="$(WebConfigToTransform)\%(ConfigsToTransform.Identity)" 
+                  Destination="$(WebConfigToTransform)\%(ConfigsToTransform.Identity)"
                   Condition="Exists(@(Transform))"/>
   </Target>
 </Project>

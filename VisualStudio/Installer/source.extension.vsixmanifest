@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="LaubCo.Helix.VsInstaller.Anders Laub.8dfd2e63-cc8c-48c0-bc01-f8718ee55772" Version="0.9.9.2" Language="en-US" Publisher="Anders Laub" />
+        <Identity Id="LaubCo.Helix.VsInstaller.Anders Laub.8dfd2e63-cc8c-48c0-bc01-f8718ee55772" Version="0.9.9.3" Language="en-US" Publisher="Anders Laub" />
         <DisplayName>Sitecore Helix Visual Studio Templates</DisplayName>
         <Description xml:space="preserve">Sitecore Helix Visual Studio project and solution templates</Description>
         <License>license.txt</License>
@@ -22,6 +22,6 @@
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="LaubPlusCo.Foundation.Helix.Templating" Path="|LaubPlusCo.Foundation.Helix.Templating|" AssemblyName="|LaubPlusCo.Foundation.Helix.Templating;AssemblyName|" />
     </Assets>
     <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.ComponentGroup.WebToolsExtensions" Version="[12.0,16.0)" DisplayName="ASP.NET and web development" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,16.0)" DisplayName="Visual Studio core editor" />
     </Prerequisites>
 </PackageManifest>

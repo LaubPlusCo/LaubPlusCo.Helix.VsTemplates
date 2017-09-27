@@ -24,7 +24,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
 
     private IEnumerable<HelixTemplateManifest> ReadManifestFiles(FileInfo[] manifestFileInfos)
     {
-      return manifestFileInfos.Select(fileInfo => new ParseManifestService(fileInfo.FullName).Parse(ReplacementTokens));
+      return manifestFileInfos.Select(fileInfo => new ParseManifestService(fileInfo.FullName).Parse(ReplacementTokens)).Where(m => m != null);
     }
 
     private FileInfo[] FindManifestFiles()
