@@ -1,7 +1,7 @@
 <templateManifest typeOfTemplate="Module">
   <name>Empty Helix Module</name>
   <description>An empty Helix module.</description>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <author>Anders Laub</author>
   <sourceFolder>/src</sourceFolder>
   <saveOnCreate>true</saveOnCreate>
@@ -17,7 +17,7 @@
     <token key="$moduleNamespace$" displayName="Module namespace" required="true" default="$layerName$.$moduleName$" input="Text"
            suggestType="LaubPlusCo.Foundation.HelixTemplating.Tokens.SuggestNamespaceToken, LaubPlusCo.Foundation.HelixTemplating"
            validationType="LaubPlusCo.Foundation.HelixTemplating.Tokens.ValidateNamespaceToken, LaubPlusCo.Foundation.HelixTemplating" />
-    <token key="$sitecoreVersion$" displayName="Sitecore version (for Sitecore nuget packages)" default="8.2.161115" required="true" input="Text"
+    <token key="$sitecoreVersion$" displayName="Sitecore version (for Sitecore nuget packages)" default="8.2.170728" required="true" input="Text"
            validationType="LaubPlusCo.Foundation.HelixTemplating.Tokens.ValidateVersionNumberToken, LaubPlusCo.Foundation.HelixTemplating" />
   </replacementTokens>
   <projectsToAttach>

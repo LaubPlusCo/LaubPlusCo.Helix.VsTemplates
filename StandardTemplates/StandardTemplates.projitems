@@ -29,6 +29,9 @@
     <None Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\README.md" />
     <None Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\scripts\applytransform.targets" />
     <None Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\scripts\habitat.js" />
+    <None Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\scripts\NuGet\CreateLocalNugetFeed.ps1" />
+    <None Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\scripts\NuGet\nugetify.ps1" />
+    <None Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\scripts\NuGet\upgrade.ps1" />
     <None Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\scripts\unicorn.js" />
     <None Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\scripts\Unicorn\MicroCHAP.dll" />
     <None Include="$(MSBuildThisFileDirectory)Habitat.Extension.Solution\scripts\Unicorn\Sync.ps1" />
