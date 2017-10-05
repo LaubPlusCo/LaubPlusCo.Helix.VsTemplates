@@ -100,7 +100,7 @@
     <Content Include="App_Config\Include\Project\$moduleNamespace$.config" />
     <Content Include="App_Config\Include\Project\$moduleNamespace$.Serialization.config" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
-    <None Include="\README.md" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
