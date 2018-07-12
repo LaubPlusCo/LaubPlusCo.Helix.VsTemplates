@@ -7,11 +7,10 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Tokens
   public class SuggestNamespaceToken : ISuggestToken
   {
     private const string ModuleNameKey = "$moduleName$";
-    private const string ModuleNameKeyLowerCaseFirst = "$moduleNameLowerCaseFirst$";
     private const string LayerNameKey = "$layerName$";
     public SuggestNamespaceToken()
     {
-      DependentOnKeys = new List<string>() { ModuleNameKey, LayerNameKey, ModuleNameKeyLowerCaseFirst };
+      DependentOnKeys = new List<string>() { ModuleNameKey, LayerNameKey };
     }
 
     public IList<string> DependentOnKeys { get; set; }
@@ -20,24 +19,11 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Tokens
     {
       if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value))
         return currentValue;
-
-      if (key.Equals(ModuleNameKey))
-        return SuggestByModuleName(currentValue, value);
-
-      if (key.Equals(LayerNameKey))
-        return SuggestByLayerName(currentValue, value);
-
-      if (key.Equals(ModuleNameKeyLowerCaseFirst))
-        return SuggestByModuleName(currentValue, value, true);
-
-      return value;
+      return key.Equals(ModuleNameKey) ? SuggestByModuleName(currentValue, value) : (key.Equals(LayerNameKey) ? SuggestByLayerName(currentValue, value) : value);
     }
 
-    private string SuggestByModuleName(string currentValue, string value, bool lowerCaseFirst = false)
+    private string SuggestByModuleName(string currentValue, string value)
     {
-      if (lowerCaseFirst)
-        currentValue = currentValue.First().ToString().ToUpper() + currentValue.Substring(1);
-
       if (currentValue.EndsWith("." + value))
         return currentValue;
       if (value.Contains("."))
