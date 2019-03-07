@@ -7,9 +7,11 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
 {
   public class ReplaceTokensInFilesService
   {
+    protected const decimal MaxWaitHandleThreads = 63;
     protected readonly string[] FilePaths;
     protected readonly IDictionary<string, string> ReplacementTokens;
     protected readonly ReplaceTokensService ReplaceTokensService;
+
     public ReplaceTokensInFilesService(string[] filePaths, IDictionary<string, string> replacementTokens)
     {
       FilePaths = filePaths;
@@ -27,26 +29,39 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
     {
       if (FilePaths.Length <= 0)
         throw new ArgumentException("No files to replace tokens in");
-      var doneEvents = new WaitHandle[FilePaths.Length];
-      var fileTokenReplacers = new List<FileTokenReplace>();
+      var threadBatches = Math.Ceiling(FilePaths.Length / MaxWaitHandleThreads);
+      var results = new List<FileTokenReplaceResult>();
 
-      for (var i = 0; i < FilePaths.Length; i++)
+      for (var i = 0; i < threadBatches; i++)
       {
-        doneEvents[i] = new ManualResetEvent(false);
-        var fileTokenReplacer = new FileTokenReplace(FilePaths[i], ReplaceTokensService, (ManualResetEvent)doneEvents[i]);
-        fileTokenReplacers.Add(fileTokenReplacer);
-        ThreadPool.QueueUserWorkItem(fileTokenReplacer.ReplaceTokens, i);
+        var remainder = FilePaths.Length > MaxWaitHandleThreads
+          ? i * MaxWaitHandleThreads < FilePaths.Length ? MaxWaitHandleThreads : FilePaths.Length % MaxWaitHandleThreads
+          : FilePaths.Length;
+
+        var doneEvents = new WaitHandle[FilePaths.Length];
+        var fileTokenReplacers = new List<FileTokenReplace>();
+
+        for (var j = 0; j < remainder; j++)
+        {
+          var filePathIndex = (int) MaxWaitHandleThreads * i + j;
+          doneEvents[filePathIndex] = new ManualResetEvent(false);
+
+          var fileTokenReplacer = new FileTokenReplace(FilePaths[filePathIndex], ReplaceTokensService,
+            (ManualResetEvent) doneEvents[filePathIndex]);
+          fileTokenReplacers.Add(fileTokenReplacer);
+          ThreadPool.QueueUserWorkItem(fileTokenReplacer.ReplaceTokens, filePathIndex);
+        }
+
+        WaitHandle.WaitAll(doneEvents);
+        results.AddRange(fileTokenReplacers.Select(ftr => new FileTokenReplaceResult
+        {
+          FilePath = ftr.FilePath,
+          Success = ftr.Success,
+          ReplacementCounter = ftr.ReplacementCounter
+        }));
       }
-      WaitHandle.WaitAll(doneEvents);
-      var results = fileTokenReplacers.Select(ftr => new FileTokenReplaceResult
-      {
-        FilePath = ftr.FilePath,
-        Success = ftr.Success,
-        ReplacementCounter = ftr.ReplacementCounter
-      }).ToArray();
 
       //TODO: Log replacement results.!
-
     }
   }
 }
