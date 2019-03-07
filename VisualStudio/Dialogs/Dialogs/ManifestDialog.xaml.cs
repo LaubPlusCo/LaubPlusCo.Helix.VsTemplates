@@ -8,6 +8,7 @@ using LaubPlusCo.Foundation.HelixTemplating.Manifest;
 using LaubPlusCo.Foundation.HelixTemplating.Services;
 using LaubPlusCo.Foundation.HelixTemplating.TemplateEngine;
 using LaubPlusCo.Foundation.HelixTemplating.Tokens;
+using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model;
 using Microsoft.VisualStudio.PlatformUI;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
@@ -23,15 +24,17 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     private IDictionary<string, string> _initialTokens;
 
+    private ModuleTemplateFolderService _moduleTemplateFolderService;
+
     private bool? _isSolutionCreation;
 
-    public ManifestDialog(string helpTopic) : base(helpTopic)
+    public ManifestDialog(string helpTopic, ModuleTemplateFolderService moduleTemplateFolderService) : base(helpTopic)
     {
       InitializeComponent();
       DataContext = this;
     }
 
-    public ManifestDialog()
+    public ManifestDialog(ModuleTemplateFolderService moduleTemplateFolderService)
     {
       InitializeComponent();
       DataContext = this;
@@ -49,8 +52,18 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       _initialTokens = initialTokens.ToDictionary(t => t.Key, t => t.Value);
       _isSolutionCreation = isSolutionCreation;
       SolutionRoot = solutionRoot;
+
+      if (isSolutionCreation.HasValue && !isSolutionCreation.Value)
+      {
+        _moduleTemplateFolderService = new ModuleTemplateFolderService(solutionRoot);
+        var relativeModuleTemplateFolder = _moduleTemplateFolderService.Locate();
+        if (!string.IsNullOrWhiteSpace(relativeModuleTemplateFolder)) ;
+        rootDirectory = relativeModuleTemplateFolder;
+      }
+
       var readAllManifestService = new ReadAllManifestFilesService(rootDirectory, initialTokens);
       _manifests = readAllManifestService.Read();
+
       if (isSolutionCreation.HasValue)
       {
         _manifests = _manifests.Where(m => isSolutionCreation.Value ? m.TemplateType == TemplateType.Solution : m.TemplateType != TemplateType.Solution).ToArray();
