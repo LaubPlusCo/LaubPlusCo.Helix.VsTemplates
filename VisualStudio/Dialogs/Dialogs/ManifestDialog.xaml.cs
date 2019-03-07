@@ -28,13 +28,13 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     private bool? _isSolutionCreation;
 
-    public ManifestDialog(string helpTopic, ModuleTemplateFolderService moduleTemplateFolderService) : base(helpTopic)
+    public ManifestDialog(string helpTopic) : base(helpTopic)
     {
       InitializeComponent();
       DataContext = this;
     }
 
-    public ManifestDialog(ModuleTemplateFolderService moduleTemplateFolderService)
+    public ManifestDialog()
     {
       InitializeComponent();
       DataContext = this;

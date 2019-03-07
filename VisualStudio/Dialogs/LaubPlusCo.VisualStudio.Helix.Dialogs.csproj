@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" 
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -8,10 +9,11 @@
     <OutputType>library</OutputType>
     <RootNamespace>LaubPlusCo.VisualStudio.HelixTemplates.Dialogs</RootNamespace>
     <AssemblyName>LaubPlusCo.VisualStudio.HelixTemplates.Dialogs</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,9 +44,6 @@
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Design, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Shell.Embeddable, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.14.0.DesignTime, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -127,6 +126,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Dialogs\TokenValueChangedArgs.cs" />
+    <Compile Include="Model\HelixTemplateConfiguration.cs" />
+    <Compile Include="Model\ModuleTemplateFolderService.cs" />
     <Compile Include="Model\TemplatesRootDirectoryPathRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -196,7 +197,8 @@
     </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>C:\WINDOWS\system32\windowspowershell\v1.0\powershell.exe -NoLogo -NonInteractive -Command .'$(ProjectDir)ZipStandardTemplates.ps1' -ProjectDir:'$(ProjectDir)' -SolutionDir:'$(SolutionDir)'</PreBuildEvent>
-  </PropertyGroup>
+
+  <Target Name="ZipTemplates" BeforeTargets="Build">
+    <Exec Command="C:\WINDOWS\system32\windowspowershell\v1.0\powershell.exe -NoLogo -NonInteractive -ExecutionPolicy Unrestricted -Command .'$(ProjectDir)ZipStandardTemplates.ps1' -ProjectDir:'$(ProjectDir)' -SolutionDir:'$(SolutionDir)'" />
+  </Target>
 </Project>
