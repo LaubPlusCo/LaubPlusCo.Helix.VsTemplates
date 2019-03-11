@@ -11,4 +11,3 @@ $templateFolders = Get-ChildItem $SolutionDir\\StandardTemplates\\ | ?{ $_.PSIsC
 
 
 foreach ($templateFolder in $templateFolders) { Compress-Archive -Path $templateFolder.FullName -DestinationPath $templatesZipFile -Update }
-

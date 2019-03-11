@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LaubPlusCo.VisualStudio.Helix.Wizard</RootNamespace>
     <AssemblyName>LaubPlusCo.VisualStudio.Helix.Wizard</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -95,12 +96,10 @@
     <ProjectReference Include="..\..\Foundation\HelixTemplating\LaubPlusCo.Foundation.Helix.Templating.csproj">
       <Project>{196eb1b2-6313-4c48-bbc0-0399b89e3ad8}</Project>
       <Name>LaubPlusCo.Foundation.Helix.Templating</Name>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Dialogs\LaubPlusCo.VisualStudio.Helix.Dialogs.csproj">
       <Project>{39015c0e-25a4-4f4a-8f0d-8a6ba8d86548}</Project>
       <Name>LaubPlusCo.VisualStudio.Helix.Dialogs</Name>
-      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

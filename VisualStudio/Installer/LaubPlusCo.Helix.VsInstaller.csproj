@@ -76,14 +76,14 @@
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
       <EmbedInteropTypes>False</EmbedInteropTypes>
-      <InstallRoot>PublicAssemblies</InstallRoot>
+      <InstallRoot>ReferenceAssemblies</InstallRoot>
     </ProjectReference>
     <ProjectReference Include="..\Dialogs\LaubPlusCo.VisualStudio.Helix.Dialogs.csproj">
       <Project>{39015C0E-25A4-4F4A-8F0D-8A6BA8D86548}</Project>
       <Name>LaubPlusCo.VisualStudio.Helix.Dialogs</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
-      <InstallRoot>PublicAssemblies</InstallRoot>
+      <InstallRoot>ReferenceAssemblies</InstallRoot>
     </ProjectReference>
     <ProjectReference Include="..\HelixTemplate\LaubPlusCo.VisualStudio.Helix.Template.csproj">
       <Project>{B310857E-1B6A-4DA4-94A9-41A152318C26}</Project>
@@ -92,6 +92,7 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <TemplateType>Project</TemplateType>
+      <InstallRoot>PublicAssemblies</InstallRoot>
     </ProjectReference>
     <ProjectReference Include="..\Wizard\LaubPlusCo.VisualStudio.Helix.Wizard.csproj">
       <Project>{CE7847FD-D5AC-4E60-B5E4-C20DA3F47323}</Project>

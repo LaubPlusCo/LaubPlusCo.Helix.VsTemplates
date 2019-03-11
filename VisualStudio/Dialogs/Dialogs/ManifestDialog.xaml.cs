@@ -8,6 +8,7 @@ using LaubPlusCo.Foundation.HelixTemplating.Manifest;
 using LaubPlusCo.Foundation.HelixTemplating.Services;
 using LaubPlusCo.Foundation.HelixTemplating.TemplateEngine;
 using LaubPlusCo.Foundation.HelixTemplating.Tokens;
+using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model;
 using Microsoft.VisualStudio.PlatformUI;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
@@ -22,6 +23,8 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     private HelixTemplateManifest _selectedManifest;
 
     private IDictionary<string, string> _initialTokens;
+
+    private TemplateSettingsService _moduleTemplateFolderService;
 
     private bool? _isSolutionCreation;
 
@@ -49,8 +52,20 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       _initialTokens = initialTokens.ToDictionary(t => t.Key, t => t.Value);
       _isSolutionCreation = isSolutionCreation;
       SolutionRoot = solutionRoot;
+
+      if (isSolutionCreation.HasValue && !isSolutionCreation.Value)
+      {
+        _moduleTemplateFolderService = new TemplateSettingsService(solutionRoot);
+        var relativeModuleTemplateFolder = _moduleTemplateFolderService.Locate();
+
+        //TODO: Ask if local module template folder should be created in sln root
+        if (!string.IsNullOrWhiteSpace(relativeModuleTemplateFolder))
+          rootDirectory = relativeModuleTemplateFolder;
+      }
+
       var readAllManifestService = new ReadAllManifestFilesService(rootDirectory, initialTokens);
       _manifests = readAllManifestService.Read();
+
       if (isSolutionCreation.HasValue)
       {
         _manifests = _manifests.Where(m => isSolutionCreation.Value ? m.TemplateType == TemplateType.Solution : m.TemplateType != TemplateType.Solution).ToArray();

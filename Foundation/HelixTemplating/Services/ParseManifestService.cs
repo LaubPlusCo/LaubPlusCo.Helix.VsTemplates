@@ -16,8 +16,9 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
     public ParseManifestService(string manifestFilePath)
     {
       ManifestFilePath = manifestFilePath;
-      if (!File.Exists(ManifestFilePath))
-        throw new ManifestParseException($"Could not find Manifest file {ManifestFilePath}");
+      if (File.Exists(ManifestFilePath)) return;
+      System.Diagnostics.Debug.Print($"Could not find Manifest file {ManifestFilePath}");
+      throw new ManifestParseException($"Could not find Manifest file {ManifestFilePath}");
     }
 
     protected virtual XPathNavigator RootNavigator { get; set; }
@@ -33,8 +34,9 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
         ManifestTypeInstantiator = new ManifestTypeInstantiator();
         return Parse(File.ReadAllText(ManifestFilePath));
       }
-      catch (Exception)
+      catch (Exception exception)
       {
+        System.Diagnostics.Debug.Print($"Exception occurred while parsing manifest: {exception.Message}\n\n{exception.StackTrace}");
         return null;
       }
     }

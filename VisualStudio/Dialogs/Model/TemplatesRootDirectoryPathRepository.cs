@@ -40,7 +40,11 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
       {
         using (var key = Registry.CurrentUser.OpenSubKey(RegistryKeyName, RegistryKeyPermissionCheck.ReadWriteSubTree, RegistryRights.WriteKey) ?? Registry.CurrentUser.CreateSubKey(RegistryKeyName))
         {
-          if (key == null) throw new SecurityException("Cannot access or modify registry for storing template root directory");
+          if (key == null)
+          {
+            System.Diagnostics.Debug.Print("Cannot access or modify registry for storing template root directory");
+            throw new SecurityException("Cannot access or modify registry for storing template root directory");
+          }
           key.SetValue(RegistryObjectName, rootDirectory);
           return true;
         }
