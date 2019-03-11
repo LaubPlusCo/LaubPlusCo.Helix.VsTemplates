@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Laub + Co")]
 [assembly: AssemblyProduct("LaubPlusCo.Helix.VsTemplates")]
-[assembly: AssemblyCopyright("Copyright © Laub + Co  2017")]
+[assembly: AssemblyCopyright("Copyright © Laub + Co  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -14,7 +14,7 @@ using System.Windows.Markup;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Laub + Co")]
 [assembly: AssemblyProduct("LaubPlusCo.Helix.VsTemplates")]
-[assembly: AssemblyCopyright("Copyright © Laub + Co  2017")]
+[assembly: AssemblyCopyright("Copyright © Laub + Co  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: XmlnsDefinition("http://schemas.microsoft.com/client/2007", "LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs")]

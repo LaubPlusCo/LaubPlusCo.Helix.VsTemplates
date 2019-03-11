@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
 {
-  public class ModuleTemplateFolderService
+  public class TemplateSettingsService
   {
-    protected const string ConfigurationFileName = ".helixVsConfig";
+    protected const string ConfigurationFileName = ".helixtemplates";
     protected const string TemplateManifestFilenamePattern = "template.manifest.*";
 
-    public ModuleTemplateFolderService(string solutionRoot)
+    public TemplateSettingsService(string solutionRoot)
     {
       SolutionRootDirectory = solutionRoot.EndsWith("\\") ? solutionRoot : $"{solutionRoot}\\";
       ConfigurationFilePath = $"{solutionRoot}{ConfigurationFileName}";
@@ -45,8 +45,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
 
     protected void CreateConfigFile(string templatesFolder)
     {
-      var config = new HelixTemplateConfiguration();
-      config.ModuleTemplatesFolder = ConfigurationFilePath;
+      var config = new HelixTemplateConfiguration {ModuleTemplatesFolder = templatesFolder };
       WriteConfigFile(ConfigurationFilePath, config);
     }
 
@@ -58,8 +57,12 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
     protected virtual string SearchForTemplatesFolder()
     {
       return Directory.GetDirectories(SolutionRootDirectory)
-        .FirstOrDefault(
-          d => Directory.GetFiles(d, TemplateManifestFilenamePattern, SearchOption.TopDirectoryOnly).Any());
+        .Where(rd => !rd.EndsWith("node_modules") && !rd.EndsWith("src")).FirstOrDefault(IsTemplateFolder);
+    }
+
+    protected bool IsTemplateFolder(string folderPath)
+    {
+      return Directory.GetDirectories(folderPath).Any(d => Directory.GetFiles(d, TemplateManifestFilenamePattern, SearchOption.AllDirectories).Any());
     }
   }
 }

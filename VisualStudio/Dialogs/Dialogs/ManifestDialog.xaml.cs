@@ -24,7 +24,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     private IDictionary<string, string> _initialTokens;
 
-    private ModuleTemplateFolderService _moduleTemplateFolderService;
+    private TemplateSettingsService _moduleTemplateFolderService;
 
     private bool? _isSolutionCreation;
 
@@ -55,10 +55,12 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
       if (isSolutionCreation.HasValue && !isSolutionCreation.Value)
       {
-        _moduleTemplateFolderService = new ModuleTemplateFolderService(solutionRoot);
+        _moduleTemplateFolderService = new TemplateSettingsService(solutionRoot);
         var relativeModuleTemplateFolder = _moduleTemplateFolderService.Locate();
-        if (!string.IsNullOrWhiteSpace(relativeModuleTemplateFolder)) ;
-        rootDirectory = relativeModuleTemplateFolder;
+
+        //TODO: Ask if local module template folder should be created in sln root
+        if (!string.IsNullOrWhiteSpace(relativeModuleTemplateFolder))
+          rootDirectory = relativeModuleTemplateFolder;
       }
 
       var readAllManifestService = new ReadAllManifestFilesService(rootDirectory, initialTokens);
