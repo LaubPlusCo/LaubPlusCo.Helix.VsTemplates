@@ -1,0 +1,19 @@
+<!--
+***********************************************************************************************
+Publish.Properties.props
+  
+  Solution-wide build properties. See imported files for details.
+  
+  Add following condition to imports if mixed targetframeworks are used in solution
+  
+                                                                      [Anders Laub // Laub+Co]
+***********************************************************************************************
+-->
+
+<Project>
+  <Import Project="Build/props/Publish.Properties.props"  />
+  <Import Project="Build/props/Build.Properties.props" />
+  <Import Project="Build/props/Build.PackageReferences.props" />
+  <Import Project="Build/props/Build.References.props"  />
+  <Import Project="Build/props/Build.Content.props" />
+</Project>

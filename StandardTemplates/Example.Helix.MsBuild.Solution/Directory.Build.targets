@@ -1,0 +1,14 @@
+<!--
+***********************************************************************************************
+Publish.Properties.props
+  
+  Solution-wide build targets. See imported files for details.
+  
+                                                                      [Anders Laub // Laub+Co]
+***********************************************************************************************
+-->
+
+<Project>
+    <Import Project="Build/targets/Website.AutoPublish.targets"  Condition="$(TargetFramework.StartsWith('net4'))" />
+    <Import Project="Build/targets/Website.TransformXml.targets" Condition="$(TargetFramework.StartsWith('net4'))" />
+</Project>
