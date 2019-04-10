@@ -15,13 +15,27 @@ Build.Content.props
 
 <Project>
   <ItemGroup>
-    <Content Include="App_Config\**\*.config" />
-    <Content Include="Views\**\*.cshtml" />
-    <Content Include="**\*.aspx;**\*.ascx" Exclude="$(BaseIntermediateOutputPath)**\*.*" />
-
-    <!-- [STATIC RESOURCE FILES] -->
-    <Content Include="**\*.js;**\*.css;**\*.xml;**\*.txt" Exclude="$(BaseIntermediateOutputPath)**\*.*" />
-    <Content Include="**\*.png;**\*.jpg;**\*.gif;**\*.ico;**\*.svg;**\*.tiff" Exclude="$(BaseIntermediateOutputPath)**\*.*" />
+    <Content Include="App_Config\**\*.config" >
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\**\*.cshtml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+     </Content>
+    <Content Include="**\*.aspx;**\*.ascx" Exclude="$(BaseIntermediateOutputPath)**\*.*">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+    <!-- [STATIC RESOURCE FILES] - add more as needed (fonts etc.) -->
+    <Content Include="**\*.js;**\*.css;**\*.xml;**\*.txt" Exclude="$(BaseIntermediateOutputPath)**\*.*">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+    <Content Include="**\*.png;**\*.jpg;**\*.gif;**\*.ico;**\*.svg;**\*.tiff" Exclude="$(BaseIntermediateOutputPath)**\*.*">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
     
     <None Include="**\Web.config" Exclude="$(BaseIntermediateOutputPath)**\*.*">
       <SubType>Designer</SubType>
