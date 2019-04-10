@@ -2,7 +2,7 @@
   <name>Example Helix Website Module</name>
   <description>Basic Helix module targeting website Sitecore instances. 
     The template uses the dotnet project file format. NOTE: Require VS2017 (15.6) or newer</description>
-  <version>0.0.1</version>
+  <version>0.0.5</version>
   <author>Anders Laub</author>
   <sourceFolder>/src</sourceFolder>
   <saveOnCreate>true</saveOnCreate>
@@ -27,6 +27,9 @@
   <projectsToAttach>
     <projectFile path="/src/$layerName$/$modulename$/$projectrootfolderName$/$moduleNamespace$.csproj" />
   </projectsToAttach>
+  <skipAttach>
+    <folder path="/src/$layerName$/$modulename$/serialization/" />
+  </skipAttach>
   <ignoreFiles>
     <file path="/template.manifest.xml" />
   </ignoreFiles>

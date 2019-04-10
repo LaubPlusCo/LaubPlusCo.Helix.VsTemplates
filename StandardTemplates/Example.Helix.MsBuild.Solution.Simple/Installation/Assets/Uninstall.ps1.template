@@ -1,0 +1,9 @@
+$SCInstallRoot = $PSScriptRoot
+
+$singleDeveloperParams = [ParamsObject]
+
+Push-Location $SCInstallRoot
+
+Uninstall-SitecoreConfiguration @singleDeveloperParams *>&1 | Tee-Object Uninstall.log
+
+Pop-Location

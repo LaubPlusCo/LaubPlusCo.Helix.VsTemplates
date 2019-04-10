@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net471</TargetFramework>
+    <RootNamespace>Foundation.Serialization</RootNamespace>
+    <AssemblyName>Foundation.Serialization</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="$(NuGetPackageRoot)\Unicorn\4.0.8\content\**\*">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Unicorn" Version="4.0.8" />
+  </ItemGroup>
+</Project>

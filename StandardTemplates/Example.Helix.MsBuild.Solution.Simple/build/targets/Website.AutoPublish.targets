@@ -1,0 +1,31 @@
+<!--
+***********************************************************************************************
+Website.AutoPublish.targets
+  
+  Automatically calls webpublish on project after build - if AutoPublishOnBuild set to true property.
+  
+  .. BuildingInsideVisualStudio= false is required for this to run in Visual Studio .. (?)
+  
+  Note; Dependency on VS build target..
+       
+       
+                                                                      [Anders Laub // Laub+Co]
+                                                                      
+***********************************************************************************************
+-->
+
+<Project>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />
+
+  <Target Name="AutoPublish" AfterTargets="Build">
+    <PropertyGroup>
+      <PublishRootDirectory Condition="!HasTrailingSlash('$(PublishRootDirectory)')">$(PublishRootDirectory)\</PublishRootDirectory>
+    </PropertyGroup>
+
+    <Message Importance="High" Text="Auto publishing project $(MSBuildProjectName)." Condition="'$(AutoPublishOnBuild)' == 'true'" />
+    <PropertyGroup>
+      <publishUrl>$(PublishRootDirectory)</publishUrl>
+    </PropertyGroup>
+    <CallTarget Targets="WebPublish" Condition="'$(AutoPublishOnBuild)' == 'true'" />
+  </Target>
+</Project>

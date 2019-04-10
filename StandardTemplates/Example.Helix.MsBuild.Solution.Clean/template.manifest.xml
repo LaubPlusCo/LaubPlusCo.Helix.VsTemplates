@@ -1,0 +1,55 @@
+<templateManifest typeOfTemplate="Solution">
+  <name>Clean Helix Solution with msbuild auto-publishing.</name>
+  <description>
+Blank Helix Solution with msbuild targets setup for dotnet project file format using PackageReferences with transient inheritance.
+
+[IMPORTANT]: This template is for the dotnet project file format and require VS2017 (15.6) or newer
+  </description>
+  <version>1.0.0</version>
+  <author>Anders Laub</author>
+  <sourceFolder>/src</sourceFolder>
+  <saveOnCreate>true</saveOnCreate>
+  <templateEngine type="LaubPlusCo.Foundation.HelixTemplating.TemplateEngine.DefaultHelixTemplateEngine, LaubPlusCo.Foundation.HelixTemplating" />
+  <replacementTokens>
+    <token key="$sitecoreVersion$" displayName="Sitecore kernel version (for shared solution PackageReference)" default="9.1.0" required="true" input="Text" />
+    <token key="$publishRootDir$" displayName="Publish file path" required="true" default="C:\Websites\Sitecore.Solution\Website" input="Text" />
+    <token key="$autoPublishOnBuild$" displayName="Enable auto-publish on build" default="true" input="Selection" required="true">
+      <option name="true" />
+      <option name="false" />
+    </token>
+    <token key="$runXmlTransformsOnPublish$" displayName="Run XML transformations on publish?" default="true" input="Selection" required="true">
+      <option name="true" />
+      <option name="false" />
+    </token>
+    <token key="$transformFilePostfix$" displayName="File postfix of xml files to transform" required="true" default="xdt" input="Text" />
+  </replacementTokens>
+  <projectsToAttach />
+  <virtualSolutionFolders>
+    <virtualSolutionFolder name="Build">
+      <file path="/.editorconfig" />
+      <file path="/.helixtemplates" />
+      <file path="/nuget.config" />
+      <file path="/Directory.Build.targets" />
+      <file path="/Directory.Build.props" />
+      <file path="/README.md" />
+      <file path="/build/Solution.config" />
+      <virtualSolutionFolder name="props">
+        <file path="/build/props/Build.Properties.props" />
+        <file path="/build/props/Publish.Properties.props" />
+        <file path="/build/props/Build.Content.props" />
+        <file path="/build/props/Build.References.props" />
+        <file path="/build/props/Build.PackageReferences.props" />
+        <file path="/build/props/Build.Content.props" />
+      </virtualSolutionFolder>
+      <virtualSolutionFolder name="targets">
+        <file path="/build/targets/Website.AutoPublish.targets" />
+        <file path="/build/targets/Website.TransformXml.targets" />
+        <file path="/build/targets/Website.RemoveDoNotPublishAssembly.targets" />
+        <file path="/build/targets/Website.DoNotPublishAssembly.props" />
+      </virtualSolutionFolder>
+    </virtualSolutionFolder>
+  </virtualSolutionFolders>
+  <ignoreFiles>
+    <file path="/template.manifest.xml" />
+  </ignoreFiles>
+</templateManifest>

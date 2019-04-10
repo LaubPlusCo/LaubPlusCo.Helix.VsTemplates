@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using LaubPlusCo.Foundation.HelixTemplating.Manifest;
 using LaubPlusCo.Foundation.HelixTemplating.Services;
 using LaubPlusCo.Foundation.HelixTemplating.TemplateEngine;
@@ -24,7 +25,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     private IDictionary<string, string> _initialTokens;
 
-    private TemplateSettingsService _moduleTemplateFolderService;
+    private TemplateFolderSettingsService _moduleTemplateFolderService;
 
     private bool? _isSolutionCreation;
 
@@ -55,7 +56,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
       if (isSolutionCreation.HasValue && !isSolutionCreation.Value)
       {
-        _moduleTemplateFolderService = new TemplateSettingsService(solutionRoot);
+        _moduleTemplateFolderService = new TemplateFolderSettingsService(solutionRoot);
         var relativeModuleTemplateFolder = _moduleTemplateFolderService.Locate();
 
         //TODO: Ask if local module template folder should be created in sln root
@@ -77,23 +78,26 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         return;
       }
       SetAvailableManifestsCollection(_manifests);
-      AvailableManifestsComboBox.Items.Refresh();
       AvailableManifestsComboBox.SelectedIndex = 0;
     }
 
     protected void SetAvailableManifestsCollection(IEnumerable<HelixTemplateManifest> helixTemplateManifests)
     {
       AvailableManifestsCollection = new ObservableCollection<ComboBoxItem>();
+
       foreach (var helixTemplateManifest in helixTemplateManifests)
         AvailableManifestsCollection.Add(new ComboBoxItem
         {
           Content = helixTemplateManifest.Name + " " + helixTemplateManifest.Version
         });
+      AvailableManifestsComboBox.ItemsSource = AvailableManifestsCollection;
       AvailableManifestsComboBox.SelectionChanged += SelectionChanged;
     }
 
     protected void SelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
     {
+      if (AvailableManifestsComboBox.SelectedIndex < 0 || AvailableManifestsComboBox.SelectedIndex > AvailableManifestsCollection.Count)
+        return;
       SelectedManifestComboItem = AvailableManifestsCollection[AvailableManifestsComboBox.SelectedIndex];
       _selectedManifest = _manifests[AvailableManifestsComboBox.SelectedIndex];
       SetSelectedManifest();
@@ -144,8 +148,6 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
       var rootDirectory = settingsDialog.RootDirectory;
       Initialize(rootDirectory, SolutionRoot, _initialTokens, _isSolutionCreation);
-      _selectedManifest = _manifests[AvailableManifestsComboBox.SelectedIndex];
-      SetSelectedManifest();
     }
 
     private void SelectButton_OnClick(object sender, RoutedEventArgs e)
@@ -190,7 +192,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     private void HelixLogo_Clicked(object sender, RoutedEventArgs e)
     {
-      Process.Start(new ProcessStartInfo("http://helix.sitecore.net"));
+      Process.Start(new ProcessStartInfo("https://helix.sitecore.net"));
       e.Handled = true;
     }
 

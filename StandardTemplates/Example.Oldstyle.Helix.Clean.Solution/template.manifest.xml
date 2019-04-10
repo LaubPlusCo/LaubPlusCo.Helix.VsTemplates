@@ -1,0 +1,25 @@
+<templateManifest typeOfTemplate="Solution">
+  <name>Clean Helix Solution - "old format"</name>
+  <description>An example blank Helix Solution - "old style" using the old cs project format. Notice; use file path rather than URL for publishing to allow msbuild publish of sln file (10x faster than running individual project publish).</description>
+  <version>1.0.1</version>
+  <author>Anders Laub</author>
+  <sourceFolder>/src</sourceFolder>
+  <saveOnCreate>true</saveOnCreate>
+  <templateEngine type="LaubPlusCo.Foundation.HelixTemplating.TemplateEngine.DefaultHelixTemplateEngine, LaubPlusCo.Foundation.HelixTemplating" />
+  <replacementTokens>
+    <token key="$publishPath$" displayName="Publish to file path" required="true" default="C:\Websites\MyInstance" input="Text" />
+  </replacementTokens>
+  <projectsToAttach />
+  <virtualSolutionFolders>
+    <virtualSolutionFolder name="Build">
+      <file path="/.editorconfig" />
+      <file path="/nuget.config" />
+      <file path="/package.json" />
+      <file path="/README.md" />
+      <file path="/publishsettings.targets" />
+    </virtualSolutionFolder>
+  </virtualSolutionFolders>
+  <ignoreFiles>
+    <file path="/template.manifest.xml" />
+  </ignoreFiles>
+</templateManifest>
