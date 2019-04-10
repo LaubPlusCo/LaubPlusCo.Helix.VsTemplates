@@ -1,0 +1,66 @@
+<templateManifest typeOfTemplate="Solution">
+  <name>Simple Sitecore 9.1 solution - incl. serialization and local dev install scripts.</name>
+  <description>This template shows a simple Sitecore 9.1 solution and include scripts for quickly installing a XP0 development environment locally.
+
+See the solution readme file for instructions on installing development environment.
+    
+It also show the concept of an Environment layer folder for keeping environment specific configuration that does not relate to any direct module responsibility in the solution.
+Dianoga 4.0.0 for image optimizing is used as example of a nuget reference that would typically not be related to any other module within a solution.
+See .csproj file for content inclusion from old-style nuget packages.
+
+[IMPORTANT]: This template is for the dotnet project file format and require VS2017 (15.6) or newer</description>
+  <version>1.0.0</version>
+  <author>Anders Laub</author>
+  <sourceFolder>/src</sourceFolder>
+  <saveOnCreate>true</saveOnCreate>
+  <templateEngine type="LaubPlusCo.Foundation.HelixTemplating.TemplateEngine.DefaultHelixTemplateEngine, LaubPlusCo.Foundation.HelixTemplating" />
+  <replacementTokens>
+    <token key="$projectrootfolderName$" displayName="Website project folder names - f. ex. code (old convention) or website (updated convention)" required="true" default="website" input="Text" />
+    <token key="$publishRootDir$" displayName="Publish file path" required="true" default="C:\Websites\Sitecore.Solution\Website" input="Text" />
+    <token key="$autoPublishOnBuild$" displayName="Enable auto-publish on build" default="true" input="Selection" required="true">
+      <option name="true" />
+      <option name="false" />
+    </token>
+    <token key="$runXmlTransformsOnPublish$" displayName="Run XML transformations on publish?" default="true" input="Selection" required="true">
+      <option name="true" />
+      <option name="false" />
+    </token>
+    <token key="$transformFilePostfix$" displayName="File postfix of xml files to transform" required="true" default="xdt" input="Text" />
+  </replacementTokens>
+  <projectsToAttach>
+    <projectFile path="/src/Environment/Configuration/$projectrootfolderName$/Environment.Configuration.csproj" />
+    <projectFile path="/src/Foundation/Serialization/$projectrootfolderName$/Foundation.Serialization.csproj" />
+  </projectsToAttach>
+  <skipAttach>
+    <folder path="/src/Environment/Configuration/serialization/" />
+    <folder path="/src/Foundation/Serialization/serialization/" />
+  </skipAttach>
+  <virtualSolutionFolders>
+    <virtualSolutionFolder name="Build">
+      <file path="/.editorconfig" />
+      <file path="/.helixtemplates" />
+      <file path="/nuget.config" />
+      <file path="/Directory.Build.targets" />
+      <file path="/Directory.Build.props" />
+      <file path="/README.md" />
+      <file path="/build/Solution.config" />      
+      <virtualSolutionFolder name="props">
+        <file path="/build/props/Build.Properties.props" />
+        <file path="/build/props/Publish.Properties.props" />
+        <file path="/build/props/Build.Content.props" />
+        <file path="/build/props/Build.References.props" />
+        <file path="/build/props/Build.PackageReferences.props" />
+        <file path="/build/props/Build.Content.props" />
+      </virtualSolutionFolder>
+      <virtualSolutionFolder name="targets">
+        <file path="/build/targets/Website.AutoPublish.targets" />
+        <file path="/build/targets/Website.TransformXml.targets" />
+        <file path="/build/targets/Website.RemoveDoNotPublishAssembly.targets" />
+        <file path="/build/targets/Website.DoNotPublishAssembly.props" />
+      </virtualSolutionFolder>
+    </virtualSolutionFolder>
+  </virtualSolutionFolders>
+  <ignoreFiles>
+    <file path="/template.manifest.xml" />
+  </ignoreFiles>
+</templateManifest>

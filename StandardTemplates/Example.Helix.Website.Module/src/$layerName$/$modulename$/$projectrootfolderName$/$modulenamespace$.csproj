@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>$netframeworkversion$</TargetFramework>
     <RootNamespace>$moduleNamespace$</RootNamespace>
     <AssemblyName>$moduleNamespace$</AssemblyName>
   </PropertyGroup>
+<!-- Uncomment as needed; f.ex. if Sitecore package references not defined on solution scope - see .\build\props\Build.PackageReferences.props
   <ItemGroup>
     <PackageReference Include="Sitecore.Kernel" Version="$sitecoreVersion$">
       <PrivateAssets>all</PrivateAssets>
@@ -12,4 +13,5 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+-->  
 </Project>

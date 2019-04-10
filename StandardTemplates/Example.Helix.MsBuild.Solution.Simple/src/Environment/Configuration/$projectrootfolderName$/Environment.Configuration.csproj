@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net471</TargetFramework>
+    <RootNamespace>Environment.Configuration</RootNamespace>
+    <AssemblyName>Environment.Configuration</AssemblyName>    
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="$(NuGetPackageRoot)\Dianoga\4.0.0\content\**\*">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Dianoga" Version="[4.0.0]" />
+  </ItemGroup>
+</Project>

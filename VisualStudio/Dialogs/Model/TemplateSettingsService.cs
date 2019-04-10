@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
 {
-  public class TemplateSettingsService
+  public class TemplateFolderSettingsService
   {
     protected const string ConfigurationFileName = ".helixtemplates";
     protected const string TemplateManifestFilenamePattern = "template.manifest.*";
 
-    public TemplateSettingsService(string solutionRoot)
+    public TemplateFolderSettingsService(string solutionRoot)
     {
       SolutionRootDirectory = solutionRoot.EndsWith("\\") ? solutionRoot : $"{solutionRoot}\\";
       ConfigurationFilePath = $"{solutionRoot}{ConfigurationFileName}";
@@ -35,7 +35,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
     {
       if (!File.Exists(ConfigurationFilePath)) return string.Empty;
       var config = ReadConfigFile();
-      return config.ModuleTemplatesFolder;
+      return Path.Combine(SolutionRootDirectory, config.ModuleTemplatesFolder);
     }
 
     protected virtual HelixTemplateConfiguration ReadConfigFile()
@@ -43,9 +43,13 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
       return new HelixTemplateConfiguration(File.ReadAllLines(ConfigurationFilePath));
     }
 
-    protected void CreateConfigFile(string templatesFolder)
+    protected void CreateConfigFile(string templatesFolderFullPath)
     {
-      var config = new HelixTemplateConfiguration {ModuleTemplatesFolder = templatesFolder };
+      var templatesFolder = templatesFolderFullPath.ToLowerInvariant().Replace(SolutionRootDirectory.ToLowerInvariant(), "");
+      var config = new HelixTemplateConfiguration
+      {
+        ModuleTemplatesFolder = templatesFolder
+      };
       WriteConfigFile(ConfigurationFilePath, config);
     }
 

@@ -1,0 +1,1 @@
+# Place Sitecore xp0 packages in this folder and a valid license.xml

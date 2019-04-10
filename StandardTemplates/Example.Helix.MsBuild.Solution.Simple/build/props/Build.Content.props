@@ -1,0 +1,38 @@
+<!--
+***********************************************************************************************
+Build.Content.props
+  
+  This file is used to control which files are published from a project.
+  
+  Modify the globs below to match common files in your solution.
+  
+  - or edit file Properties in solution explorer > "Build action" > Content/None/..  on individual files.
+
+   TODO: Rename to Website.Content.props if relevant in solution - if only used by modules targeting website instances.
+
+   
+                                                                      [Anders Laub // Laub+Co]
+***********************************************************************************************
+-->
+
+<Project>
+  <ItemGroup>
+    <Content Include="App_Config\**\*.config" />
+    <Content Include="Views\**\*.cshtml" />
+    <Content Include="**\*.aspx;**\*.ascx" Exclude="$(BaseIntermediateOutputPath)**\*.*" />
+
+    <!-- [STATIC RESOURCE FILES] -->
+    <Content Include="**\*.js;**\*.css;**\*.xml;**\*.txt" Exclude="$(BaseIntermediateOutputPath)**\*.*" />
+    <Content Include="**\*.png;**\*.jpg;**\*.gif;**\*.ico;**\*.svg;**\*.tiff" Exclude="$(BaseIntermediateOutputPath)**\*.*" />
+    
+    <None Include="**\Web.config" Exclude="$(BaseIntermediateOutputPath)**\*.*">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.*.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.*.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+</Project>
