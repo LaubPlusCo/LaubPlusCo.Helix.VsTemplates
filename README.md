@@ -11,7 +11,11 @@ _2019-04-10 v0.9.9.10_
   - To support solution module templates to be under source control.
 - Various bug fixes
 - New example templates added out-of-the-box
-- SkipAttach paths in manifest, enable setting up templates with TDS support
+  - _See the Helix MS Build example [here](https://github.com/LaubPlusCo/helix-msbuild-example) to learn more about the new templates that are now shipped as examples with the extension._
+- SkipAttach paths in manifest
+  - enables setting up templates that include TDS projects
+
+More to come..
 
 ## Installation
 
