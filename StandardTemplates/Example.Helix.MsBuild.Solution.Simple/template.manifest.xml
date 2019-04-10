@@ -16,7 +16,7 @@ See .csproj file for content inclusion from old-style nuget packages.
   <templateEngine type="LaubPlusCo.Foundation.HelixTemplating.TemplateEngine.DefaultHelixTemplateEngine, LaubPlusCo.Foundation.HelixTemplating" />
   <replacementTokens>
     <token key="$projectrootfolderName$" displayName="Website project folder names - f. ex. code (old convention) or website (updated convention)" required="true" default="website" input="Text" />
-    <token key="$publishRootDir$" displayName="Publish file path" required="true" default="C:\Websites\Sitecore.Solution\Website" input="Text" />
+    <token key="$publishRootDir$" displayName="Publish file path" required="true" default="C:\Websites\sitecore-9-1.localhost\Website" input="Text" />
     <token key="$autoPublishOnBuild$" displayName="Enable auto-publish on build" default="true" input="Selection" required="true">
       <option name="true" />
       <option name="false" />
