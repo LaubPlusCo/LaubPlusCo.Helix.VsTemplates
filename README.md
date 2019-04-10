@@ -23,7 +23,7 @@ More to come..
 
 The extension can be installed via Visual Studio Extensions and Updates
 
-Visual Studio 2015 and 2017 are both supported but the built-in module templates does not support being loaded in Visual Studio 2015. You will need to make your own templates or upgrade VS.
+Visual Studio 2015, 2017 and 2019 are supported but the built-in module templates does not support being loaded in Visual Studio 2015. You will need to make your own templates or upgrade VS.
 
 > **Important Note:** You need to run Visual Studio as administrator to use this extension.  
 > *Guide to always start Visual Studio as administrator*
