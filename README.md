@@ -2,6 +2,8 @@
 
 Visual Studio extension that accelerates creating new Visual Studio solutions and projects that follow the conventions described in Sitecore Helix.
 
+**[Install extension from Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=AndersLaublaubplusco.SitecoreHelixVisualStudioTemplates)**
+
 ## Change log  
 
 _2019-04-10 v0.9.9.10_
