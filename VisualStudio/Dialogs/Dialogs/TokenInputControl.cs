@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using LaubPlusCo.Foundation.HelixTemplating.Manifest;
 using LaubPlusCo.Foundation.HelixTemplating.Tokens;
+using Microsoft.VisualStudio.Shell;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 {
@@ -11,23 +13,19 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
   {
     protected TokenInputControl()
     {
-      
     }
 
     public TokenInputControl[] DependendTokenInputs;
-
     public TokenDescription TokenDescription { get; set; }
-
     public abstract string TokenValue { get; set; }
-
     protected IValidateToken Validator => TokenDescription.Validator;
     public ISuggestToken Suggestor => TokenDescription.Suggestor;
     public string TokenKey => TokenDescription.Key;
     public abstract Label DisplayNameLabel { get; }
+    public abstract TextBlock HelpTextBlock { get; }
     public abstract Control InputControl { get; }
 
     public event EventHandler InputChangedEvent;
-
     public event EventHandler<TokenValueChangedArgs> ValueChanged;
 
     public virtual void Initialize()
@@ -36,10 +34,21 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         TokenValue = TokenDescription.Default;
 
       DisplayNameLabel.Content = TokenDescription.DisplayName;
+      SetHelpTextLabel(TokenDescription.HelpText);
 
       if (DependendTokenInputs != null && Suggestor != null)
         SubscribeOnDependentTokens();
       InputChangedEvent += TokenValueChanged;
+    }
+
+    protected virtual void SetHelpTextLabel(string helpText)
+    {
+      if (string.IsNullOrEmpty(TokenDescription.HelpText))
+      {
+        HelpTextBlock.Visibility = Visibility.Collapsed;
+        return;
+      }
+      HelpTextBlock.Text = TokenDescription.HelpText;
     }
 
     protected virtual void TokenValueChanged(object sender, EventArgs e)
@@ -83,7 +92,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     protected virtual IValidateTokenResult PerformValidatation()
     {
       if (TokenDescription.IsRequired && string.IsNullOrWhiteSpace(TokenValue))
-        return new ValidateTokenResult {IsValid = false, Message = $"{TokenDescription.DisplayName} is required."};
+        return new ValidateTokenResult { IsValid = false, Message = $"{TokenDescription.DisplayName} is required." };
       if (Validator == null)
         return ValidateTokenResult.Success;
       return Validator == null ? ValidateTokenResult.Success : Validator.Validate(TokenValue);
@@ -91,10 +100,10 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     protected virtual void OnInputChangedEvent()
     {
-      InputChangedEvent?.Invoke(this, new TokenValueChangedArgs {Key = TokenKey, Value = TokenValue });
+      InputChangedEvent?.Invoke(this, new TokenValueChangedArgs { Key = TokenKey, Value = TokenValue });
     }
 
-    protected  virtual void InputChangedEventHandler(object sender, EventArgs e)
+    protected virtual void InputChangedEventHandler(object sender, EventArgs e)
     {
       OnInputChangedEvent();
     }

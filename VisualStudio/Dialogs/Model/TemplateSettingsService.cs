@@ -43,7 +43,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
       return new HelixTemplateConfiguration(File.ReadAllLines(ConfigurationFilePath));
     }
 
-    protected void CreateConfigFile(string templatesFolderFullPath)
+    public void CreateConfigFile(string templatesFolderFullPath)
     {
       var templatesFolder = templatesFolderFullPath.ToLowerInvariant().Replace(SolutionRootDirectory.ToLowerInvariant(), "");
       var config = new HelixTemplateConfiguration

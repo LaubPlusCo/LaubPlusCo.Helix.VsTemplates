@@ -1,13 +1,10 @@
 ﻿param($ProjectDir, $SolutionDir)
 
-$templatesZipFile = $ProjectDir + "\\Resources\\StandardTemplates.zip"
-$standardTemplatesRoot =  $SolutionDir + "\\StandardTemplates\\"
-Write-Host $templatesZipFile
-Write-Host $standardTemplatesRoot
+function Zip-TemplateFolders($zipFile, $rootDir) {
+  Remove-Item $zipFile
+  $templateFolders = Get-ChildItem $rootDir | ?{ $_.PSIsContainer } | Select-Object FullName
+  foreach ($templateFolder in $templateFolders) { Compress-Archive -Path $templateFolder.FullName -DestinationPath $zipFile -Update }
+}
 
-Remove-Item $templatesZipFile
-
-$templateFolders = Get-ChildItem $SolutionDir\\StandardTemplates\\ | ?{ $_.PSIsContainer } | Select-Object FullName
-
-
-foreach ($templateFolder in $templateFolders) { Compress-Archive -Path $templateFolder.FullName -DestinationPath $templatesZipFile -Update }
+Zip-TemplateFolders "$ProjectDir\\Resources\\ModuleTemplates.zip" "$SolutionDir\\StandardTemplates\\Modules" 
+Zip-TemplateFolders "$ProjectDir\\Resources\\SolutionTemplates.zip" "$SolutionDir\\StandardTemplates\\Solutions" 

@@ -2,44 +2,28 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
-        Title="Settings" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+        xmlns:vsui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
+        Title="Helix Templates Settings" 
+        WindowStyle="None"
+        SizeToContent="WidthAndHeight" 
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
   <Window.Resources>
     <ResourceDictionary>
-      <BitmapImage x:Key="Unpack" UriSource="../Resources/unpack.png" />
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Resources/VectorIcons.xaml" />
+      </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
-    
   </Window.Resources>
-  <Grid>
-    <Grid.Resources>
-      <ImageBrush x:Key="UnpackButtonImage" ImageSource="{StaticResource Unpack}" Stretch="UniformToFill"/>
-      <Style x:Key="ImageButton" TargetType="Button">
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Template">
-          <Setter.Value>
-            <ControlTemplate TargetType="Button">
-              <Border Name="border" BorderThickness="0" BorderBrush="Black" Background="{TemplateBinding Background}">
-                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-              </Border>
-              <ControlTemplate.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                  <Setter Property="Opacity" Value="0.6" />
-                </Trigger>
-              </ControlTemplate.Triggers>
-            </ControlTemplate>
-          </Setter.Value>
-        </Setter>
-      </Style>
-    </Grid.Resources>
-    <StackPanel>
-      <Label Margin="5,5,5,0" FontWeight="DemiBold">Helix Templates root folder</Label>
-      <TextBox Height="25" Width="350" Name="RootDirectoryPath" Margin="5" />
-      <Button Content="OK" IsDefault="True" Click="SaveSettings_Click" Margin="5" />
-      <Button Style="{StaticResource ImageButton}" Background="{StaticResource UnpackButtonImage}" BorderThickness="0" MinHeight="80" MinWidth="81" HorizontalAlignment="Center" Margin="0,20,0,0" Click="UnpackTemplates_Clicked" Name="UnpackBuiltInButton" />
-      <Label HorizontalAlignment="Center" FontSize="10" Margin="0" >
-        <TextBlock  FontWeight="DemiBold" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center">Install/re-install<LineBreak/> built-in templates</TextBlock>
-</Label>
+    <StackPanel Margin="10">
+      <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Helix Templates root folder</Label>
+      <TextBox Height="25" Width="350" Name="RootDirectoryPath" Margin="0,0,0,10" />
+      <CheckBox Height="16" Name="EnableLogging" Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" Content="Enable logging" Margin="0,0,0,10" HorizontalAlignment="Center" />
+      <Button Content="OK" IsDefault="True" Click="SaveSettings_Click" Margin="0,0,0,10" />
+      <Button BorderThickness="0" MinHeight="75" MinWidth="75" HorizontalAlignment="Center" Margin="0,15,0,0" Background="Transparent" Click="UnpackTemplates_Clicked" Name="UnpackBuiltInButton" >
+        <ContentControl Content="{StaticResource IconUnbox}" Width="70" Height="70" />
+      </Button>
+      <TextBlock HorizontalAlignment="Center" Foreground="{DynamicResource {x:Static vsui:VsBrushes.PanelHyperlinkKey }}" Margin="0" TextAlignment="Center" >Install/re-install<LineBreak/> built-in templates</TextBlock>
     </StackPanel>
-  </Grid>
 </platformUi:DialogWindow>
 

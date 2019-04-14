@@ -4,18 +4,13 @@
                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                          xmlns:local="clr-namespace:LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs"
-                         mc:Ignorable="d" d:DesignWidth="400">
-  <Grid Margin="0,5,0,0">
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto" />
-    </Grid.ColumnDefinitions>
-    <Grid.RowDefinitions>
-      <RowDefinition />
-      <RowDefinition />
-    </Grid.RowDefinitions>
-    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                         xmlns:vsui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
+                         mc:Ignorable="d" d:DesignWidth="300">
+  <StackPanel Margin="0,5,0,0">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
       <CheckBox VerticalAlignment="Center" HorizontalAlignment="Left" Name="TokenInputCheckbox" />
-      <Label FontWeight="DemiBold" Width="Auto" HorizontalAlignment="Left" MaxWidth="430"  Name="TokenDisplayNameLabel" />
+      <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" HorizontalAlignment="Left" Name="TokenDisplayNameLabel" />
     </StackPanel>
-  </Grid>
+    <TextBlock Margin="20,0,0,5" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Stretch" Name="TokenHelpTextBlock" />
+  </StackPanel>
 </local:TokenInputControl>

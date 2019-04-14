@@ -1,7 +1,9 @@
 ﻿using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using LaubPlusCo.Foundation.HelixTemplating.Manifest;
+using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Extensions;
 using Control = System.Windows.Controls.Control;
 using Label = System.Windows.Controls.Label;
 
@@ -17,6 +19,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       InitializeComponent();
       TokenValueAsPathInputBox.TextChanged += InputChangedEventHandler;
       TokenDescription = tokenDescription;
+      this.SetVisualStudioThemeStyles();
     }
 
     public override string TokenValue
@@ -27,6 +30,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     public override Label DisplayNameLabel => TokenDisplayNameLabel;
     public override Control InputControl => TokenValueAsPathInputBox;
+    public override TextBlock HelpTextBlock => TokenHelpTextBlock;
 
     private void BrowseFolders(object sender, RoutedEventArgs e)
     {

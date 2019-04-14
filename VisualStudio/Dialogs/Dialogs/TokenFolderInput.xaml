@@ -4,19 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs"
-             mc:Ignorable="d" d:DesignWidth="400">
-  <Grid Margin="0,5,0,0">
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto" />
-    </Grid.ColumnDefinitions>
-    <Grid.RowDefinitions>
-      <RowDefinition />
-      <RowDefinition />
-    </Grid.RowDefinitions>
-    <Label Grid.Row="0" FontWeight="DemiBold" Width="Auto" HorizontalAlignment="Left" MaxWidth="450"  Name="TokenDisplayNameLabel" />
-    <StackPanel Name="FolderBrowseInput"  Orientation="Horizontal" Grid.Row="1">
-      <TextBox MinWidth="350" Height="25" Width="Auto" HorizontalAlignment="Stretch" Name="TokenValueAsPathInputBox" />
-      <Button Click="BrowseFolders" Height="25" Width="50" HorizontalAlignment="Right">...</Button>
-    </StackPanel>
-  </Grid>
+             xmlns:vsui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
+             mc:Ignorable="d" d:DesignWidth="300">
+  <StackPanel Margin="0,5,0,0" HorizontalAlignment="Stretch" >
+    <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" HorizontalAlignment="Stretch" Name="TokenDisplayNameLabel" />
+    <TextBlock Margin="5,0,0,0" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10"  FontStyle="Italic"  HorizontalAlignment="Stretch" Name="TokenHelpTextBlock" />
+    <Grid Name="FolderBrowseInput" HorizontalAlignment="Stretch">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBox Grid.Column="0" Height="25" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Name="TokenValueAsPathInputBox" />
+      <Button Grid.Column="1" Click="BrowseFolders" Height="25" Width="50" HorizontalAlignment="Right">...</Button>
+    </Grid>
+  </StackPanel>
 </local:TokenInputControl>

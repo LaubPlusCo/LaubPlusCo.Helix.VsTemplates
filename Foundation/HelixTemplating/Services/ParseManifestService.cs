@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -36,7 +37,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       }
       catch (Exception exception)
       {
-        System.Diagnostics.Debug.Print($"Exception occurred while parsing manifest: {exception.Message}\n\n{exception.StackTrace}");
+        Debug.WriteLine($"Exception occurred while parsing manifest: {exception.Message}\n\n{exception.StackTrace}");
         return null;
       }
     }
@@ -146,6 +147,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
         var tokenDescription = new TokenDescription
         {
           DisplayName = tokenNavigator.GetAttribute("displayName", ""),
+          HelpText = tokenNavigator.GetAttribute("helpText", ""),
           Key = tokenNavigator.GetAttribute("key", ""),
           Default = tokenNavigator.GetAttribute("default", ""),
           InputType = tokenInputType,

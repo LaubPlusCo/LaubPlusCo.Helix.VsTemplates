@@ -1,23 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 using LaubPlusCo.Foundation.HelixTemplating.Manifest;
+using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Extensions;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 {
   /// <summary>
-  /// Interaction logic for TokenTextInput.xaml
+  ///   Interaction logic for TokenTextInput.xaml
   /// </summary>
   public partial class TokenTextInput : TokenInputControl
   {
@@ -26,6 +14,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       InitializeComponent();
       TokenValueInputBox.TextChanged += InputChangedEventHandler;
       TokenDescription = tokenDescription;
+      this.SetVisualStudioThemeStyles();
     }
 
     public override string TokenValue
@@ -36,5 +25,6 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     public override Label DisplayNameLabel => TokenDisplayNameLabel;
     public override Control InputControl => TokenValueInputBox;
+    public override TextBlock HelpTextBlock => TokenHelpTextBlock;
   }
 }

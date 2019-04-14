@@ -2,6 +2,7 @@
 using System.IO.Compression;
 using System.Linq;
 using System.Windows;
+using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Extensions;
 using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model;
 using Microsoft.VisualStudio.PlatformUI;
 
@@ -16,17 +17,19 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     {
       InitializeComponent();
       RootDirectoryPath.Text = GetCurrentRootDirectory();
+      EnableLogging.IsChecked = AppScopeSettingsRepository.GetLoggingEnabled();
+      this.SetVisualStudioThemeStyles();
     }
 
     public string RootDirectory => RootDirectoryPath.Text;
 
     private string GetCurrentRootDirectory()
     {
-      var rootDirectory = TemplatesRootDirectoryPathRepository.Get();
+      var rootDirectory = AppScopeSettingsRepository.GetGlobalRootDirectory();
       if (!string.IsNullOrEmpty(rootDirectory))
         return rootDirectory;
       MessageBox.Show("Please select where you want your Helix module and solution templates stored.\n\nIf you already selected a location please restart Visual Studio as administrator.", "Welcome", MessageBoxButton.OK);
-      return TemplatesRootDirectoryPathRepository.DefaultRootPath;
+      return AppScopeSettingsRepository.DefaultRootPath;
     }
 
     private void SaveSettings_Click(object sender, RoutedEventArgs e)
@@ -44,9 +47,10 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
           return;
         Directory.CreateDirectory(selectedRootpath);
       }
-      if (!TemplatesRootDirectoryPathRepository.Set(selectedRootpath))
+      if (!AppScopeSettingsRepository.SetGlobalRootDirectory(selectedRootpath) 
+          || !AppScopeSettingsRepository.SetLoggingEnabled(EnableLogging.IsChecked.HasValue && EnableLogging.IsChecked.Value))
       {
-        MessageBox.Show("Could not save selected root path. Please ensure that you are running this Visual Studio instance as administrator.", "Error", MessageBoxButton.OK);
+        MessageBox.Show("Could not save settings. Please ensure that you are running this Visual Studio instance as administrator.", "Error", MessageBoxButton.OK);
         return;
       }
       if (!RootHasTemplateManifests(selectedRootpath))
@@ -54,17 +58,10 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         var confirmResult = MessageBox.Show("Selected root does not contain templates.\n\nDo you want to install the default templates (recommended)?", "Confirm", MessageBoxButton.YesNo);
         if (confirmResult != MessageBoxResult.Yes)
           return;
-        UnzipTemplatesArchive(selectedRootpath);
+        BuiltInTemplatesService.UnzipAll(selectedRootpath);
       }
       DialogResult = true;
       Close();
-    }
-
-    private void UnzipTemplatesArchive(string selectedRootpath)
-    {
-      var tempFile = Path.GetTempFileName();
-      File.WriteAllBytes(tempFile, Properties.Resources.StandardTemplates);
-      ZipFile.ExtractToDirectory(tempFile, selectedRootpath);
     }
 
     private bool RootHasTemplateManifests(string selectedRootpath)
@@ -74,7 +71,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     private void UnpackTemplates_Clicked(object sender, RoutedEventArgs e)
     {
-      var rootDirectory = TemplatesRootDirectoryPathRepository.Get();
+      var rootDirectory = AppScopeSettingsRepository.GetGlobalRootDirectory();
       if (string.IsNullOrEmpty(rootDirectory) || !Directory.Exists(rootDirectory))
       { 
         MessageBox.Show(this, "You need to set a valid root directory.", "Error", MessageBoxButton.OK);
@@ -89,26 +86,13 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
           UnpackBuiltInButton.IsEnabled = true;
           return;
         }
-        DeleteExistingBuiltInTemplates(rootDirectory);
+        BuiltInTemplatesService.DeleteExistingTemplates(rootDirectory);
       }
-      UnzipTemplatesArchive(rootDirectory);
+      BuiltInTemplatesService.UnzipAll(rootDirectory);
       MessageBox.Show("Built-in templates updated", "", MessageBoxButton.OK);
       UnpackBuiltInButton.IsEnabled = true;
     }
 
-    private void DeleteExistingBuiltInTemplates(string rootDirectory)
-    {
-      using (var zipArchive = new ZipArchive(new MemoryStream(Properties.Resources.StandardTemplates), ZipArchiveMode.Read))
-      {
-        var directories = zipArchive.Entries.Select(e => e.FullName.Split('\\')[0]).Distinct();
-        foreach (var directory in directories)
-        {
-          var dieDirectory = Path.GetFullPath(Path.Combine(rootDirectory, directory));
-          if (!Directory.Exists(dieDirectory))
-            continue;
-          Directory.Delete(dieDirectory, true);
-        }
-      }
-    }
+
   }
 }

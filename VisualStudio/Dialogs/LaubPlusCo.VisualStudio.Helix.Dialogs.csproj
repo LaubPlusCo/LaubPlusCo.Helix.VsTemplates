@@ -91,19 +91,14 @@
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
-    <Page Include="Themes\App.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Resources\VectorIcons.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dialogs\ManifestDialog.xaml.cs">
       <DependentUpon>ManifestDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
@@ -125,9 +120,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Dialogs\TokenValueChangedArgs.cs" />
+    <Compile Include="Extensions\FrameworkElementExtensions.cs" />
+    <Compile Include="Model\BuiltInTemplatesService.cs" />
     <Compile Include="Model\HelixTemplateConfiguration.cs" />
     <Compile Include="Model\TemplateSettingsService.cs" />
-    <Compile Include="Model\TemplatesRootDirectoryPathRepository.cs" />
+    <Compile Include="Model\AppScopeSettingsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -141,21 +138,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Dialogs\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Resources\StandardTemplates.zip" />
-    <Resource Include="Resources\unpack.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\github_logo.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="Resources\ModuleTemplates.zip" />
+    <None Include="Resources\SolutionTemplates.zip" />
     <Content Include="ZipStandardTemplates.ps1" />
     <None Include="LaubPlusCo.VisualStudio.Helix.Dialogs.snk" />
     <None Include="Properties\Settings.settings">
@@ -164,29 +152,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\helix-logo-1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\sitecore1600.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Foundation\HelixTemplating\LaubPlusCo.Foundation.Helix.Templating.csproj">
       <Project>{196eb1b2-6313-4c48-bbc0-0399b89e3ad8}</Project>
       <Name>LaubPlusCo.Foundation.Helix.Templating</Name>
       <Private>False</Private>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\laub_logo.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\settings-2.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="license.txt">

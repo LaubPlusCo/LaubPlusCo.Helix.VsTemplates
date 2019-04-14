@@ -5,12 +5,14 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Extensions;
 using LaubPlusCo.Foundation.HelixTemplating.Manifest;
 using LaubPlusCo.Foundation.HelixTemplating.Services;
 using LaubPlusCo.Foundation.HelixTemplating.TemplateEngine;
 using LaubPlusCo.Foundation.HelixTemplating.Tokens;
 using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model;
 using Microsoft.VisualStudio.PlatformUI;
+using Microsoft.VisualStudio.Shell;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 {
@@ -33,12 +35,14 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     {
       InitializeComponent();
       DataContext = this;
+      this.SetVisualStudioThemeStyles();
     }
 
     public ManifestDialog()
     {
       InitializeComponent();
       DataContext = this;
+      this.SetVisualStudioThemeStyles();
     }
 
     public IHelixProjectTemplate HelixProjectTemplate { get; protected set; }
@@ -52,16 +56,27 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     {
       _initialTokens = initialTokens.ToDictionary(t => t.Key, t => t.Value);
       _isSolutionCreation = isSolutionCreation;
+      var typeText = isSolutionCreation.HasValue && isSolutionCreation.Value ? "solution" : "module";
+      HeadlineText.Text = $"Create new {typeText}";
       SolutionRoot = solutionRoot;
 
+      //TODO: Refactor..
       if (isSolutionCreation.HasValue && !isSolutionCreation.Value)
       {
         _moduleTemplateFolderService = new TemplateFolderSettingsService(solutionRoot);
         var relativeModuleTemplateFolder = _moduleTemplateFolderService.Locate();
 
-        //TODO: Ask if local module template folder should be created in sln root
-        if (!string.IsNullOrWhiteSpace(relativeModuleTemplateFolder))
-          rootDirectory = relativeModuleTemplateFolder;
+        if (string.IsNullOrWhiteSpace(relativeModuleTemplateFolder))
+        {
+          var confirmResult = MessageBox.Show("The current solution does not have a local module templates folder with valid templates.\n\nDo you want to create one and unzip the example templates?", "Create solution module template folder", MessageBoxButton.YesNo);
+          if (confirmResult == MessageBoxResult.Yes)
+          {
+            relativeModuleTemplateFolder = BuiltInTemplatesService.CreateTemplateFolder(solutionRoot);
+            BuiltInTemplatesService.Unzip(relativeModuleTemplateFolder, TemplateType.Module);
+            _moduleTemplateFolderService.CreateConfigFile(relativeModuleTemplateFolder);
+          }
+        }
+        rootDirectory = relativeModuleTemplateFolder;
       }
 
       var readAllManifestService = new ReadAllManifestFilesService(rootDirectory, initialTokens);
@@ -77,6 +92,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         MessageBox.Show("No valid templates found in root directory", "Information", MessageBoxButton.OK);
         return;
       }
+
       SetAvailableManifestsCollection(_manifests);
       AvailableManifestsComboBox.SelectedIndex = 0;
     }
@@ -88,7 +104,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       foreach (var helixTemplateManifest in helixTemplateManifests)
         AvailableManifestsCollection.Add(new ComboBoxItem
         {
-          Content = helixTemplateManifest.Name + " " + helixTemplateManifest.Version
+          Content = helixTemplateManifest.Name
         });
       AvailableManifestsComboBox.ItemsSource = AvailableManifestsCollection;
       AvailableManifestsComboBox.SelectionChanged += SelectionChanged;
@@ -120,8 +136,8 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         InputControlsPanel.Children.Add(tokenInput);
       }
 
-      TemplateDescription.Text = _selectedManifest.Description;
-      TemplateAuthor.Text = $"author: {_selectedManifest.Author}";
+      TemplateDescription.Text = string.Join("\n", _selectedManifest.Description.Split('\n').Select(s => s.TrimStart()));
+      TemplateAuthor.Text = $"template v{_selectedManifest.Version}, author: {_selectedManifest.Author}";
     }
 
     private TokenInputControl GetTokenInputControl(TokenDescription tokenDescription)
@@ -134,6 +150,8 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
           return new TokenFolderInput(tokenDescription);
         case TokenInputForm.Selection:
           return new TokenSelectionInput(tokenDescription);
+        case TokenInputForm.Checkbox:
+          return new TokenCheckboxInput(tokenDescription);
         default:
           return new TokenTextInput(tokenDescription);
       }
@@ -150,7 +168,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       Initialize(rootDirectory, SolutionRoot, _initialTokens, _isSolutionCreation);
     }
 
-    private void SelectButton_OnClick(object sender, RoutedEventArgs e)
+    private void CreateButton_OnClick(object sender, RoutedEventArgs e)
     {
       var tokenInputs = GetTokenInputs().ToArray();
       var validationResults = tokenInputs.Select(ti => ti.Validate()).ToList();
@@ -165,7 +183,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       foreach (var tokenInput in tokenInputs)
       {
         if (_selectedManifest.ReplacementTokens.ContainsKey(tokenInput.TokenKey))
-        { 
+        {
           _selectedManifest.ReplacementTokens[tokenInput.TokenKey] = tokenInput.TokenValue;
           continue;
         }

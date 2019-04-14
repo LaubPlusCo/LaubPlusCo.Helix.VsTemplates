@@ -63,9 +63,19 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] StandardTemplates {
+        public static byte[] ModuleTemplates {
             get {
-                object obj = ResourceManager.GetObject("StandardTemplates", resourceCulture);
+                object obj = ResourceManager.GetObject("ModuleTemplates", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SolutionTemplates {
+            get {
+                object obj = ResourceManager.GetObject("SolutionTemplates", resourceCulture);
                 return ((byte[])(obj));
             }
         }
