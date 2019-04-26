@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LaubPlusCo.Foundation.HelixTemplating.Manifest;
+using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Extensions;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 {
@@ -25,6 +26,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     {
       InitializeComponent();
       TokenDescription = tokenDescription;
+      this.SetVisualStudioThemeStyles();
     }
 
     public override string TokenValue
@@ -35,5 +37,6 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     public override Label DisplayNameLabel => TokenDisplayNameLabel;
     public override Control InputControl => TokenInputCheckbox;
+    public override TextBlock HelpTextBlock => TokenHelpTextBlock;
   }
 }

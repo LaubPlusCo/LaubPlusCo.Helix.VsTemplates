@@ -7,6 +7,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Manifest
   {
     public string Key { get; set; }
     public string DisplayName { get; set; }
+    public string HelpText { get; set; }
     public IValidateToken Validator { get; set; }
     public ISuggestToken Suggestor { get; set; }
     public bool IsRequired { get; set; }

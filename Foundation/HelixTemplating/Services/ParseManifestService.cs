@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -17,7 +18,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
     {
       ManifestFilePath = manifestFilePath;
       if (File.Exists(ManifestFilePath)) return;
-      System.Diagnostics.Debug.Print($"Could not find Manifest file {ManifestFilePath}");
+      Trace.WriteLine($"Could not find Manifest file {ManifestFilePath}");
       throw new ManifestParseException($"Could not find Manifest file {ManifestFilePath}");
     }
 
@@ -36,7 +37,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       }
       catch (Exception exception)
       {
-        System.Diagnostics.Debug.Print($"Exception occurred while parsing manifest: {exception.Message}\n\n{exception.StackTrace}");
+        Trace.WriteLine($"Exception occurred while parsing manifest: {exception.Message}\n\n{exception.StackTrace}");
         return null;
       }
     }
@@ -146,6 +147,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
         var tokenDescription = new TokenDescription
         {
           DisplayName = tokenNavigator.GetAttribute("displayName", ""),
+          HelpText = tokenNavigator.GetAttribute("helpText", ""),
           Key = tokenNavigator.GetAttribute("key", ""),
           Default = tokenNavigator.GetAttribute("default", ""),
           InputType = tokenInputType,
@@ -215,10 +217,18 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
     {
       Manifest.Name = GetRequiredValue("/templateManifest/name");
       Manifest.Description = GetRequiredValue("/templateManifest/description");
+      Manifest.Link = GetHyperLink(GetNodeByXPath("/templateManifest/link"));
       Manifest.Version = GetRequiredValue("/templateManifest/version");
       Manifest.Author = GetRequiredValue("/templateManifest/author");
       Manifest.SourceFolder = GetFullPath(GetRequiredValue("/templateManifest/sourceFolder"));
       Manifest.SaveOnCreate = bool.TryParse(GetRequiredValue("/templateManifest/saveOnCreate"), out bool saveOnCreate) && saveOnCreate;
+    }
+
+    private TemplateHyperLink GetHyperLink(XPathNavigator linkNode)
+    {
+      var linkUrl = linkNode?.Value;
+      if (string.IsNullOrEmpty(linkUrl) || !Uri.IsWellFormedUriString(linkUrl, UriKind.Absolute)) return null;
+      return new TemplateHyperLink { LinkText = linkNode.GetAttribute("text", ""), LinkUri = new Uri(linkUrl) };
     }
 
     private string GetFullPath(string path)

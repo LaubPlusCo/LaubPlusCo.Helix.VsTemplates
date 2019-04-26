@@ -3,18 +3,37 @@
   <TemplateData>
     <Name>Sitecore Helix Modules and Solutions</Name>
     <Description>Templates for creating Sitecore Helix Modules and Solutions from within Visual Studio.</Description>
-    <Icon>Helix.Template.ico</Icon>
+    <Icon>vs.helix.2.png</Icon>
     <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>Web</ProjectSubType>
+    <TemplateGroupID>Web</TemplateGroupID>
     <RequiredFrameworkVersion>4.0</RequiredFrameworkVersion>
-    <SortOrder>1000</SortOrder>
+    <SortOrder>10</SortOrder>
     <TemplateID>b197a1bf-d28a-4fa9-b89d-78284429a25c</TemplateID>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>DefaultName</DefaultName>
     <ProvideDefaultName>false</ProvideDefaultName>
+    <LanguageTag>C#</LanguageTag>
+    <PlatformTag>windows</PlatformTag>
+    <ProjectTypeTag>web</ProjectTypeTag>
+    <ProjectTypeTag>library</ProjectTypeTag>
+    <ProjectTypeTag>azure</ProjectTypeTag>
+    <ProjectTypeTag>cloud</ProjectTypeTag>
+    <ProjectTypeTag>other</ProjectTypeTag>
+    <ProjectTypeTag>Sitecore</ProjectTypeTag>
+    <ProjectTypeTag>Helix</ProjectTypeTag>
   </TemplateData>
   <TemplateContent>
     <ProjectCollection>
     </ProjectCollection>
+    <CustomParameters>
+      <CustomParameter Name="$language$" Value="CSharp" />
+      <CustomParameter Name="$uistyle$" Value="oneaspnet" />
+      <CustomParameter Name="$tagfilter$" Value="web" />
+      <CustomParameter Name="$applyUIFilters$" Value="WebCore" />
+      <CustomParameter Name="$showAllFrameworks$" Value="true" />
+      <CustomParameter Name="$enableFrameworkTypeSelection$" Value="false" />
+    </CustomParameters>
   </TemplateContent>
   <WizardExtension>
     <Assembly>LaubPlusCo.VisualStudio.Helix.Wizard, Version=1.0.0.0, Culture=Neutral, PublicKeyToken=ae97adacf967c007</Assembly>

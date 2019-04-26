@@ -1,11 +1,25 @@
 # Sitecore Helix Module & Solution Templates for VisualStudio
 
+<img alt="Sitecore Helix Visual Studio Extensions Logo" src="Logo/vs.helix.2.png" width="200">
+
 Visual Studio extension that accelerates creating new Visual Studio solutions and projects that follow the conventions described in Sitecore Helix.
 
 **[Install extension from Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=AndersLaublaubplusco.SitecoreHelixVisualStudioTemplates)**
 
 ## Change log  
+_2019-04-26 v0.9.9.12_
 
+- UI changes
+  - Colors etc. now follow VS selected theme
+  - Dialogs updated
+  - New icons
+  - New logo
+- Trace window added to ease debugging templates
+- Example templates
+  - Bug fix: .user file not being loaded.
+  - Change: renamed .props files to Website.* to reflect publish target instance role
+- Added tags for VS 2019 Create dialog, not supported yet in VS2019 but should be soon.
+---
 _2019-04-10 v0.9.9.10_
 
 - Added Visual Studio 2019 support
@@ -17,7 +31,9 @@ _2019-04-10 v0.9.9.10_
 - SkipAttach paths in manifest
   - enables setting up templates that include TDS projects
 
-More to come..
+---
+
+### Please submit bugs, ideas and enhancement suggestions using [Issues](https://github.com/LaubPlusCo/LaubPlusCo.Helix.VsTemplates/issues/)
 
 ## Installation
 
@@ -47,17 +63,31 @@ Using the template for the first time you will be asked to select a root directo
 
 ![Install default example templates](Docs/Images/install-built-in.png)
 
-**New:** To keep your module templates under Source control you can add a folder in your repo root. The extension will automatically detect the folder and write a .helixtemplates configuration file with the relative folder path.
+**New:** To keep your module templates under Source control you can add a solution-scope templates folder in your repo root. The extension will automatically try to detect if a folder exist and write a .helixtemplates configuration file with the relative folder path.
 
-![Relative module templates folder](Docs/Images/relative-module-folder-support.png)
+![Relative module templates folder](Docs/Images/relative-module-folder-support.png)  
+
+**New:** The extension will ask if you like to create a solution-scope module templates folder if none exist already. You can also manually create the folder or use the global-scope templates folder for modules.  
+
+![Module template folder auto-create](Docs/Images/relative-module-folder-autocreate.png)  
 
 When selecting File > New Project the extension will presume that you are creating a new solution and filter the available templates so only solution templates are shown.
 
+![Creating a new module](Docs/Images/create-new.png)
+
 To add a new module click Add New project in the solution explorer. Note that you do not have to right-click the location you want the module placed. It is the template folder structure that dictates where the module is placed.
 
-![Creating a new module](Docs/Images/create-new-feature.png)
+![Creating a new module](Docs/Images/create-new-module.png)
 
 Always select the solution root folder when creating new modules. The template folder structure ensures that the module is placed correctly and will generate any missing folders.
+
+## Debugging Templates
+
+You can use the new trace window to debug your templates.  
+
+![Creating a new module](Docs/Images/trace-window.png)  
+
+If a template is not being loaded, open the trace window and then reload the template selection combo box by opening and closing the settings dialog.  _Note, the trace window is always top-most and has to be closed manually after creation is done._
 
 ## Footnotes
 
