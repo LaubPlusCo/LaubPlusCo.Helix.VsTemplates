@@ -69,10 +69,12 @@
     </VSTemplate>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Helix.Template.ico" />
     <Content Include="license.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="vs.helix.2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="LaubPlusCo.VisualStudio.Helix.Template.snk" />

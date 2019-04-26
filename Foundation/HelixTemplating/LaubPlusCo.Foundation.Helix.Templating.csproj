@@ -57,6 +57,7 @@
     <Compile Include="Services\ReadAllManifestFilesService.cs" />
     <Compile Include="Services\ReplaceFileTokensService.cs" />
     <Compile Include="Services\VirtualSolutionFolder.cs" />
+    <Compile Include="Services\WriteTraceService.cs" />
     <Compile Include="TemplateEngine\IHelixProjectTemplate.cs" />
     <Compile Include="Manifest\ManifestTypeInstantiator.cs" />
     <Compile Include="Manifest\ManifestParseException.cs" />

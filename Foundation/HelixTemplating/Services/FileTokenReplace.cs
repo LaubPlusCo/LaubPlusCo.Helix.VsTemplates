@@ -19,27 +19,31 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       _doneEvent = done;
     }
 
-    public bool Success { get; protected set; }
-    public IDictionary<string, int> ReplacementCounter { get; set; }
-
-    public virtual void ReplaceTokens(object threadContext)
+    public virtual void ReplaceTokens(object scopeResult)
     {
+      var result = (FileTokenReplaceResult) scopeResult;
+      result.FilePath = FilePath;
+
       if (!File.Exists(FilePath) || !CanModify(FilePath))
       {
-        Success = false;
+        result.Status = FileTokenReplacementStatus.Failed;
         _doneEvent.Set();
         return;
       }
       if (FileTypeIsIgnored(FilePath))
       {
-        Success = true;
+        result.Status = FileTokenReplacementStatus.Skipped;
         _doneEvent.Set();
         return;
       }
+
       var fileContent = File.ReadAllText(FilePath);
-      var parsedContent = _tokensService.Replace(fileContent, out IDictionary<string, int> replacementsCount);
+      var parsedContent = _tokensService.Replace(fileContent, out var replacementsCounter);
       File.WriteAllText(FilePath, parsedContent);
-      ReplacementCounter = replacementsCount;
+
+      result.ReplacementCounter = replacementsCounter;
+      result.Status = FileTokenReplacementStatus.Success;
+
       _doneEvent.Set();
     }
 

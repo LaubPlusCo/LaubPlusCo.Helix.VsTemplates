@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Security.Principal;
 using System.Windows;
@@ -35,6 +36,8 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
     private string _solutionRootDirectory;
     private Dictionary<string, string> _replacementTokens;
     private bool? _isExclusive;
+    private ManifestDialog _manifestBrowseDialog;
+
     public void RunStarted(object automationObject, Dictionary<string, string> replacementTokens, WizardRunKind runKind, object[] customParams)
     {
       if (!IsAdministrator())
@@ -62,7 +65,7 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
         .IsInRole(WindowsBuiltInRole.Administrator);
     }
 
-    public bool IsFirstRun => string.IsNullOrEmpty(TemplatesRootDirectoryPathRepository.Get()) || !Directory.Exists(TemplatesRootDirectoryPathRepository.Get());
+    public bool IsFirstRun => string.IsNullOrEmpty(AppScopeSettingsRepository.GetGlobalRootDirectory()) || !Directory.Exists(AppScopeSettingsRepository.GetGlobalRootDirectory());
 
     private void ShowInitSetupDialog()
     {
@@ -73,8 +76,11 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
         if (!settingsDialogResult.HasValue || !settingsDialogResult.Value)
           throw new WizardBackoutException();
       }
-      catch (Exception)
+      catch (Exception exception)
       {
+        if (!(exception is WizardBackoutException))
+          Trace.WriteLine($"{exception.Message}\n\n{exception.StackTrace}", "Error");
+        FocusOnTraceWindow();
         DeleteAutoCreatedDirectory();
         throw;
       }
@@ -88,8 +94,11 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
         if (_projectTemplate == null)
           throw new WizardBackoutException();
       }
-      catch (Exception)
+      catch (Exception exception)
       {
+        if (!(exception is WizardBackoutException))
+          Trace.WriteLine($"Exception occurred: {exception.Message}\n\n{exception.StackTrace}", "Error");
+        FocusOnTraceWindow();
         DeleteAutoCreatedDirectory();
         throw;
       }
@@ -97,11 +106,11 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
 
     private IHelixProjectTemplate GetHelixProjectTemplate(string solutionRootDirectory)
     {
-      var manifestBrowseDialog = new ManifestDialog();
-      manifestBrowseDialog.Initialize(TemplatesRootDirectoryPathRepository.Get(), solutionRootDirectory, _replacementTokens, _isExclusive);
-      var dialogResult = manifestBrowseDialog.ShowModal();
+      _manifestBrowseDialog = new ManifestDialog();
+      _manifestBrowseDialog.Initialize(AppScopeSettingsRepository.GetGlobalRootDirectory(), solutionRootDirectory, _replacementTokens, _isExclusive.HasValue && _isExclusive.Value);
+      var dialogResult = _manifestBrowseDialog.ShowDialog();
       if (dialogResult.HasValue && dialogResult.Value)
-        return manifestBrowseDialog.HelixProjectTemplate;
+        return _manifestBrowseDialog.HelixProjectTemplate;
       return null;
     }
 
@@ -117,6 +126,15 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
       attachToVisualStudioService.Attach(_projectTemplate);
       if (_projectTemplate.Manifest.SaveOnCreate)
         SaveAll();
+      FocusOnTraceWindow();
+    }
+
+    private void FocusOnTraceWindow()
+    {
+      if (_manifestBrowseDialog?.TraceWindow == null || !_manifestBrowseDialog.TraceWindow.IsVisible)
+        return;
+      _manifestBrowseDialog.TraceWindow.BringIntoView();
+      _manifestBrowseDialog.TraceWindow.Focus();
     }
 
     private void SaveAll()
