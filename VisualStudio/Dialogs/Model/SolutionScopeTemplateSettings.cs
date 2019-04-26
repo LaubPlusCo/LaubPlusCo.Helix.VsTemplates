@@ -3,17 +3,18 @@ using System.Linq;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
 {
-  public class HelixTemplateConfiguration
+  public class SolutionScopeTemplateSettings
   {
     protected IDictionary<string, string> ConfigurationParameters;
     protected const string ModuleTemplatesFolderKey = "templates.modules.folder";
+    protected const string SkipCreateFolderDialogKey = "templates.modules.skipcreatedialog";
 
-    public HelixTemplateConfiguration()
+    public SolutionScopeTemplateSettings()
     {
       ConfigurationParameters = new Dictionary<string, string>();
     }
 
-    public HelixTemplateConfiguration(IEnumerable<string> configurationParams)
+    public SolutionScopeTemplateSettings(IEnumerable<string> configurationParams)
     {
       ConfigurationParameters = configurationParams.ToDictionary(line => line.Split('=')[0].ToLowerInvariant(), line => line.Split('=')[1].ToLowerInvariant());
     }
@@ -26,9 +27,17 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
       set => ConfigurationParameters[ModuleTemplatesFolderKey] = value;
     }
 
+    public bool SkipCreateFolderDialog
+    {
+      get => ConfigurationParameters.ContainsKey(SkipCreateFolderDialogKey) 
+             && bool.TryParse(ConfigurationParameters[SkipCreateFolderDialogKey], out var b) 
+             && b;
+      set => ConfigurationParameters[SkipCreateFolderDialogKey] = value.ToString();
+    }
+
     public override string ToString()
     {
-      return string.Join("\n", ConfigurationParameters.Select(kv => $"{kv.Key}={kv.Value}"));
+      return string.Join("\n", ConfigurationParameters.Select(kv => $"{kv.Key}={kv.Value.ToLowerInvariant()}"));
     }
   }
 }

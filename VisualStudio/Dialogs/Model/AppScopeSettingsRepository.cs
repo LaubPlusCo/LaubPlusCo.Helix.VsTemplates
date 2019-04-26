@@ -11,7 +11,6 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
   {
     private const string RegistryKeyName = @"Software\LaubPlusCo\SitecoreHelixVsTemplates";
     private const string RootDirectoryObjectName = @"TemplatesRootDirectory";
-    private const string LoggingEnabledObjectName = @"LogEnabled";
     public const string DefaultRootPath = @"c:\projects\helix.templates\";
 
     public static string GetGlobalRootDirectory()
@@ -24,16 +23,6 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
       return Directory.Exists(rootDirectory) && SetRegistryKey(RootDirectoryObjectName, rootDirectory);
     }
 
-    public static bool GetLoggingEnabled()
-    {
-      return bool.TryParse(GetRegistryKey(LoggingEnabledObjectName), out var b) && b;
-    }
-
-    public static bool SetLoggingEnabled(bool enabled)
-    {
-      return SetRegistryKey(LoggingEnabledObjectName, enabled.ToString());
-    }
-
     private static string GetRegistryKey(string objectName)
     {
       try
@@ -44,8 +33,9 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
           return (string) key.GetValue(objectName, string.Empty);
         }
       }
-      catch (Exception)
+      catch (Exception exception)
       {
+        Trace.WriteLine($"Exception while reading registry e\n{exception.Message}\n{exception.StackTrace}", "Error");
         return string.Empty;
       }
     }
@@ -60,7 +50,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
         {
           if (key == null)
           {
-            Debug.Print("Cannot access or modify registry for storing template root directory");
+            Trace.WriteLine("Cannot access or modify registry for storing template root directory", "Error");
             throw new SecurityException("Cannot access or modify registry for storing template root directory");
           }
 
@@ -68,8 +58,10 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
           return true;
         }
       }
-      catch (Exception)
+      catch (Exception exception)
       {
+        Trace.WriteLine($"Exception while setting registry key value\n{exception.Message}\n{exception.StackTrace}",
+          "Error");
         return false;
       }
     }

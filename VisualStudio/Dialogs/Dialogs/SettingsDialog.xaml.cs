@@ -17,7 +17,6 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     {
       InitializeComponent();
       RootDirectoryPath.Text = GetCurrentRootDirectory();
-      EnableLogging.IsChecked = AppScopeSettingsRepository.GetLoggingEnabled();
       this.SetVisualStudioThemeStyles();
     }
 
@@ -47,8 +46,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
           return;
         Directory.CreateDirectory(selectedRootpath);
       }
-      if (!AppScopeSettingsRepository.SetGlobalRootDirectory(selectedRootpath) 
-          || !AppScopeSettingsRepository.SetLoggingEnabled(EnableLogging.IsChecked.HasValue && EnableLogging.IsChecked.Value))
+      if (!AppScopeSettingsRepository.SetGlobalRootDirectory(selectedRootpath))
       {
         MessageBox.Show("Could not save settings. Please ensure that you are running this Visual Studio instance as administrator.", "Error", MessageBoxButton.OK);
         return;
@@ -92,7 +90,5 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       MessageBox.Show("Built-in templates updated", "", MessageBoxButton.OK);
       UnpackBuiltInButton.IsEnabled = true;
     }
-
-
   }
 }

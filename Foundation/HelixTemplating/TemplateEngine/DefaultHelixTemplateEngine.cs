@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using LaubPlusCo.Foundation.HelixTemplating.Data;
@@ -32,9 +33,11 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
     public IHelixProjectTemplate Run(HelixTemplateManifest manifest, string solutionRootPath)
     {
       Manifest = manifest;
+      WriteTraceService.WriteToTrace($"Template Engine started", "\nInfo", $"Manifest: {manifest.Name}", $"root path: {solutionRootPath} ");
       ReplaceTokensService = new ReplaceTokensService(Manifest.ReplacementTokens);
       DestinationRootPath = solutionRootPath;
       BuildDestinationPathService = new BuildDestinationPathService(Manifest.ManifestRootPath, DestinationRootPath);
+
       var templateObjects = new List<ITemplateObject>();
       templateObjects.AddRange(GetTemplateObjectFromDirectory(Manifest.ManifestRootPath));
       var copyTemplateObjectsService = new CopyTemplateObjectFilesService(templateObjects);
@@ -121,6 +124,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
       foreach (var skipAttachTemplateObject in skipAttachTemplateObjects)
       {
         skipAttachTemplateObject.SkipAttach = true;
+        Trace.WriteLine("");
         if (skipAttachTemplateObject.ChildObjects == null || !skipAttachTemplateObject.ChildObjects.Any())
           continue;
         SetSkipAttachFlag(skipAttachTemplateObject.ChildObjects);
@@ -139,6 +143,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
           SkipAttach = SkipAttach(directoryPath),
           DestinationFullPath = ReplaceTokensService.Replace(BuildDestinationPathService.Build(directory))
         }));
+      //TODO: Write template objects to trace
       return templateObjects;
     }
 

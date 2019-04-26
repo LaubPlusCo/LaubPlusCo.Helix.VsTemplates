@@ -26,7 +26,6 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Extensions
       root.SetElementStyle(depObj as ListViewItem, VsResourceKeys.ThemedDialogListViewItemStyleKey);
       root.SetElementStyle(depObj as ListBox, VsResourceKeys.ThemedDialogListBoxStyleKey);
       root.SetElementStyle(depObj as RadioButton, VsResourceKeys.ThemedDialogRadioButtonStyleKey);
-      root.SetElementStyle(depObj as ComboBoxItem, VsResourceKeys.ThemedDialogCheckBoxStyleKey);
       root.SetElementStyle(depObj as CheckBox, VsResourceKeys.ThemedDialogCheckBoxStyleKey);
       root.SetElementStyle(depObj as TreeView, VsResourceKeys.ThemedDialogTreeViewStyleKey);
       root.SetElementStyle(depObj as TreeViewItem, VsResourceKeys.ThemedDialogTreeViewItemStyleKey);

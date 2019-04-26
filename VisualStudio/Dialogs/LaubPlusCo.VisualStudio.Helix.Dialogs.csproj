@@ -71,6 +71,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\TraceWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\SettingsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -100,6 +104,10 @@
     <Compile Include="Dialogs\ManifestDialog.xaml.cs">
       <DependentUpon>ManifestDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\TextTraceListener.cs" />
+    <Compile Include="Dialogs\TraceWindow.xaml.cs">
+      <DependentUpon>TraceWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
@@ -122,8 +130,9 @@
     <Compile Include="Dialogs\TokenValueChangedArgs.cs" />
     <Compile Include="Extensions\FrameworkElementExtensions.cs" />
     <Compile Include="Model\BuiltInTemplatesService.cs" />
-    <Compile Include="Model\HelixTemplateConfiguration.cs" />
-    <Compile Include="Model\TemplateSettingsService.cs" />
+    <Compile Include="Model\TemplateFolderService.cs" />
+    <Compile Include="Model\SolutionScopeTemplateSettings.cs" />
+    <Compile Include="Model\SolutionScopeSettingsRepository.cs" />
     <Compile Include="Model\AppScopeSettingsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

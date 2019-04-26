@@ -2,7 +2,8 @@
   <name>Example Helix Website Module</name>
   <description>Basic Helix module targeting website Sitecore instances. 
     The template uses the dotnet project file format. NOTE: Require VS2017 (15.6) or newer</description>
-  <version>0.0.5</version>
+  <link text="Read more on github..">https://github.com/LaubPlusCo/helix-msbuild-example</link>
+  <version>1.0.0</version>
   <author>Anders Laub</author>
   <sourceFolder>/src</sourceFolder>
   <saveOnCreate>true</saveOnCreate>

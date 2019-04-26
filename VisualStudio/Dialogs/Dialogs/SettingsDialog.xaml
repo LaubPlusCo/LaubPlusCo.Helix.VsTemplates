@@ -7,6 +7,7 @@
         WindowStyle="None"
         SizeToContent="WidthAndHeight" 
         ResizeMode="NoResize"
+        AllowsTransparency="True"
         WindowStartupLocation="CenterScreen">
   <Window.Resources>
     <ResourceDictionary>
@@ -18,7 +19,6 @@
     <StackPanel Margin="10">
       <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Helix Templates root folder</Label>
       <TextBox Height="25" Width="350" Name="RootDirectoryPath" Margin="0,0,0,10" />
-      <CheckBox Height="16" Name="EnableLogging" Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" Content="Enable logging" Margin="0,0,0,10" HorizontalAlignment="Center" />
       <Button Content="OK" IsDefault="True" Click="SaveSettings_Click" Margin="0,0,0,10" />
       <Button BorderThickness="0" MinHeight="75" MinWidth="75" HorizontalAlignment="Center" Margin="0,15,0,0" Background="Transparent" Click="UnpackTemplates_Clicked" Name="UnpackBuiltInButton" >
         <ContentControl Content="{StaticResource IconUnbox}" Width="70" Height="70" />

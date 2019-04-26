@@ -6,9 +6,13 @@
         xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
         xmlns:vsui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
         mc:Ignorable="d"
-        ShowInTaskbar="False"
-        WindowStyle="SingleBorderWindow"
-        Title="Helix Templates" BorderThickness="0" MaxWidth="750" MinWidth="750" Height="Auto" SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        ShowInTaskbar="True"
+        WindowStyle="None"
+        MinHeight="450"
+        BorderThickness="1"
+        BorderBrush="{DynamicResource {x:Static vsui:VsBrushes.ToolWindowBorderKey }}"
+        AllowsTransparency="True"
+        Title="Helix Templates" MinWidth="750" Height="Auto" SizeToContent="WidthAndHeight" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen">
   <Window.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -16,6 +20,7 @@
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Window.Resources>
+  <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto">
   <Grid Margin="10">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
@@ -24,13 +29,17 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
     <TextBlock Name="HeadlineText" Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" Margin="0,0,0,25" Grid.Row="0" HorizontalAlignment="Left" Style="{DynamicResource {x:Static vsui:VsResourceKeys.TextBlockEnvironment310PercentFontSizeStyleKey }}" />
-    <Button BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent" Width="30" Grid.Row="0"  Click="SettingsButton_Clicked">
-      <ContentControl Content="{StaticResource IconSettings}" />
-    </Button>
-
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="0">
+      <Button BorderThickness="0"  VerticalAlignment="Top" Background="Transparent" Height="30" Click="OpenTrace_Clicked" Margin="0,0,10,0">
+        <ContentControl Content="{StaticResource IconBug}" />
+      </Button>
+      <Button BorderThickness="0" Background="Transparent" Height="30" Click="SettingsButton_Clicked">
+        <ContentControl Content="{StaticResource IconSettings}" />
+      </Button>
+    </StackPanel>
     <StackPanel Grid.Row="1" >
       <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Select template</Label>
-      <ComboBox HorizontalAlignment="Stretch" Height="25" Name="AvailableManifestsComboBox" ItemsSource="{Binding AvailableManifestsCollection}" SelectedItem="{Binding SelectedManifestComboItem}" />
+      <ComboBox HorizontalAlignment="Stretch" Height="25" Name="AvailableManifestsComboBox" SelectionChanged="SelectionChanged" />
       <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" Name="TemplateDescription" HorizontalAlignment="Stretch"  TextWrapping="WrapWithOverflow" Margin="5,20" />
       <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontStyle="Italic" FontSize="10" Name="TemplateAuthor" HorizontalAlignment="Right" TextWrapping="WrapWithOverflow" />
       <Separator />
@@ -127,6 +136,7 @@
         <ContentControl Content="{StaticResource IconGithub}"  />
       </Button>
     </Grid>
-  </Grid>
+    </Grid>
+  </ScrollViewer>
 </platformUi:DialogWindow>
 

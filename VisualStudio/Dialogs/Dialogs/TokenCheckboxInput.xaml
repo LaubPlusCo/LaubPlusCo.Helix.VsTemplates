@@ -11,6 +11,6 @@
       <CheckBox VerticalAlignment="Center" HorizontalAlignment="Left" Name="TokenInputCheckbox" />
       <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" HorizontalAlignment="Left" Name="TokenDisplayNameLabel" />
     </StackPanel>
-    <TextBlock Margin="20,0,0,5" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Stretch" Name="TokenHelpTextBlock" />
+    <TextBlock Margin="5,0,0,5" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Stretch" Name="TokenHelpTextBlock" />
   </StackPanel>
 </local:TokenInputControl>

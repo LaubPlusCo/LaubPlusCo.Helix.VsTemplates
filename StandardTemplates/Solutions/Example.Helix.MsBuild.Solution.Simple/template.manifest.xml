@@ -8,7 +8,9 @@ It also show the concept of an Environment layer folder for keeping environment 
 Dianoga 4.0.0 for image optimizing is used as example of a nuget reference that would typically not be related to any other module within a solution.
 See .csproj file for content inclusion from old-style nuget packages.
 
-Important: This template use the dotnet project file format and require VS2017 (15.6) or newer. Projects using the old csproj format will have to be updated.</description>
+Important: This template use the dotnet project file format and require VS2017 (15.6) or newer. Projects using the old csproj format will have to be updated.
+  </description>
+  <link text="Read more on github..">https://github.com/LaubPlusCo/helix-msbuild-example</link>
   <version>1.0.0</version>
   <author>Anders Laub</author>
   <sourceFolder>/src</sourceFolder>

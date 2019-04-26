@@ -16,16 +16,13 @@ Website.AutoPublish.targets
 
 <Project>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />
+  <PropertyGroup>
+    <PublishRootDirectory Condition="!HasTrailingSlash('$(PublishRootDirectory)')">$(PublishRootDirectory)\</PublishRootDirectory>
+    <publishUrl>$(PublishRootDirectory)</publishUrl>
+  </PropertyGroup>
 
   <Target Name="AutoPublish" AfterTargets="Build">
-    <PropertyGroup>
-      <PublishRootDirectory Condition="!HasTrailingSlash('$(PublishRootDirectory)')">$(PublishRootDirectory)\</PublishRootDirectory>
-    </PropertyGroup>
-
     <Message Importance="High" Text="Auto publishing project $(MSBuildProjectName)." Condition="'$(AutoPublishOnBuild)' == 'true'" />
-    <PropertyGroup>
-      <publishUrl>$(PublishRootDirectory)</publishUrl>
-    </PropertyGroup>
     <CallTarget Targets="WebPublish" Condition="'$(AutoPublishOnBuild)' == 'true'" />
   </Target>
 </Project>

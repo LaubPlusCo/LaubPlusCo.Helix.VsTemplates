@@ -13,8 +13,6 @@ Website.Publishing.props
     The import of this file is conditional on targetframework net4xx and 
     will/should not be loaded when building projects with other target frameworks (netstandard etc.)
   
-   TODO: Rename to Website.PublishProperties.props if relevant in solution - if only used by modules targeting website instances.
-
   
                                                                       [Anders Laub // Laub+Co]
 ***********************************************************************************************
@@ -25,9 +23,11 @@ Website.Publishing.props
   <PropertyGroup>
     <!-- PublishRootDirectory 
             Your Sitecore website root directory, used for publishing and xml transformations 
-              Note: Override this property in .csproj or local Directory.Build.props file for specific publish targets 
+              Note: Override these property in .csproj or local Directory.Build.props file for specific publish targets.
+              For local dev setup override in .user file
               IMPORTANT: Remember trailing slash!-->
     <PublishRootDirectory>$publishRootDir$</PublishRootDirectory>
+    <publishUrl>$(PublishRootDirectory)</publishUrl>
 
     <!-- AutoPublishOnBuild
           Toogles automatic-publishing on builds, including from VS 
@@ -54,13 +54,13 @@ Website.Publishing.props
     <!-- BuildingInsideVisualStudio
           Important! do not remove. Otherwise webpublish cannot run automatically on VS triggered builds -->
     <BuildingInsideVisualStudio>False</BuildingInsideVisualStudio>
+
     <WebPublishMethod>FileSystem</WebPublishMethod>
     <LastUsedBuildConfiguration>$(Configuration)</LastUsedBuildConfiguration>
     <LastUsedPlatform>Any CPU</LastUsedPlatform>
     <ExcludeApp_Data>False</ExcludeApp_Data>
     <DeleteExistingFiles>False</DeleteExistingFiles>
     <DeployOnBuild>False</DeployOnBuild>
-    <publishUrl>$(PublishRootDirectory)</publishUrl>
     <ExcludeFilesFromDeployment></ExcludeFilesFromDeployment>
   </PropertyGroup>
 </Project>

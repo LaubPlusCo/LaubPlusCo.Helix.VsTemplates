@@ -12,6 +12,7 @@
  * OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -37,6 +38,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Manifest
 
     public string Name { get; set; }
     public string Description { get; set; }
+    public TemplateHyperLink Link { get; set; }
     public string Version { get; set; }
     public string Author { get; set; }
     public string ManifestRootPath { get; set; }
@@ -50,5 +52,11 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Manifest
     public IList<VirtualSolutionFolder> VirtualSolutionFolders { get; set; }
     public TemplateType TemplateType { get; set; }
     public IDictionary<string,string> ReplacementTokens { get; set; }
+  }
+
+  public class TemplateHyperLink
+  {
+    public Uri LinkUri { get; set; }
+    public string LinkText { get; set; }
   }
 }

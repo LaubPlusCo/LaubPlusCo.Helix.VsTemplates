@@ -4,6 +4,7 @@
 
 Important: This template use the dotnet project file format and require VS2017 (15.6) or newer. Projects using the old csproj format will have to be updated.
   </description>
+  <link text="Read more on github..">https://github.com/LaubPlusCo/helix-msbuild-example</link>
   <version>1.0.0</version>
   <author>Anders Laub</author>
   <sourceFolder>/src</sourceFolder>
