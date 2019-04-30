@@ -11,7 +11,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
 
     public TemplateFolderService(string root)
     {
-      RootDirectory = root.EndsWith("\\") ? root : $"{root}\\";
+      RootDirectory = (root.EndsWith("\\") ? root : $"{root}\\").ToLowerInvariant();
     }
 
     public string Locate()
@@ -25,7 +25,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
       if (string.IsNullOrEmpty(templateFolder))
         return false;
 
-      fullPath = templateFolder.StartsWith(RootDirectory, StringComparison.InvariantCultureIgnoreCase)
+      fullPath = templateFolder.Contains(":\\")
         ? templateFolder
         : Path.Combine(RootDirectory, templateFolder);
 

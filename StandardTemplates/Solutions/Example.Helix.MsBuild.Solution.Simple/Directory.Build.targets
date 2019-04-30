@@ -10,6 +10,7 @@ Publish.Properties.props
 
 <Project>
     <Import Project="Build/targets/Website.AutoPublish.targets"  Condition="$(TargetFramework.StartsWith('net4'))" />
+    <Import Project="Build/targets/Website.PublishSingleItem.targets"  Condition="$(TargetFramework.StartsWith('net4'))" />
     <Import Project="Build/targets/Website.TransformXml.targets" Condition="$(TargetFramework.StartsWith('net4'))" />
     <Import Project="Build/targets/Website.RemoveDoNotPublishAssembly.targets" Condition="$(TargetFramework.StartsWith('net4'))" />
 </Project>

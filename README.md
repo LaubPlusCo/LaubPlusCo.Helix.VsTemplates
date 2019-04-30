@@ -7,6 +7,14 @@ Visual Studio extension that accelerates creating new Visual Studio solutions an
 **[Install extension from Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=AndersLaublaubplusco.SitecoreHelixVisualStudioTemplates)**
 
 ## Change log  
+
+_2019-04-30 v0.9.9.14_
+
+- Bug fix; relative folder path in .helixtemplates file fixed. Fix also allow templates on fileshare.
+- Added Website.PublishSingleItem.targets to example solution templates.
+  - [Read instructions here!](https://github.com/LaubPlusCo/helix-msbuild-example#getting-back-the-publish-item-command-in-solution-explorer)
+
+---
 _2019-04-26 v0.9.9.12_
 
 - UI changes
@@ -19,6 +27,7 @@ _2019-04-26 v0.9.9.12_
   - Bug fix: .user file not being loaded.
   - Change: renamed .props files to Website.* to reflect publish target instance role
 - Added tags for VS 2019 Create dialog, not supported yet in VS2019 but should be soon.
+
 ---
 _2019-04-10 v0.9.9.10_
 
