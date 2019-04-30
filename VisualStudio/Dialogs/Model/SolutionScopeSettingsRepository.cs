@@ -11,7 +11,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
 
     public SolutionScopeSettingsRepository(string solutionRoot)
     {
-      SolutionRootDirectory = solutionRoot.EndsWith("\\") ? solutionRoot : $"{solutionRoot}\\";
+      SolutionRootDirectory = (solutionRoot.EndsWith("\\") ? solutionRoot : $"{solutionRoot}\\").ToLowerInvariant();
       ConfigurationFilePath = $"{solutionRoot}{ConfigurationFileName}";
     }
 
@@ -25,10 +25,13 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
       return new SolutionScopeTemplateSettings(File.ReadAllLines(ConfigurationFilePath));
     }
 
-    public SolutionScopeTemplateSettings CreateSettingsFile(string templatesFolderFullPath, bool skipDialog = false)
+    public SolutionScopeTemplateSettings CreateSettingsFile(string templatesFolderPath, bool skipDialog = false)
     {
       var settings = Get() ?? new SolutionScopeTemplateSettings();
-      settings.ModuleTemplatesFolder = $@"\{templatesFolderFullPath}";
+      templatesFolderPath = templatesFolderPath.ToLowerInvariant();
+      templatesFolderPath = templatesFolderPath.StartsWith(SolutionRootDirectory)
+        ? templatesFolderPath.Replace(SolutionRootDirectory, @"\") : templatesFolderPath;
+      settings.ModuleTemplatesFolder = $"{templatesFolderPath}";
       settings.SkipCreateFolderDialog = skipDialog;
       WriteConfigFile(ConfigurationFilePath, settings);
       return settings;

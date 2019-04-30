@@ -35,6 +35,7 @@ Important: This template use the dotnet project file format and require VS2017 (
       </virtualSolutionFolder>
       <virtualSolutionFolder name="targets">
         <file path="/build/targets/Website.AutoPublish.targets" />
+        <file path="/build/targets/Website.PublishSingleItem.targets" />
         <file path="/build/targets/Website.TransformXml.targets" />
         <file path="/build/targets/Website.RemoveDoNotPublishAssembly.targets" />
         <file path="/build/targets/Website.DoNotPublishAssembly.props" />
