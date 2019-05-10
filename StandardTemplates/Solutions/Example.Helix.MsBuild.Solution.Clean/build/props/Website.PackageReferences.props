@@ -33,7 +33,7 @@ Website.PackageReferences.props
     <PackageReference Include="Microsoft.Net.Compilers" Version="2.10.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Sitecore.Kernel" Version="[9.1.0]" />
-    <PackageReference Include="Sitecore.Mvc" Version="[9.1.0]" />
+    <PackageReference Include="Sitecore.Kernel" Version="[9.1.1]" />
+    <PackageReference Include="Sitecore.Mvc" Version="[9.1.1]" />
   </ItemGroup>
 </Project>

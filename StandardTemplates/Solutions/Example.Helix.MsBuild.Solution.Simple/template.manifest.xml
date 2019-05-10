@@ -17,7 +17,7 @@ Important: This template use the dotnet project file format and require VS2017 (
   <saveOnCreate>true</saveOnCreate>
   <templateEngine type="LaubPlusCo.Foundation.HelixTemplating.TemplateEngine.DefaultHelixTemplateEngine, LaubPlusCo.Foundation.HelixTemplating" />
   <replacementTokens>
-    <token key="$sitecoreVersion$" displayName="Sitecore kernel version" default="9.1.0" helpText="Used for solution-wide package references. See .\Build\props\Website.PackageReferences.props" required="true" input="Text" />
+    <token key="$sitecoreVersion$" displayName="Sitecore kernel version" default="9.1.1" helpText="Used for solution-wide package references. See .\Build\props\Website.PackageReferences.props" required="true" input="Text" />
     <token key="$publishRootDir$" displayName="Publish file path" required="true" default="C:\Websites\Sitecore.Solution\Website" helpText="File path to the local publish target Sitecore website instance." input="Text" />
     <token key="$autoPublishOnBuild$" helpText="Automatically publish project or full solution on successful builds" displayName="Enable auto-publish on build" default="true" input="Checkbox" required="true" />
     <token key="$runXmlTransformsOnPublish$" displayName="Run XML transformations on publish?" helpText="Transform all xdt files from source into target xml files on the same relative path." default="true" input="Checkbox" required="true" />

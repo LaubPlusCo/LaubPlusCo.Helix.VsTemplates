@@ -57,9 +57,9 @@ $XConnectRootFolder = Join-Path $InstanceRootFolder "$Postfix\XConnect"
 $IdentityRootFolder = Join-Path $InstanceRootFolder "$Postfix\Identity"
 
 # The path to the XConnect Package to Deploy.
-$XConnectPackage = (Get-ChildItem "$SCInstallRoot\Assets\Sitecore 9.1.0 rev. * (OnPrem)_xp0xconnect.scwdp.zip").FullName
+$XConnectPackage = (Get-ChildItem "$SCInstallRoot\Assets\Sitecore 9.1.1 rev. * (OnPrem)_xp0xconnect.scwdp.zip").FullName
 # The path to the Sitecore Package to Deploy.
-$SitecorePackage = (Get-ChildItem "$SCInstallRoot\Assets\Sitecore 9.1.0 rev. * (OnPrem)_single.scwdp.zip").FullName
+$SitecorePackage = (Get-ChildItem "$SCInstallRoot\Assets\Sitecore 9.1.1 rev. * (OnPrem)_single.scwdp.zip").FullName
 # The path to the Identity Server Package to Deploy.
 $IdentityServerPackage = (Get-ChildItem "$SCInstallRoot\Assets\Sitecore.IdentityServer 2.0.0 rev. * (OnPrem)_identityserver.scwdp.zip").FullName
 # The Identity Server password recovery URL, this should be the URL of the CM Instance
