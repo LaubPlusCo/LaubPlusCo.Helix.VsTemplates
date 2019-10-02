@@ -129,5 +129,5 @@ $HostNameConfigPath = Join-Path $WebsiteRootFolder "/App_Config/Include/z.Enviro
 (Get-Content "$SCInstallRoot\Assets\z.Environment.Hostname.config.template").Replace("[Hostname]", $SitecoreSiteName) | Set-Content $HostNameConfigPath
 
 # Write user publish properties file to build/props
-$UserPropsFile = Join-Path $SolutionDir "/Build/props/Publish.Properties.props.user"
-(Get-Content "$SCInstallRoot\Assets\Publish.Properties.props.user.template").Replace("[WebsiteRootFolder]", $WebsiteRootFolder) | Set-Content $UserPropsFile
+$UserPropsFile = Join-Path $SolutionDir "/Build/props/Website.Publishing.props.user"
+(Get-Content "$SCInstallRoot\Assets\Website.Publishing.props.user.template").Replace("[WebsiteRootFolder]", $WebsiteRootFolder) | Set-Content $UserPropsFile
