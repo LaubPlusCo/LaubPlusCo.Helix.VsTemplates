@@ -53,8 +53,9 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
 
       var replaceFileTokensService = new ReplaceTokensInFilesService(copiedFilePaths, Manifest.ReplacementTokens);
       replaceFileTokensService.Replace();
-      MarkIfSkipped(templateObjects);
+      EvaluateSkipAttach(templateObjects);
       CreateVirtualSolutionFolders(templateObjects);
+
       return new HelixProjectTemplate
       {
         Manifest = Manifest,
@@ -99,34 +100,30 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
       }
     }
 
-    protected virtual void MarkIfSkipped(IList<ITemplateObject> templateObjects)
+    protected virtual void EvaluateSkipAttach(IList<ITemplateObject> templateObjects)
     {
       foreach (var templateObject in templateObjects)
       {
-        if (SkipAttach(templateObject.OriginalFullPath))
-        {
-          templateObject.SkipAttach = true;
-          if (templateObject.ChildObjects != null && templateObject.ChildObjects.Any())
-            SetSkipAttachFlag(templateObject.ChildObjects);
-          continue;
-        }
-
-        if (templateObject.Type == TemplateObjectType.Project)
-          SetSkipAttachFlag(templateObjects.Where(to => to.Type != TemplateObjectType.Project));
+        templateObject.SkipAttach = SkipAttach(templateObject);
         if (templateObject.ChildObjects == null || !templateObject.ChildObjects.Any())
           continue;
-        MarkIfSkipped(templateObject.ChildObjects);
+        if (templateObject.SkipAttach)
+        {
+          SetSkipAttachFlag(templateObject.ChildObjects);
+          continue;
+        }
+        EvaluateSkipAttach(templateObject.ChildObjects);
       }
     }
 
     protected virtual void SetSkipAttachFlag(IEnumerable<ITemplateObject> skipAttachTemplateObjects)
     {
-      foreach (var skipAttachTemplateObject in skipAttachTemplateObjects)
+      foreach (var templateObject in skipAttachTemplateObjects)
       {
-        skipAttachTemplateObject.SkipAttach = true;
-        if (skipAttachTemplateObject.ChildObjects == null || !skipAttachTemplateObject.ChildObjects.Any())
+        templateObject.SkipAttach = templateObject.Type != TemplateObjectType.Project;
+        if (templateObject.ChildObjects == null || !templateObject.ChildObjects.Any())
           continue;
-        SetSkipAttachFlag(skipAttachTemplateObject.ChildObjects);
+        SetSkipAttachFlag(templateObject.ChildObjects);
       }
     }
 
@@ -139,7 +136,6 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
           Type = IsSourceRoot(directory) ? TemplateObjectType.SourceRoot : TemplateObjectType.Folder,
           ChildObjects = GetTemplateObjectFromDirectory(directory),
           OriginalFullPath = directory,
-          SkipAttach = SkipAttach(directoryPath),
           DestinationFullPath = ReplaceTokensService.Replace(BuildDestinationPathService.Build(directory))
         }));
       return templateObjects;
@@ -153,7 +149,6 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
         Type = IsProjectToAttach(filePath) ? TemplateObjectType.Project : TemplateObjectType.File,
         ChildObjects = null,
         OriginalFullPath = filePath,
-        SkipAttach = SkipAttach(filePath),
         IsIgnored = isIgnored,
         DestinationFullPath = isIgnored ? "" : ReplaceTokensService.Replace(BuildDestinationPathService.Build(filePath))
       };
@@ -164,10 +159,15 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
       return Manifest.IgnoreFiles.Any(skipFilePath => skipFilePath.Equals(filePath, StringComparison.InvariantCultureIgnoreCase));
     }
 
-    protected virtual bool SkipAttach(string path)
+    protected virtual bool SkipAttach(ITemplateObject templateObject)
     {
-      return !IsProjectToAttach(path) 
-             && Manifest.SkipAttachPaths.Any(p => p.Equals(path, StringComparison.InvariantCultureIgnoreCase));
+      return templateObject.Type != TemplateObjectType.Project &&
+             (SkipPath(templateObject.OriginalFullPath) || templateObject.ChildObjects != null
+              && templateObject.ChildObjects.Any(c => c.Type == TemplateObjectType.Project));
+    }
+    protected virtual bool SkipPath(string path)
+    {
+      return Manifest.SkipAttachPaths.Any(skipPath => skipPath.Equals(path, StringComparison.InvariantCultureIgnoreCase));
     }
 
     protected virtual bool IsSourceRoot(string path)

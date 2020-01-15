@@ -14,7 +14,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using LaubPlusCo.Foundation.HelixTemplating.Services;
 using LaubPlusCo.Foundation.HelixTemplating.TemplateEngine;
@@ -29,7 +28,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Manifest
     {
       var manifestFileInfo = new FileInfo(manifestFile);
       ManifestFileName = manifestFileInfo.Name;
-      ManifestRootPath = manifestFileInfo.Directory.FullName;
+      ManifestRootPath = manifestFileInfo.Directory?.FullName;
       Tokens = new List<TokenDescription>();
       ProjectsToAttach = new List<string>();
       IgnoreFiles = new List<string>();

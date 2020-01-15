@@ -8,6 +8,15 @@ Visual Studio extension that accelerates creating new Visual Studio solutions an
 
 ## Change log  
 
+_2020-12-01 v0.9.9.20_
+
+- Bug fix; Proper TDS project support.
+- New feature; Conditional includes in templates.
+- Added New templates for Sitecore 9.3.
+
+---
+
+
 _2019-04-30 v0.9.9.14_
 
 - Bug fix; relative folder path in .helixtemplates file fixed. Fix also allow templates on fileshare.
