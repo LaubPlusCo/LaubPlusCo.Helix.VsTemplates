@@ -1,6 +1,6 @@
 ﻿/* Sitecore Helix Visual Studio Templates 
  * 
- * Copyright (C) 2019, Anders Laub - Laub plus Co, DK 29 89 76 54 contact@laubplusco.net https://laubplusco.net
+ * Copyright (C) 2020, Anders Laub - Laub plus Co, DK 29 89 76 54 contact@laubplusco.net https://laubplusco.net
  * 
  * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, 
  * provided that the above copyright notice and this permission notice appear in all copies.
@@ -124,7 +124,6 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
       foreach (var skipAttachTemplateObject in skipAttachTemplateObjects)
       {
         skipAttachTemplateObject.SkipAttach = true;
-        Trace.WriteLine("");
         if (skipAttachTemplateObject.ChildObjects == null || !skipAttachTemplateObject.ChildObjects.Any())
           continue;
         SetSkipAttachFlag(skipAttachTemplateObject.ChildObjects);
@@ -143,7 +142,6 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
           SkipAttach = SkipAttach(directoryPath),
           DestinationFullPath = ReplaceTokensService.Replace(BuildDestinationPathService.Build(directory))
         }));
-      //TODO: Write template objects to trace
       return templateObjects;
     }
 
@@ -168,7 +166,8 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
 
     protected virtual bool SkipAttach(string path)
     {
-      return Manifest.SkipAttachPaths.Any(p => p.Equals(path, StringComparison.InvariantCultureIgnoreCase));
+      return !IsProjectToAttach(path) 
+             && Manifest.SkipAttachPaths.Any(p => p.Equals(path, StringComparison.InvariantCultureIgnoreCase));
     }
 
     protected virtual bool IsSourceRoot(string path)
