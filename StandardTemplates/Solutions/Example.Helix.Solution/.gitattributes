@@ -1,0 +1,24 @@
+*.cs text=auto diff=csharp 
+*.html text=auto diff=html
+*.htm text=auto diff=html
+*.css text=auto diff=css
+*.scss text=auto diff=css 
+*.sass text=auto diff=css 
+*.less text=auto diff=css
+*.js text=auto
+*.sql text=auto
+*.yml text=auto
+*.props text=auto diff=xml
+*.targets text=auto diff=xml
+*.ps1 text=auto
+*.config text=auto diff=xml
+*.xml text=auto diff=xml
+*.csproj text=auto merge=union 
+*.sln text=auto eol=crlf merge=union 
+
+*.jpg binary
+*.gif binary
+*.png binary
+*.jpeg binary
+
+*.item -text

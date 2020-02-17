@@ -1,0 +1,17 @@
+<!--
+***********************************************************************************************
+RemoveDoNotPublishAssembly.targets
+  
+  
+                                                                      [Anders Laub // Laub+Co]
+***********************************************************************************************
+-->
+
+<Project>
+    <Target Name="RemoveNotPublishedAssemblies" AfterTargets="ResolveReferences" Condition="$(LegacyRemoveNotPublishedAssemblies) == 'true'">
+        <ItemGroup>
+            <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" 
+                                        Condition="'%(Filename)' != '' and '@(DoNotPublishAssembly)' != ''" />
+        </ItemGroup>
+    </Target>
+</Project>

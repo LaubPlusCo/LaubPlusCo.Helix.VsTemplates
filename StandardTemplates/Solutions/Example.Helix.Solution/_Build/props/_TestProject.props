@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <NotPublished>true</NotPublished>
+    <UseFileSystemPublishProfile>false</UseFileSystemPublishProfile>
+    <AutoPublishOnBuild>false</AutoPublishOnBuild>
+  </PropertyGroup>
+</Project>

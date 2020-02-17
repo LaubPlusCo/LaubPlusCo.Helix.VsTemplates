@@ -1,0 +1,26 @@
+<!--
+***********************************************************************************************
+TouchConfig.targets
+
+    "Hack" to release file lock on assemblies on dev installs.
+
+    Set <TouchConfigs>true</TouchConfigs> to enable.
+    
+    Note; only work if web.config is accessible ofc.
+                                                                      [Anders Laub // Laub+Co]
+                                                                      
+***********************************************************************************************
+-->
+
+
+<Project>
+    <Target Name="TouchConfig" BeforeTargets="AutoPublish" Condition="$(TouchConfigs) == 'true'">
+        <PropertyGroup>
+            <PublishTargetDirectory Condition="!HasTrailingSlash('$(PublishTargetDirectory)')">$(PublishTargetDirectory)\</PublishTargetDirectory>
+        </PropertyGroup>
+        <ItemGroup>
+            <Files Include="$(PublishTargetDirectory)web.config" />
+        </ItemGroup>
+        <Touch Files="@(Files)" Condition="exists('%(Files.FullPath)')" ForceTouch="true" ContinueOnError="true" />
+    </Target>
+</Project>

@@ -1,0 +1,48 @@
+<!--
+***********************************************************************************************
+Website.TransformXml.targets
+  
+  Transform any xml files located in publish root folder using xdt.
+  
+  [Naming convention]
+  
+    [filename].[extension].{Configuration}|Any].{XmlTransformFilePostfix}
+   
+     Ex.         
+        web.config.any.xdt
+        web.config.debug.xdt
+        somefile.xml.any.xdt
+        web.config.release.xdt
+       
+       
+                                                                      [Anders Laub // Laub+Co]
+                                                                      
+***********************************************************************************************
+-->
+
+<Project>
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(MSBuildToolsVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
+
+  <Target Name="RunTransforms" AfterTargets="WebPublish" Condition="'$(RunXmlTransforms)' != 'false'">
+    <PropertyGroup>
+      <TransformXmlDestinationRootDir Condition="'$(TransformXmlDestinationRootDir)' == ''">$(PublishTargetDirectory)</TransformXmlDestinationRootDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <SourceTransformFiles Include="**\*.$(Configuration).$(XmlTransformFilePostfix);**\*.Any.$(XmlTransformFilePostfix)" Condition="'$(XmlTransformSkipBuildConfig)'!='true'" Exclude="$(BaseIntermediateOutputPath)**\*.*"  />
+      <SourceTransformFiles Include="**\*.$(PublishTargetType).$(XmlTransformFilePostfix)" Condition="'$(XmlTransformInstanceRole)'!=''" Exclude="$(BaseIntermediateOutputPath)**\*.*" />
+      <SourceTransformFiles Include="**\*.$(XmlTransformEnvironment).$(XmlTransformFilePostfix)" Condition="'$(XmlTransformEnvironment)'!=''" Exclude="$(BaseIntermediateOutputPath)**\*.*" />
+
+      <TransformFiles Include="%(SourceTransformFiles.Identity)">
+        <DestinationFile Condition="'@(SourceTransformFiles)'!=''">$(TransformXmlDestinationRootDir)%(RelativeDir)$([System.Text.RegularExpressions.Regex]::Match(%(Filename), `.*?\.config|.*?\.xml`))</DestinationFile>
+      </TransformFiles>
+
+    </ItemGroup>
+
+    <Message Importance="High" Text="Transforming %(TransformFiles.RelativeDir)%(TransformFiles.Identity) into %(TransformFiles.DestinationFile)" Condition="'@(SourceTransformFiles)'!=''" />
+    <Warning Text="Could not find destination file %(TransformFiles.DestinationFile) for %(TransformFiles.Identity)" Condition="'@(SourceTransformFiles)'!='' And !Exists(%(TransformFiles.DestinationFile))" />
+    <TransformXml Source="%(DestinationFile)"
+                  Transform="%(FullPath)"
+                  Destination="%(DestinationFile)"
+                  Condition="'@(TransformFiles)'!='' And Exists(%(DestinationFile))" />
+  </Target>
+</Project>

@@ -1,18 +1,18 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
 {
   public class TemplateFolderService
   {
-    protected string RootDirectory { get; }
     protected const string TemplateManifestFilenamePattern = "template.manifest.*";
 
     public TemplateFolderService(string root)
     {
       RootDirectory = (root.EndsWith("\\") ? root : $"{root}\\").ToLowerInvariant();
     }
+
+    protected string RootDirectory { get; }
 
     public string Locate()
     {
@@ -42,7 +42,8 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
 
     protected bool IsTemplateFolder(string folderPath)
     {
-      return Directory.GetDirectories(folderPath).Any(d => Directory.GetFiles(d, TemplateManifestFilenamePattern, SearchOption.AllDirectories).Any());
+      return Directory.GetDirectories(folderPath).Any(d =>
+        Directory.GetFiles(d, TemplateManifestFilenamePattern, SearchOption.AllDirectories).Any());
     }
   }
 }

@@ -1,0 +1,33 @@
+<!--
+***********************************************************************************************
+Directory.Build.props
+  
+  Solution-wide automatic loading of build properties. 
+  
+    $(PublishTargetType) is used to conditionally load sets of properties.
+
+    Set this property in .csproj files
+    
+        <PublishTargetType>website|identity|automationengine|indexworker|..</PublishTargetType>
+
+
+  See the ./build/props folder and imported files for details.
+  
+                                                                      [Anders Laub // Laub+Co]
+***********************************************************************************************
+-->
+
+<Project>
+    <PropertyGroup>
+        <_SolutionBuildPropertiesPath>$(SolutionDir)\_Build\props</_SolutionBuildPropertiesPath>
+        <_DefaultUserProps>$(SolutionDir)\Default.Properties.props.user</_DefaultUserProps>
+        <_PublishTargetTypeUserProps>$(_SolutionBuildPropertiesPath)\$(PublishTargetType).Properties.props.user</_PublishTargetTypeUserProps>
+    </PropertyGroup>
+    <!-- Import default solution wide properties  -->
+    <Import Project="$(_SolutionBuildPropertiesPath)/Default.*.props" />
+    
+    <!-- Override default properties using .user file if exists -->    
+    <Import Project="$(_DefaultUserProps)" 
+            Condition="exists('$(_DefaultUserProps)')" />
+            
+</Project>

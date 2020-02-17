@@ -29,7 +29,8 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Manifest
       var manifestFileInfo = new FileInfo(manifestFile);
       ManifestFileName = manifestFileInfo.Name;
       ManifestRootPath = manifestFileInfo.Directory?.FullName;
-      Tokens = new List<TokenDescription>();
+      Tokens = new List<ITokenDescription>();
+      TokenSections = new List<ITokenSection>();
       ProjectsToAttach = new List<string>();
       IgnoreFiles = new List<string>();
       SkipAttachPaths = new List<string>();
@@ -44,7 +45,8 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Manifest
     public string SourceFolder { get; set; }
     public bool SaveOnCreate { get; set; }
     public IHelixTemplateEngine TemplateEngine { get; set; }
-    public IList<TokenDescription> Tokens { get; set; }
+    public IList<ITokenSection> TokenSections { get; set; }
+    public IList<ITokenDescription> Tokens { get; set; }
     public IList<string> ProjectsToAttach { get; set; }
     public IList<string> SkipAttachPaths { get; set; }
     public IList<string> IgnoreFiles { get; set; }

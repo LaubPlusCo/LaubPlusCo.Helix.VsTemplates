@@ -9,7 +9,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
   /// </summary>
   public partial class TokenTextInput : TokenInputControl
   {
-    public TokenTextInput(TokenDescription tokenDescription)
+    public TokenTextInput(ITokenDescription tokenDescription)
     {
       InitializeComponent();
       TokenValueInputBox.TextChanged += InputChangedEventHandler;

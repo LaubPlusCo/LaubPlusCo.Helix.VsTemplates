@@ -1,0 +1,15 @@
+<Project>
+    <PropertyGroup Condition="'$(UseFileSystemPublishProfile)' == 'true'">
+        <PublishTargetDirectory Condition="!HasTrailingSlash('$(PublishTargetDirectory)')">$(PublishTargetDirectory)\</PublishTargetDirectory>
+        <publishUrl>$(PublishTargetDirectory)</publishUrl>
+        <WebPublishMethod>FileSystem</WebPublishMethod>
+        <LastUsedBuildConfiguration>$(Configuration)</LastUsedBuildConfiguration>
+        <LastUsedPlatform>Any CPU</LastUsedPlatform>
+        <ExcludeApp_Data>False</ExcludeApp_Data>
+        <DeleteExistingFiles>False</DeleteExistingFiles>
+        <DeployOnBuild>False</DeployOnBuild>
+        <BuildingInsideVisualStudio>False</BuildingInsideVisualStudio>
+        <ExcludeFilesFromDeployment>*.dll.config</ExcludeFilesFromDeployment>
+        <ExcludeFoldersFromDeployment>bin\roslyn</ExcludeFoldersFromDeployment>
+    </PropertyGroup>
+</Project>

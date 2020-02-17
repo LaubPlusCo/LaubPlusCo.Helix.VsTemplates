@@ -95,6 +95,10 @@
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
+    <Page Include="Dialogs\VersionMessageDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\VectorIcons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -105,6 +109,7 @@
       <DependentUpon>ManifestDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\TextTraceListener.cs" />
+    <Compile Include="Dialogs\TokenSectionTabItem.cs" />
     <Compile Include="Dialogs\TraceWindow.xaml.cs">
       <DependentUpon>TraceWindow.xaml</DependentUpon>
     </Compile>
@@ -128,12 +133,20 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Dialogs\TokenValueChangedArgs.cs" />
+    <Compile Include="Dialogs\VersionMessageDialog.xaml.cs">
+      <DependentUpon>VersionMessageDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\FrameworkElementExtensions.cs" />
-    <Compile Include="Model\BuiltInTemplatesService.cs" />
+    <Compile Include="Model\DownloadFileService.cs" />
+    <Compile Include="Model\LegacySettings.cs" />
+    <Compile Include="Model\SolutionScopeSettings.cs" />
+    <Compile Include="Model\TemplateInstallService.cs" />
     <Compile Include="Model\TemplateFolderService.cs" />
-    <Compile Include="Model\SolutionScopeTemplateSettings.cs" />
-    <Compile Include="Model\SolutionScopeSettingsRepository.cs" />
-    <Compile Include="Model\AppScopeSettingsRepository.cs" />
+    <Compile Include="Model\ScopedTemplateSettings.cs" />
+    <Compile Include="Model\ScopedSettingsRepository.cs" />
+    <Compile Include="Model\AppScopeSettings.cs" />
+    <Compile Include="Model\TemporaryStorageService.cs" />
+    <Compile Include="Model\VsixManifest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

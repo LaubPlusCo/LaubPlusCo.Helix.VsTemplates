@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Media;
 using LaubPlusCo.Foundation.HelixTemplating.Manifest;
 using LaubPlusCo.Foundation.HelixTemplating.Services;
 using LaubPlusCo.Foundation.HelixTemplating.TemplateEngine;
 using LaubPlusCo.Foundation.HelixTemplating.Tokens;
 using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Extensions;
 using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model;
+using Microsoft.VisualStudio.Shell;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 {
@@ -26,6 +29,9 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     private HelixTemplateManifest[] _manifests;
     private HelixTemplateManifest _selectedManifest;
     private string _solutionRoot;
+
+    private SolutionScopeSettings _solutionScopeSettings;
+
     public TraceWindow TraceWindow;
 
     public ManifestDialog()
@@ -34,25 +40,34 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       InitializeComponent();
       DataContext = this;
       this.SetVisualStudioThemeStyles();
+      TokenSectionTabs.Background = Background;
+      TokenSectionTabs.BorderThickness = new Thickness(1, 0, 0, 0);
+      TokenSectionTabs.BorderBrush = (Brush) FindResource(VsBrushes.PanelHyperlinkKey);
+      TokenSectionTabs.Margin = new Thickness(0, 5, 15, 5);
+      TokenSectionTabs.Style = Style;
     }
 
     public IHelixProjectTemplate HelixProjectTemplate { get; protected set; }
     public ObservableCollection<ComboBoxItem> AvailableManifestsCollection { get; set; }
 
-    public void Initialize(string rootDirectory, string solutionRoot, IDictionary<string, string> initialTokens,
+    public void Initialize(string globalTemplatesFolder, string solutionRoot, IDictionary<string, string> initialTokens,
       bool isSolutionCreation)
     {
       _initialTokens = initialTokens.ToDictionary(t => t.Key, t => t.Value);
       _isSolutionCreation = isSolutionCreation;
       _solutionRoot = solutionRoot;
 
+      if (!_isSolutionCreation)
+        _solutionScopeSettings = new SolutionScopeSettings(solutionRoot);
+
       var typeText = isSolutionCreation ? "solution" : "module";
       HeadlineText.Text = $"Create new {typeText}";
 
-      if (!_isSolutionCreation)
-        rootDirectory = FindModuleTemplatesRootDirectory(solutionRoot, rootDirectory);
+      var templatesFolder = _isSolutionCreation
+        ? globalTemplatesFolder
+        : FindModuleTemplatesRootDirectory(solutionRoot, globalTemplatesFolder);
 
-      _manifests = new ReadAllManifestFilesService(rootDirectory, initialTokens).Read();
+      _manifests = new ReadAllManifestFilesService(templatesFolder, initialTokens).Read();
       _manifests = _manifests.Where(m =>
           (m.TemplateType == TemplateType.Solution) & isSolutionCreation ||
           (m.TemplateType != TemplateType.Solution) & !isSolutionCreation)
@@ -69,26 +84,24 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       AvailableManifestsComboBox.SelectedIndex = 0;
     }
 
-    private string FindModuleTemplatesRootDirectory(string solutionRoot, string globalRootDirectory)
+    private string FindModuleTemplatesRootDirectory(string solutionRoot, string globalTemplatesFolder)
     {
-      var solutionScopeSettingsRepository = new SolutionScopeSettingsRepository(solutionRoot);
       var locateTemplateFolderService = new TemplateFolderService(solutionRoot);
-      var solutionScopeSettings = solutionScopeSettingsRepository.Get();
 
-      if (solutionScopeSettings != null
-          && locateTemplateFolderService.TryGetAbsolutePath(solutionScopeSettings.ModuleTemplatesFolder,
-            out var templateFolderfullpath))
+      if (locateTemplateFolderService.TryGetAbsolutePath(_solutionScopeSettings.RelativeTemplatesFolder,
+        out var templateFolderfullpath))
         return templateFolderfullpath;
 
       var moduleTemplateFolder = locateTemplateFolderService.Locate();
       if (!string.IsNullOrWhiteSpace(moduleTemplateFolder))
       {
-        solutionScopeSettingsRepository.CreateSettingsFile(moduleTemplateFolder);
+        _solutionScopeSettings.RelativeTemplatesFolder = moduleTemplateFolder;
+        _solutionScopeSettings.SaveSettings();
         return moduleTemplateFolder;
       }
 
-      if (solutionScopeSettings != null && solutionScopeSettings.SkipCreateFolderDialog)
-        return globalRootDirectory;
+      if (_solutionScopeSettings.SkipCreateFolderDialog)
+        return globalTemplatesFolder;
 
       var createFolderResult = MessageBox.Show(
         "The current solution does not have a local module templates folder with valid templates.\n\nDo you want to create one and unzip the example templates?",
@@ -98,14 +111,17 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       {
         var skipDialogResult = MessageBox.Show(
           "It is recommended to keep module templates under source control together with the solution.\n\nYou can manually create a folder in the solution root directory and copy in your Helix module templates.\n\nDo you want to skip this dialog in the future for the current solution?",
-          "Create solution scope Helix modules template folder", MessageBoxButton.YesNo);
-        solutionScopeSettingsRepository.CreateSettingsFile(string.Empty, skipDialogResult == MessageBoxResult.Yes);
-        return globalRootDirectory;
+          "Create a solution scope Helix modules template folder", MessageBoxButton.YesNo);
+        _solutionScopeSettings.SkipCreateFolderDialog = skipDialogResult == MessageBoxResult.Yes;
+        _solutionScopeSettings.RelativeTemplatesFolder = string.Empty;
+        _solutionScopeSettings.SaveSettings();
+        return globalTemplatesFolder;
       }
 
-      moduleTemplateFolder = BuiltInTemplatesService.CreateTemplateFolder(solutionRoot);
-      BuiltInTemplatesService.Unzip(moduleTemplateFolder, TemplateType.Module);
-      solutionScopeSettingsRepository.CreateSettingsFile(moduleTemplateFolder);
+      moduleTemplateFolder = TemplateInstallService.CreateTemplateFolder(solutionRoot);
+      foreach (var manifest in _manifests.Where(m => m.TemplateType != TemplateType.Solution))
+        TemplateInstallService.CopyDirectory(new DirectoryInfo(manifest.ManifestRootPath), moduleTemplateFolder);
+      _solutionScopeSettings.RelativeTemplatesFolder = moduleTemplateFolder;
       return moduleTemplateFolder;
     }
 
@@ -130,11 +146,10 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       SetSelectedManifest();
     }
 
-    protected void SetSelectedManifest()
+    protected void AddTokenInputControls(Panel panel, IList<ITokenDescription> tokenDescriptions)
     {
-      InputControlsPanel.Children.Clear();
-
-      var tokenInputs = _selectedManifest.Tokens.Select(GetTokenInputControl).ToArray();
+      panel.Children.Clear();
+      var tokenInputs = tokenDescriptions.Select(GetTokenInputControl).ToArray();
       foreach (var dependentSuggestion in tokenInputs.Where(t =>
         t.Suggestor != null && t.Suggestor.DependentOnKeys.Any()))
       {
@@ -145,8 +160,21 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       foreach (var tokenInput in tokenInputs)
       {
         tokenInput.Initialize();
-        InputControlsPanel.Children.Add(tokenInput);
+        panel.Children.Add(tokenInput);
       }
+    }
+
+    protected void SetSelectedManifest()
+    {
+      TokenSectionTabs.Items.Clear();
+      AddTokenSectionTabItem(_selectedManifest.TemplateType.ToString(), _selectedManifest.Tokens);
+      if (_selectedManifest.TokenSections != null && _selectedManifest.TokenSections.Any())
+        foreach (var tokenSection in _selectedManifest.TokenSections)
+          AddTokenSectionTabItem(tokenSection.DisplayName, tokenSection.Tokens);
+      if (AppScopeSettings.Current.ShowVsTokensTab)
+        AddVsTokensTab();
+
+      TokenSectionTabs.SelectedIndex = 0;
 
       TemplateDescription.Text =
         string.Join("\n", _selectedManifest.Description.Split('\n').Select(s => s.TrimStart()));
@@ -157,7 +185,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       {
         var templateLink = new Hyperlink
         {
-          NavigateUri = _selectedManifest.Link.LinkUri,
+          NavigateUri = _selectedManifest.Link.LinkUri
         };
         templateLink.RequestNavigate += (sender, e) =>
         {
@@ -172,10 +200,30 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         TemplateAuthor.Inlines.Add($"\t{templateMetaText}");
         return;
       }
+
       TemplateAuthor.Text = templateMetaText;
     }
 
-    private TokenInputControl GetTokenInputControl(TokenDescription tokenDescription)
+    private void AddVsTokensTab()
+    {
+      var tabItem = new TokenSectionTabItem("VS Tokens");
+      TokenSectionTabs.Items.Add(tabItem);
+      foreach (var token in _initialTokens)
+        tabItem.InnerPanel.Children.Add(new TextBlock
+        {
+          Text = $"{token.Key}:   {token.Value}",
+          Foreground = (Brush) FindResource(VsBrushes.CaptionTextKey)
+        });
+    }
+
+    private void AddTokenSectionTabItem(string displayName, IList<ITokenDescription> tokenDescriptions)
+    {
+      var tabItem = new TokenSectionTabItem(displayName);
+      TokenSectionTabs.Items.Add(tabItem);
+      AddTokenInputControls(tabItem.InnerPanel, tokenDescriptions);
+    }
+
+    private TokenInputControl GetTokenInputControl(ITokenDescription tokenDescription)
     {
       switch (tokenDescription.InputType)
       {
@@ -194,13 +242,12 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     protected void SettingsButton_Clicked(object sender, RoutedEventArgs e)
     {
-      var settingsDialog = new SettingsDialog();
+      var settingsDialog = new SettingsDialog(_solutionRoot);
       var settingsUpdated = settingsDialog.ShowDialog();
       if (!settingsUpdated.HasValue || !settingsUpdated.Value)
         return;
 
-      var rootDirectory = settingsDialog.RootDirectory;
-      Initialize(rootDirectory, _solutionRoot, _initialTokens, _isSolutionCreation);
+      Initialize(settingsDialog.GlobalTemplateFolder, _solutionRoot, _initialTokens, _isSolutionCreation);
     }
 
     protected void OpenTrace_Clicked(object sender, RoutedEventArgs e)
@@ -250,7 +297,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         WriteTraceService.WriteToTrace("Project creation failed. See output in above trace", "\nError");
         Close();
       }
-      
+
       DialogResult = true;
       WriteTraceService.WriteToTrace(_isSolutionCreation ? "Solution created.." : "Module created..");
       Close();
@@ -271,11 +318,15 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     private IEnumerable<TokenInputControl> GetTokenInputs()
     {
-      foreach (var inputChild in InputControlsPanel.Children)
+      foreach (var tabItem in TokenSectionTabs.Items)
       {
-        var tokenInput = (TokenInputControl) inputChild;
-        if (tokenInput == null) continue;
-        yield return tokenInput;
+        if (!(tabItem is TokenSectionTabItem tokenSectionTabItem)) continue;
+        foreach (var inputChild in tokenSectionTabItem.InnerPanel.Children)
+        {
+          var tokenInput = (TokenInputControl) inputChild;
+          if (tokenInput == null) continue;
+          yield return tokenInput;
+        }
       }
     }
 

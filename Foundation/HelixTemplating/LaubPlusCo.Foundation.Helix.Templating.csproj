@@ -47,7 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Manifest\ITokenDescription.cs" />
+    <Compile Include="Manifest\ITokenSection.cs" />
     <Compile Include="Manifest\TemplateType.cs" />
+    <Compile Include="Manifest\TokenSection.cs" />
     <Compile Include="Services\BinaryExtensions.cs" />
     <Compile Include="Services\CopyTemplateObjectFilesService.cs" />
     <Compile Include="Services\BuildDestinationPathService.cs" />
@@ -66,7 +69,7 @@
     <Compile Include="TemplateEngine\IHelixTemplateEngine.cs" />
     <Compile Include="Tokens\ISuggestToken.cs" />
     <Compile Include="TemplateEngine\ITemplateObject.cs" />
-    <Compile Include="Manifest\ITokenDescription.cs" />
+    <Compile Include="Manifest\TokenDescription.cs" />
     <Compile Include="Tokens\IValidateToken.cs" />
     <Compile Include="Tokens\IValidateTokenResult.cs" />
     <Compile Include="Services\ReplaceTokensService.cs" />

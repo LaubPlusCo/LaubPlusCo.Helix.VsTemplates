@@ -1,0 +1,21 @@
+<templateManifest typeOfTemplate="Module">
+  <name>Sitecore Identity Server Runtime Plugin</name>
+  <description></description>
+  <version>1.0.0</version>
+  <author>Anders Laub</author>
+  <sourceFolder>/src</sourceFolder>
+  <saveOnCreate>true</saveOnCreate>
+  <templateEngine type="LaubPlusCo.Foundation.HelixTemplating.TemplateEngine.DefaultHelixTemplateEngine, LaubPlusCo.Foundation.HelixTemplating" />
+  <replacementTokens>
+    <token key="$layerName$" displayName="Create on Layer" default="Feature" input="Selection" required="true">
+      <option name="Feature" />
+      <option name="Foundation" />
+    </token>
+    <token key="$moduleName$" displayName="Module name" default="$safeprojectname$" input="Text" required="true" validationType="LaubPlusCo.Foundation.HelixTemplating.Tokens.ValidateModuleNameToken, LaubPlusCo.Foundation.HelixTemplating" />
+    <token key="$moduleNamespace$" displayName="Module namespace" required="true" default="$layerName$.$safeprojectname$" input="Text" suggestType="LaubPlusCo.Foundation.HelixTemplating.Tokens.SuggestNamespaceToken, LaubPlusCo.Foundation.HelixTemplating" validationType="LaubPlusCo.Foundation.HelixTemplating.Tokens.ValidateNamespaceToken, LaubPlusCo.Foundation.HelixTemplating" />
+    <token key="$netframeworkversion$" displayName="Target Framework" default="netstandard2.0" required="true" input="Text" />
+  </replacementTokens>
+  <projectsToAttach>
+    <projectFile path="/src/$layerName$/$modulename$/Identity/$moduleNamespace$.csproj" />
+  </projectsToAttach>
+</templateManifest>

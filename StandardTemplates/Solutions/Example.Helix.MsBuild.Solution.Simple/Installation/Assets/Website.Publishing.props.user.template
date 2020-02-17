@@ -1,5 +1,0 @@
-<Project>
-  <PropertyGroup>
-    <PublishRootDirectory>[WebsiteRootFolder]\</PublishRootDirectory>
-  </PropertyGroup>
-</Project>

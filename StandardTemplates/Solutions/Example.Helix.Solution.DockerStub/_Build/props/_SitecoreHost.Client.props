@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+    
+    <!-- 
+      On local instances set this to true.  Recycles app pool before publish (to release dll file locks)
+      -->
+    <TouchConfigs>false</TouchConfigs>
+    
+    <AutoPublishDependsOn>
+      $(AutoPublishDependsOn);BuildSitecorePlugin;
+    </AutoPublishDependsOn>
+  </PropertyGroup>
+</Project>

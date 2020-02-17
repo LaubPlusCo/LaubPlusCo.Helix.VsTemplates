@@ -20,16 +20,15 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Extensions
 
       if (Equals(current, root)) root.SetRootStyles();
 
-      root.SetElementStyle(depObj as TextBox, VsResourceKeys.TextBoxStyleKey);
-      root.SetElementStyle(depObj as Button, VsResourceKeys.ThemedDialogButtonStyleKey);
-      root.SetElementStyle(depObj as ListView, VsResourceKeys.ThemedDialogListViewStyleKey);
-      root.SetElementStyle(depObj as ListViewItem, VsResourceKeys.ThemedDialogListViewItemStyleKey);
-      root.SetElementStyle(depObj as ListBox, VsResourceKeys.ThemedDialogListBoxStyleKey);
-      root.SetElementStyle(depObj as RadioButton, VsResourceKeys.ThemedDialogRadioButtonStyleKey);
-      root.SetElementStyle(depObj as CheckBox, VsResourceKeys.ThemedDialogCheckBoxStyleKey);
-      root.SetElementStyle(depObj as TreeView, VsResourceKeys.ThemedDialogTreeViewStyleKey);
-      root.SetElementStyle(depObj as TreeViewItem, VsResourceKeys.ThemedDialogTreeViewItemStyleKey);
-      root.SetElementStyle(depObj as Window, VsResourceKeys.ThemedDialogDefaultStylesKey);
+      SetElementStyle(depObj as TextBox, VsResourceKeys.TextBoxStyleKey);
+      SetElementStyle(depObj as Button, VsResourceKeys.ThemedDialogButtonStyleKey);
+      SetElementStyle(depObj as ListView, VsResourceKeys.ThemedDialogListViewStyleKey);
+      SetElementStyle(depObj as ListViewItem, VsResourceKeys.ThemedDialogListViewItemStyleKey);
+      SetElementStyle(depObj as ListBox, VsResourceKeys.ThemedDialogListBoxStyleKey);
+      SetElementStyle(depObj as RadioButton, VsResourceKeys.ThemedDialogRadioButtonStyleKey);
+      SetElementStyle(depObj as CheckBox, VsResourceKeys.ThemedDialogCheckBoxStyleKey);
+      SetElementStyle(depObj as TreeView, VsResourceKeys.ThemedDialogTreeViewStyleKey);
+      SetElementStyle(depObj as TreeViewItem, VsResourceKeys.ThemedDialogTreeViewItemStyleKey);
 
       if (depObj is Control control)
       {
@@ -50,7 +49,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Extensions
       window.Background = background;
     }
 
-    private static void SetElementStyle(this FrameworkElement root, FrameworkElement element, object resourceKey)
+    public static void SetElementStyle(FrameworkElement element, object resourceKey)
     {
       if (element == null || !(element.TryFindResource(resourceKey) is Style style))
         return;

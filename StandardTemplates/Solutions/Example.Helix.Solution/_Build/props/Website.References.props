@@ -1,0 +1,9 @@
+<Project>
+    <Import Project="_NetFramework.References.props" />
+    <PropertyGroup>
+        <SitecoreVersion>$sitecoreVersion$</SitecoreVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Sitecore.Kernel" Version="$(SitecoreVersion)" />
+    </ItemGroup>
+</Project>

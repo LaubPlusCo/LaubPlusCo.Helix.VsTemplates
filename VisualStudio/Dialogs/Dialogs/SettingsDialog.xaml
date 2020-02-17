@@ -5,7 +5,10 @@
         xmlns:vsui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
         Title="Helix Templates Settings" 
         WindowStyle="None"
-        SizeToContent="WidthAndHeight" 
+        SizeToContent="Width" 
+        IsCloseButtonEnabled="False"
+        Height="350"
+        Width="380"
         ResizeMode="NoResize"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen">
@@ -16,14 +19,70 @@
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Window.Resources>
-    <StackPanel Margin="10">
-      <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Helix Templates root folder</Label>
-      <TextBox Height="25" Width="350" Name="RootDirectoryPath" Margin="0,0,0,10" />
-      <Button Content="OK" IsDefault="True" Click="SaveSettings_Click" Margin="0,0,0,10" />
-      <Button BorderThickness="0" MinHeight="75" MinWidth="75" HorizontalAlignment="Center" Margin="0,15,0,0" Background="Transparent" Click="UnpackTemplates_Clicked" Name="UnpackBuiltInButton" >
-        <ContentControl Content="{StaticResource IconUnbox}" Width="70" Height="70" />
-      </Button>
-      <TextBlock HorizontalAlignment="Center" Foreground="{DynamicResource {x:Static vsui:VsBrushes.PanelHyperlinkKey }}" Margin="0" TextAlignment="Center" >Install/re-install<LineBreak/> built-in templates</TextBlock>
-    </StackPanel>
+  <Grid Margin="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TabControl Name="SettingTabs" Grid.Row="0">
+      <TabControl.Resources>
+        <Style TargetType="TabItem">
+          <Setter Property="Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="TabItem">
+                <Grid Name="Panel">
+                  <ContentPresenter x:Name="ContentSite"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    ContentSource="Header"
+                                    Margin="10,2"
+                  />
+                </Grid>
+                <ControlTemplate.Triggers>
+                  <Trigger Property="IsSelected" Value="True">
+                    <Setter TargetName="Panel" Property="Background" Value="{DynamicResource {x:Static vsui:VsBrushes.PanelHyperlinkKey }}" />
+                  </Trigger>
+                  <Trigger Property="IsSelected" Value="False">
+                    <Setter TargetName="Panel" Property="Background" Value="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionKey }}" />
+                  </Trigger>
+                </ControlTemplate.Triggers>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </TabControl.Resources>
+      <TabItem Name="GlobalSettingsTab">
+      <StackPanel Margin="0,0,0,20">
+        <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Global Helix templates folder</Label>
+        <TextBox Height="25" Width="350" Name="GlobalTemplatesFolderTextbox" />
+        <TextBlock Margin="0,0,0,10" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">For Solution and module templates</TextBlock>
+          <CheckBox Name="ShowVsTokens" IsChecked="True">
+          <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" HorizontalAlignment="Stretch">Show Visual Studio tokens tab</Label>
+        </CheckBox>
+          <StackPanel Margin="0,5,0,0" HorizontalAlignment="Stretch">
+            <CheckBox Name="DownloadTemplates" IsChecked="True">
+              <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" HorizontalAlignment="Stretch">Download templates from</Label>
+            </CheckBox>
+            <TextBox Height="25"  Width="350" HorizontalAlignment="Stretch" Name="DownloadUrl" />
+          <TextBlock Margin="5,0,0,0" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">URL to zip archive with templates</TextBlock>
+        </StackPanel>
+        <Button BorderThickness="0" MinHeight="75" MinWidth="75" HorizontalAlignment="Center" Margin="0,15,0,0" Background="Transparent" Click="UnpackTemplates_Clicked" Name="UnpackBuiltInButton" >
+          <StackPanel>
+            <ContentControl Content="{StaticResource IconUnbox}" Width="70" Height="70" />
+            <TextBlock HorizontalAlignment="Center" Foreground="{DynamicResource {x:Static vsui:VsBrushes.PanelHyperlinkKey }}" Margin="0" TextAlignment="Center" Name="InstallTemplatesLabel" />
+          </StackPanel>
+        </Button>
+        </StackPanel>
+    </TabItem>
+    <TabItem Name="SolutionSettingsTab">
+      <StackPanel>
+      <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Solution module Templates folder</Label>
+          <TextBox Height="25" Width="350" Name="SolutionTemplatesFolderTextbox" />
+        <TextBlock Margin="0,0,0,10" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">Module templates for current solution - use relative path to solution root</TextBlock>
+        </StackPanel>
+    </TabItem>
+  </TabControl>
+    <Button Content="OK" IsDefault="True" Click="SaveSettings_Click" Margin="0,0,0,10" Grid.Row="1" />
+  </Grid>
 </platformUi:DialogWindow>
 

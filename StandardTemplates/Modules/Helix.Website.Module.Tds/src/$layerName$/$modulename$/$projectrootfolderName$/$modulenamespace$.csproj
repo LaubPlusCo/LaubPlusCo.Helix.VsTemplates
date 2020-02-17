@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$netframeworkversion$</TargetFramework>
+    <RootNamespace>$moduleNamespace$</RootNamespace>
+    <AssemblyName>$moduleNamespace$</AssemblyName>
+    <PublishTargetType>website</PublishTargetType>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\_Build\props\_PublishTargetType.props" />
+</Project>

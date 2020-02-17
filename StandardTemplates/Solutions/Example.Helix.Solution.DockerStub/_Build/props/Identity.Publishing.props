@@ -1,0 +1,8 @@
+<Project>
+    <PropertyGroup>
+        <PublishTargetDirectory>$(PublishPath.Identity)</PublishTargetDirectory>
+        <NotPublished>true</NotPublished>
+        <UseFileSystemPublishProfile>false</UseFileSystemPublishProfile>
+        <AutoPublishOnBuild>false</AutoPublishOnBuild>
+    </PropertyGroup>
+</Project>

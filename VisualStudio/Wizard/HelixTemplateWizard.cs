@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Principal;
-using System.Windows;
 using EnvDTE;
 using EnvDTE80;
 using LaubPlusCo.Foundation.HelixTemplating.TemplateEngine;
@@ -32,40 +31,67 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
   {
     private string _destinationDirectory;
     private DTE2 _dte;
-    private IHelixProjectTemplate _projectTemplate;
-    private string _solutionRootDirectory;
-    private Dictionary<string, string> _replacementTokens;
     private bool? _isExclusive;
     private ManifestDialog _manifestBrowseDialog;
+    private IHelixProjectTemplate _projectTemplate;
+    private Dictionary<string, string> _replacementTokens;
+    private string _solutionRootDirectory;
 
-    public void RunStarted(object automationObject, Dictionary<string, string> replacementTokens, WizardRunKind runKind, object[] customParams)
+    public void RunStarted(object automationObject, Dictionary<string, string> replacementTokens, WizardRunKind runKind,
+      object[] customParams)
     {
-      if (!IsAdministrator())
+      if (!AppScopeSettings.Current.VersionNoticeShown)
       {
-        MessageBox.Show("You need to run Visual Studio as administrator to use these templates.\n\nPlease close Visual Studio and start as Administrator.", "Security", MessageBoxButton.OK);
-        DeleteAutoCreatedDirectory();
+        var versionMessageDialog = new VersionMessageDialog();
+        versionMessageDialog.ShowDialog();
       }
 
       _dte = automationObject as DTE2;
       _replacementTokens = replacementTokens;
       _destinationDirectory = replacementTokens["$destinationdirectory$"];
       _solutionRootDirectory = replacementTokens["$solutiondirectory$"];
-      _isExclusive = replacementTokens["$exclusiveproject$"] == null ? null : (bool.TryParse(replacementTokens["$exclusiveproject$"], out bool b) ? (bool?) b : null);
+      _isExclusive = replacementTokens["$exclusiveproject$"] == null ? null :
+        bool.TryParse(replacementTokens["$exclusiveproject$"], out var b) ? (bool?) b : null;
       if (string.IsNullOrEmpty(_solutionRootDirectory)) _solutionRootDirectory = _destinationDirectory;
 
-      if (IsFirstRun)
+      if (AppScopeSettings.Current.IsFirstRun)
         ShowInitSetupDialog();
 
       ShowManifestDialog();
     }
 
-    private static bool IsAdministrator()
+    public bool ShouldAddProjectItem(string filePath)
     {
-      return (new WindowsPrincipal(WindowsIdentity.GetCurrent()))
-        .IsInRole(WindowsBuiltInRole.Administrator);
+      return true;
     }
 
-    public bool IsFirstRun => string.IsNullOrEmpty(AppScopeSettingsRepository.GetGlobalRootDirectory()) || !Directory.Exists(AppScopeSettingsRepository.GetGlobalRootDirectory());
+    public void RunFinished()
+    {
+      DeleteAutoCreatedDirectory();
+      var attachToVisualStudioService = new AttachToVisualStudioService(_dte);
+      attachToVisualStudioService.Attach(_projectTemplate);
+      if (_projectTemplate.Manifest.SaveOnCreate)
+        SaveAll();
+      FocusOnTraceWindow();
+    }
+
+    public void BeforeOpeningFile(ProjectItem projectItem)
+    {
+    }
+
+    public void ProjectItemFinishedGenerating(ProjectItem projectItem)
+    {
+    }
+
+    public void ProjectFinishedGenerating(Project project)
+    {
+    }
+
+    private static bool IsAdministrator()
+    {
+      return new WindowsPrincipal(WindowsIdentity.GetCurrent())
+        .IsInRole(WindowsBuiltInRole.Administrator);
+    }
 
     private void ShowInitSetupDialog()
     {
@@ -107,26 +133,12 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
     private IHelixProjectTemplate GetHelixProjectTemplate(string solutionRootDirectory)
     {
       _manifestBrowseDialog = new ManifestDialog();
-      _manifestBrowseDialog.Initialize(AppScopeSettingsRepository.GetGlobalRootDirectory(), solutionRootDirectory, _replacementTokens, _isExclusive.HasValue && _isExclusive.Value);
+      _manifestBrowseDialog.Initialize(AppScopeSettings.Current.TemplatesFolder, solutionRootDirectory,
+        _replacementTokens, _isExclusive.HasValue && _isExclusive.Value);
       var dialogResult = _manifestBrowseDialog.ShowDialog();
       if (dialogResult.HasValue && dialogResult.Value)
         return _manifestBrowseDialog.HelixProjectTemplate;
       return null;
-    }
-
-    public bool ShouldAddProjectItem(string filePath)
-    {
-      return true;
-    }
-
-    public void RunFinished()
-    {
-      DeleteAutoCreatedDirectory();
-      var attachToVisualStudioService = new AttachToVisualStudioService(_dte);
-      attachToVisualStudioService.Attach(_projectTemplate);
-      if (_projectTemplate.Manifest.SaveOnCreate)
-        SaveAll();
-      FocusOnTraceWindow();
     }
 
     private void FocusOnTraceWindow()
@@ -140,18 +152,6 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
     private void SaveAll()
     {
       _dte.ExecuteCommand("File.SaveAll");
-    }
-
-    public void BeforeOpeningFile(ProjectItem projectItem)
-    {
-    }
-
-    public void ProjectItemFinishedGenerating(ProjectItem projectItem)
-    {
-    }
-
-    public void ProjectFinishedGenerating(Project project)
-    {
     }
 
     private void DeleteAutoCreatedDirectory()

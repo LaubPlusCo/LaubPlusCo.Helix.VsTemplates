@@ -9,6 +9,6 @@
   <StackPanel Margin="0,5,0,0" HorizontalAlignment="Stretch">
     <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" HorizontalAlignment="Stretch" Name="TokenDisplayNameLabel" />
     <TextBox Height="25" HorizontalAlignment="Stretch" Name="TokenValueInputBox" />
-    <TextBlock Margin="5,0,0,0" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10"  FontStyle="Italic" HorizontalAlignment="Stretch" Name="TokenHelpTextBlock" />
+    <TextBlock Margin="5,0,0,0" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" MaxWidth="580 " FontSize="10"  FontStyle="Italic" HorizontalAlignment="Left" Name="TokenHelpTextBlock" />
   </StackPanel>
 </local:TokenInputControl>

@@ -1,0 +1,76 @@
+<templateManifest typeOfTemplate="Solution">
+  <name>Helix Solution for a Sitecore XP 9.3 solution with Docker environment</name>
+  <description>Helix Solution for developing a Sitecore XP solution - include stub for Docker development environment.
+
+Important: This template use the SDK project file format and require VS2017 (15.6) or newer. 
+See comments found in ./_Build folder files for details.
+  </description>
+  <version>1.0.0</version>
+  <author>Anders Laub</author>
+  <sourceFolder>/src</sourceFolder>
+  <saveOnCreate>true</saveOnCreate>
+  <templateEngine type="LaubPlusCo.Foundation.HelixTemplating.TemplateEngine.DefaultHelixTemplateEngine, LaubPlusCo.Foundation.HelixTemplating" />
+  <replacementTokens>
+    <token key="$sitecoreVersion$" displayName="Sitecore kernel version" default="9.3.0" helpText="Used for solution-wide website package references. See .\Build\props\Website.PackageReferences.props" required="true" input="Text" />
+    <token key="$autoPublishOnBuild$" helpText="Automatically publish project or full solution on successful builds" displayName="Enable auto-publish on build" default="true" input="Checkbox" required="true" />
+    <token key="$transformFilePostfix$" displayName="File postfix of xdt files to transform" helpText="File postfix used for xdt transforms. Naming convention for finding target files - [target filename].[target extension].{build Configuration}|Any].{POSTFIX}" required="true" default="xdt" input="Text" />
+    <token key="$runXmlTransformsOnPublish$" displayName="Run XML transformations on publish?" helpText="Transform all xdt files from source into target xml files on the same relative path." default="true" input="Checkbox" required="true" />
+    <tokenSection displayName="Docker">
+      <token key="$dockerRegistry$" displayName="Docker Registry URL" default="" helpText="leave blank to use local built images" input="Text" />
+      <token key="$dsdsgistry$" displayName="Docker Registry URL" default="" helpText="leave blank to use local built images" input="Text" />
+      <token key="$dosdsdistry$" displayName="Docker Registry URL" default="" helpText="leave blank to use local built images" input="Text" />
+      <token key="$dockdsdsstry$" displayName="Docker Registry URL" default="" helpText="leave blank to use local built images" input="Text" />
+      <token key="sd" displayName="Docker Registry URL" default="" helpText="leave blank to use local built images" input="Text" />
+      <token key="ds" displayName="Docker Registry URL" default="" helpText="leave blank to use local built images" input="Text" />      
+      <token key="$dockerWindowsServerVersion$" displayName="Windows Server Core version" default="ltsc2019" helpText="for Windows Server Core container image tag" required="true" input="Text" />
+      <token key="$dockerNanoServerVersion$" displayName="Nano Server version" default="1909" helpText="for Nanoserver Docker container image tag" required="true" input="Text" />
+    </tokenSection>
+  </replacementTokens>
+  <projectsToAttach />
+  <virtualSolutionFolders>
+    <virtualSolutionFolder name="_Solution">
+      <file path="/.editorconfig" />
+      <file path="/.gitattributes" />
+      <file path="/.gitignore" />
+      <file path="/nuget.config" />
+      <file path="/README.md" />
+    </virtualSolutionFolder>
+    <virtualSolutionFolder name="_Build">
+      <file path="/Directory.Build.targets" />
+      <file path="/Directory.Build.props" />
+      <file path="/Default.Properties.props.user" />
+      <file path="/_build/Solution.config" />
+      <virtualSolutionFolder name="props">
+        <file path="/_build/props/_NetFramework.PublishProfile.props" />
+        <file path="/_build/props/_NetFramework.References.props" />
+        <file path="/_build/props/_PublishTargetType.props" />
+        <file path="/_build/props/_SitecoreHost.Client.props" />
+        <file path="/_build/props/_TestProject.props" />
+        <file path="/_build/props/Default.Compiler.props" />
+        <file path="/_build/props/Default.ProjectContent.props" />
+        <file path="/_build/props/Default.Properties.props" />
+        <file path="/_build/props/Default.Publishing.props" />
+        <file path="/_build/props/Identity.Publishing.props" />
+        <file path="/_build/props/Identity.References.props" />
+        <file path="/_build/props/Website.DoNotPublishAssemblies.props" />
+        <file path="/_build/props/Website.Publishing.props" />
+        <file path="/_build/props/Website.References.props" />
+      </virtualSolutionFolder>
+      <virtualSolutionFolder name="targets">
+        <file path="/_build/targets/AutoPublish.targets" />
+        <file path="/_build/targets/InvokeWebPublish.targets" />
+        <file path="/_build/targets/TouchConfig.targets" />
+        <file path="/_build/targets/PublishSingleItem.targets" />
+        <file path="/_build/targets/TransformXml.targets" />
+        <file path="/_build/targets/RemoveNotPublishedAssemblies.targets" />
+      </virtualSolutionFolder>
+    </virtualSolutionFolder>
+    <virtualSolutionFolder name="_Docker">
+      <file path="/_Docker/docker-compose.yml" />
+      <file path="/_Docker/README.MD" />
+    </virtualSolutionFolder>
+  </virtualSolutionFolders>
+  <ignoreFiles>
+    <file path="/template.manifest.xml" />
+  </ignoreFiles>
+</templateManifest>

@@ -58,18 +58,18 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       return Manifest;
     }
 
-    private void ParseSkipAttach()
+    protected virtual void ParseSkipAttach()
     {
       var skipAttachPaths = GetNodeByXPath("/templateManifest/skipAttach");
       if (skipAttachPaths == null) return;
       Manifest.SkipAttachPaths = GetPaths(skipAttachPaths).Concat(GetPaths(skipAttachPaths, "folder")).ToList(); ;
     }
 
-    private void ParseType()
+    protected virtual void ParseType()
     {
       var templateManifestNode = GetNodeByXPath("/templateManifest");
       if (!templateManifestNode.HasAttributes)
-      { 
+      {
         Manifest.TemplateType = TemplateType.Module;
         return;
       }
@@ -79,17 +79,17 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
         Manifest.TemplateType = TemplateType.Module;
         return;
       }
-      Manifest.TemplateType = (TemplateType) Enum.Parse(typeof(TemplateType), typeOfTemplate);
+      Manifest.TemplateType = (TemplateType)Enum.Parse(typeof(TemplateType), typeOfTemplate);
     }
 
-    private void ParseIgnoreFiles()
+    protected virtual void ParseIgnoreFiles()
     {
       var ignoreFilesNavigator = GetNodeByXPath("/templateManifest/ignoreFiles");
       if (ignoreFilesNavigator == null) return;
       Manifest.IgnoreFiles = GetPaths(ignoreFilesNavigator);
     }
 
-    private void ParseVirtualSolutionFolders()
+    protected virtual void ParseVirtualSolutionFolders()
     {
       var virtualSolutionFoldersNavigator = GetNodeByXPath("/templateManifest/virtualSolutionFolders");
       if (virtualSolutionFoldersNavigator == null) return;
@@ -97,7 +97,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
 
     }
 
-    private IList<VirtualSolutionFolder> GetVirtualSolutionFolders(XPathNavigator virtualSolutionFoldersNavigator)
+    protected virtual IList<VirtualSolutionFolder> GetVirtualSolutionFolders(XPathNavigator virtualSolutionFoldersNavigator)
     {
       var virtualSolutionFolders = new List<VirtualSolutionFolder>();
       foreach (XPathNavigator tokenNavigator in virtualSolutionFoldersNavigator.SelectChildren("virtualSolutionFolder", ""))
@@ -112,7 +112,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       return virtualSolutionFolders;
     }
 
-    private IList<string> GetPaths(XPathNavigator tokenNavigator, string attributeName = "file")
+    protected virtual IList<string> GetPaths(XPathNavigator tokenNavigator, string attributeName = "file")
     {
       var paths = new List<string>();
       foreach (XPathNavigator fileNavigator in tokenNavigator.SelectChildren(attributeName, ""))
@@ -124,7 +124,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       return paths;
     }
 
-    private void ParseProjectsToAttach()
+    protected virtual void ParseProjectsToAttach()
     {
       var projectFileNavigator = GetRequiredNodeByXPath("/templateManifest/projectsToAttach");
       foreach (XPathNavigator tokenNavigator in projectFileNavigator.SelectChildren("projectFile", ""))
@@ -135,14 +135,32 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       }
     }
 
-    private void ParseReplacementTokens()
+    protected virtual void ParseReplacementTokens()
     {
-      var replacemenTokenNavigator = GetRequiredNodeByXPath("/templateManifest/replacementTokens");
-      foreach (XPathNavigator tokenNavigator in replacemenTokenNavigator.SelectChildren("token", ""))
+      var replacementTokensNavigator = GetRequiredNodeByXPath("/templateManifest/replacementTokens");
+      ParseTokens(replacementTokensNavigator, Manifest.Tokens);
+      foreach (XPathNavigator sectionNavigator in replacementTokensNavigator.SelectChildren("tokenSection", ""))
+      {
+        var section = new TokenSection
+        {
+          DisplayName = sectionNavigator.GetAttribute("displayName", ""),
+          Description = sectionNavigator.GetAttribute("description", ""),
+          Tokens = new List<ITokenDescription>()
+        };
+        if (string.IsNullOrWhiteSpace(section.DisplayName))
+          section.DisplayName = "[Tokens]";
+        ParseTokens(sectionNavigator, section.Tokens);
+        Manifest.TokenSections.Add(section);
+      }
+    }
+
+    protected virtual void ParseTokens(XPathNavigator xPathNavigator, IList<ITokenDescription> tokens)
+    {
+      foreach (XPathNavigator tokenNavigator in xPathNavigator.SelectChildren("token", ""))
       {
         var selectionOptions = GetTokenSelectOptions(tokenNavigator);
-        var tokenInputType = selectionOptions.Any() ? TokenInputForm.Selection 
-          :  Enum.TryParse(tokenNavigator.GetAttribute("input", ""), out TokenInputForm inputFormat) ? inputFormat : TokenInputForm.Text;
+        var tokenInputType = selectionOptions.Any() ? TokenInputForm.Selection
+          : Enum.TryParse(tokenNavigator.GetAttribute("input", ""), out TokenInputForm inputFormat) ? inputFormat : TokenInputForm.Text;
 
         var tokenDescription = new TokenDescription
         {
@@ -159,33 +177,37 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
         if (!string.IsNullOrEmpty(validatorType))
           tokenDescription.Validator = ManifestTypeInstantiator.CreateInstance<IValidateToken>(validatorType);
         var suggestorType = tokenNavigator.GetAttribute("suggestType", "");
+
         if (!string.IsNullOrEmpty(suggestorType))
           tokenDescription.Suggestor = ManifestTypeInstantiator.CreateInstance<ISuggestToken>(suggestorType);
-        Manifest.Tokens.Add(tokenDescription);
+        tokens.Add(tokenDescription);
       }
-      ExpandDefaultValues(0);
+      ExpandDefaultValues(0, tokens);
     }
 
-    private void ExpandDefaultValues(int noOfRuns)
+    protected virtual void ExpandDefaultValues(int noOfRuns, IList<ITokenDescription> tokens)
     {
       foreach (var tokenDescription in Manifest.Tokens.Where(t => !string.IsNullOrEmpty(t.Default) && !t.Default.Contains("$")).ToArray())
       {
         if (Manifest.ReplacementTokens.ContainsKey(tokenDescription.Key)) continue;
         Manifest.ReplacementTokens.Add(tokenDescription.Key, tokenDescription.Default);
       }
+
       ReplaceTokensService = new ReplaceTokensService(Manifest.ReplacementTokens);
       foreach (var tokenDescription in Manifest.Tokens.Where(t => !string.IsNullOrEmpty(t.Default) && t.Default.Contains("$")))
       {
         tokenDescription.Default = ReplaceTokensService.Replace(tokenDescription.Default);
       }
-      if (!Manifest.Tokens.Any(t => t.Default.Contains("$")) || noOfRuns >= 4) return;
+
+      if (!Manifest.Tokens.Any(t => t.Default.Contains("$")) || noOfRuns >= tokens.Count) return;
       noOfRuns++;
-      ExpandDefaultValues(noOfRuns);
+
+      ExpandDefaultValues(noOfRuns, tokens);
     }
 
-    private KeyValuePair<string, string>[] GetTokenSelectOptions(XPathNavigator tokenNavigator)
+    protected virtual KeyValuePair<string, string>[] GetTokenSelectOptions(XPathNavigator tokenNavigator)
     {
-      var tokenSelectOptions = new Dictionary<string,string>();
+      var tokenSelectOptions = new Dictionary<string, string>();
       foreach (XPathNavigator optionNavigator in tokenNavigator.SelectChildren("option", ""))
       {
         var key = optionNavigator.GetAttribute("key", "");
@@ -199,7 +221,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       return tokenSelectOptions.ToArray();
     }
 
-    private bool GetBooleanAttribute(string attr, XPathNavigator navigator, bool defaultValue)
+    protected virtual bool GetBooleanAttribute(string attr, XPathNavigator navigator, bool defaultValue)
     {
       var value = navigator.GetAttribute(attr, "");
       if (string.IsNullOrEmpty(value)) return defaultValue;
@@ -207,13 +229,13 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       return defaultValue;
     }
 
-    private void ParseTemplateEngine()
+    protected virtual void ParseTemplateEngine()
     {
       var type = GetRequiredValue("/templateManifest/templateEngine/@type");
       Manifest.TemplateEngine = ManifestTypeInstantiator.CreateInstance<IHelixTemplateEngine>(type);
     }
 
-    private void ParseManifestInformation()
+    protected virtual void ParseManifestInformation()
     {
       Manifest.Name = GetRequiredValue("/templateManifest/name");
       Manifest.Description = GetRequiredValue("/templateManifest/description");
@@ -224,14 +246,14 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       Manifest.SaveOnCreate = bool.TryParse(GetRequiredValue("/templateManifest/saveOnCreate"), out bool saveOnCreate) && saveOnCreate;
     }
 
-    private TemplateHyperLink GetHyperLink(XPathNavigator linkNode)
+    protected TemplateHyperLink GetHyperLink(XPathNavigator linkNode)
     {
       var linkUrl = linkNode?.Value;
       if (string.IsNullOrEmpty(linkUrl) || !Uri.IsWellFormedUriString(linkUrl, UriKind.Absolute)) return null;
       return new TemplateHyperLink { LinkText = linkNode.GetAttribute("text", ""), LinkUri = new Uri(linkUrl) };
     }
 
-    private string GetFullPath(string path)
+    protected string GetFullPath(string path)
     {
       path = path.Replace("/", @"\");
       var fullPath = path.StartsWith(Manifest.ManifestRootPath) ? path : CombinePaths(Manifest.ManifestRootPath, path);
@@ -239,7 +261,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       return fullPath;
     }
 
-    private string CombinePaths(string path1, string path2)
+    protected string CombinePaths(string path1, string path2)
     {
       var pathParts = path2.Split('\\').Where(s => !string.IsNullOrEmpty(s)).ToList();
       if (path1[path1.Length - 1] == '\\')
@@ -248,17 +270,22 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       return string.Join(@"\", pathParts);
     }
 
-    private string GetRequiredValue(string xPath)
+    protected string GetRequiredValue(string xPath)
     {
       return GetRequiredNodeByXPath(xPath).Value;
     }
 
-    private XPathNavigator GetNodeByXPath(string xPath)
+    protected XPathNavigator GetNodeByXPath(string xPath)
     {
-      return RootNavigator.SelectSingleNode(xPath);
+      return GetNodeByXPath(xPath, RootNavigator);
     }
 
-    private XPathNavigator GetRequiredNodeByXPath(string xPath)
+    protected XPathNavigator GetNodeByXPath(string xPath, XPathNavigator navigator)
+    {
+      return navigator.SelectSingleNode(xPath);
+    }
+
+    protected XPathNavigator GetRequiredNodeByXPath(string xPath)
     {
       var xPathNavigator = GetNodeByXPath(xPath);
       if (xPathNavigator != null) return xPathNavigator;

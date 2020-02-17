@@ -1,0 +1,13 @@
+<!--
+***********************************************************************************************
+Publish.Properties.props
+  
+  Solution-wide build targets. See imported files for details.
+  
+                                                                      [Anders Laub // Laub+Co]
+***********************************************************************************************
+-->
+
+<Project>
+    <Import Project="_Build/targets/*.targets" />
+</Project>

@@ -1,0 +1,30 @@
+<!--
+***********************************************************************************************
+InvokeWebPublish.targets
+  
+  Calls the "classic" WebPublish target from Visual Studio for .NET Framework Web Applications
+
+    Microsoft.WebApplication.targets
+       
+       
+                                                                      [Anders Laub // Laub+Co]
+                                                                      
+***********************************************************************************************
+-->
+
+<Project>
+    <PropertyGroup>
+        <_WebApplicationTargetsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets</_WebApplicationTargetsPath>
+    </PropertyGroup>
+    <Import Project="$(_WebApplicationTargetsPath)" />
+
+    <PropertyGroup>
+        <!-- BUG FIX; Bug was introduced in VS 2019 16.x / msbuild, MS is on it! -->
+        <WebPublishDependsOn>$([System.String]::Copy('$(WebPublishDependsOn)').Replace('ValidatePublishProfileSettings', '').Replace(';','').Trim())</WebPublishDependsOn>
+    </PropertyGroup>
+
+    <Target Name="InvokeWebPublish">
+        <CallTarget Targets="WebPublish" />
+    </Target>
+
+</Project>

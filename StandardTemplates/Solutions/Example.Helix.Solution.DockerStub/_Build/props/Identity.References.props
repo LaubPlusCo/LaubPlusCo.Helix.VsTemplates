@@ -1,0 +1,13 @@
+<!--
+***********************************************************************************************
+Packages.IdentityServer.props
+                                                                      [Anders Laub // Laub+Co]
+                                                                      
+***********************************************************************************************
+-->
+
+<Project>
+  <ItemGroup>
+    <PackageReference Include="Sitecore.Plugin.IdentityServer" Version="2.0.*" />
+  </ItemGroup>
+</Project>

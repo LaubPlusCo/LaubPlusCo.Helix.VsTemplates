@@ -7,7 +7,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 {
   public partial class TokenSelectionInput : TokenInputControl
   {
-    public TokenSelectionInput(TokenDescription tokenDescription)
+    public TokenSelectionInput(ITokenDescription tokenDescription)
     {
       InitializeComponent();
       TokenDescription = tokenDescription;
@@ -21,7 +21,8 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     public override string TokenValue
     {
       get => (string) TokenComboInput?.SelectedValue;
-      set => TokenComboInput.SelectedIndex = TokenDescription.SelectionOptions.ToList().IndexOf(TokenDescription.SelectionOptions.FirstOrDefault(t => t.Key == value));
+      set => TokenComboInput.SelectedIndex = TokenDescription.SelectionOptions.ToList()
+        .IndexOf(TokenDescription.SelectionOptions.FirstOrDefault(t => t.Key == value));
     }
 
     public override Label DisplayNameLabel => TokenDisplayNameLabel;
