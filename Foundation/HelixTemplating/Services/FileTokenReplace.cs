@@ -49,7 +49,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
 
     protected virtual bool FileTypeIsIgnored(string filePath)
     {
-      var fileExtension = Path.GetExtension(filePath);
+      var fileExtension = Path.GetExtension(filePath)?.TrimStart('.');
       return BinaryFiles.Extensions.Any(i => i.Equals(fileExtension));
     }
 
