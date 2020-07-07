@@ -13,7 +13,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
     protected const string VersionNoticeShownKey = "global.versionnoticeshown";
     protected const string VersionNoticeShownForKey = "global.versionnoticefor";
     protected const string DefaultRootPath = @"c:\projects\helix.templates\";
-    protected const string DefaultDownloadUrl = "https://github.com/LaubPlusCo/Helix-Templates/archive/master.zip";
+    protected const string DefaultDownloadPath = "https://github.com/LaubPlusCo/Helix-Templates/archive/release/";
 
     private static AppScopeSettings _instance;
 
@@ -34,22 +34,22 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
     public bool ShowVsTokensTab { get; set; }
     public bool VersionNoticeShown { get; set; }
 
-    private bool _versionNoticeShown;
+    private bool _justShownVersionNoticeShown;
 
     public bool IsFirstRun => !SettingsRepository.SettingsFileExists || !Directory.Exists(TemplatesFolder);
 
-    public bool SaveSettings(ScopedTemplateSettings settings = null)
+    public bool SaveSettings()
     {
       if (!Directory.Exists(TemplatesFolder))
         return false;
 
-      settings = SettingsRepository.Get();
+      var settings = SettingsRepository.Get();
       settings.Set(TemplatesFolderKey, TemplatesFolder);
       settings.Set(DownloadFromUrlKey, DownloadUrl);
       settings.Set(InstalledVersionKey, InstalledVersion);
       settings.Set(DownloadTemplatesKey, DownloadTemplates);
       settings.Set(ShowVsTokensTabKey, ShowVsTokensTab);
-      if (!_versionNoticeShown)
+      if (!_justShownVersionNoticeShown)
         return SettingsRepository.WriteConfigFile(settings);
 
       settings.Set(VersionNoticeShownForKey, InstalledVersion);
@@ -60,27 +60,35 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
     protected void InitializeSettings()
     {
       var settings = SettingsRepository.Get();
+      var saveSettings = !SettingsRepository.SettingsFileExists;
       var currentVersion = VsixManifest.GetManifest().Version;
-
       var templateFolder = !SettingsRepository.SettingsFileExists ? LegacySettings.GetGlobalTemplateFolder() : "";
-
       TemplatesFolder = settings.GetSetting(TemplatesFolderKey,
         !string.IsNullOrEmpty(templateFolder) ? templateFolder : DefaultRootPath);
-      InstalledVersion = settings.GetSetting(InstalledVersionKey, currentVersion);
-      DownloadUrl = settings.GetSetting(DownloadFromUrlKey, DefaultDownloadUrl);
-      DownloadTemplates = settings.GetBooleanSetting(DownloadTemplatesKey, true);
-      var shownNoticeVersion = settings.GetSetting(VersionNoticeShownForKey);
-      ShowVsTokensTab = settings.GetBooleanSetting(ShowVsTokensTabKey, true);
-      _versionNoticeShown = settings.GetBooleanSetting(VersionNoticeShownKey)
-                           && shownNoticeVersion.Equals(InstalledVersion);
 
-      if (!SettingsRepository.SettingsFileExists)
+      InstalledVersion = settings.GetSetting(InstalledVersionKey, currentVersion);
+      var versionSpecificDownloadUrl = string.Concat(DefaultDownloadPath, $"v{currentVersion}.zip");
+      DownloadUrl = settings.GetSetting(DownloadFromUrlKey, versionSpecificDownloadUrl);
+      if (!DownloadUrl.Equals(versionSpecificDownloadUrl, StringComparison.Ordinal)
+          && DownloadUrl.StartsWith(DefaultDownloadPath, StringComparison.OrdinalIgnoreCase))
+      { 
+        DownloadUrl = versionSpecificDownloadUrl;
+        saveSettings = true;
+      }
+
+      DownloadTemplates = settings.GetBooleanSetting(DownloadTemplatesKey, true);
+      ShowVsTokensTab = settings.GetBooleanSetting(ShowVsTokensTabKey, true);
+
+      var shownNoticeVersion = settings.GetSetting(VersionNoticeShownForKey);
+      VersionNoticeShown = settings.GetBooleanSetting(VersionNoticeShownKey) && shownNoticeVersion.Equals(InstalledVersion);
+
+      if (saveSettings)
         SaveSettings();
     }
 
     public void SetVersionNoticeShown()
     {
-      _versionNoticeShown = true;
+      _justShownVersionNoticeShown = true;
       SaveSettings();
     }
 

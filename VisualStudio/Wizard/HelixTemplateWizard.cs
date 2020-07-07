@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Principal;
 using EnvDTE;
 using EnvDTE80;
 using LaubPlusCo.Foundation.HelixTemplating.TemplateEngine;
@@ -85,12 +84,6 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
 
     public void ProjectFinishedGenerating(Project project)
     {
-    }
-
-    private static bool IsAdministrator()
-    {
-      return new WindowsPrincipal(WindowsIdentity.GetCurrent())
-        .IsInRole(WindowsBuiltInRole.Administrator);
     }
 
     private void ShowInitSetupDialog()

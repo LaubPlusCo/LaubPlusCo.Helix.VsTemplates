@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Navigation;
 using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Extensions;
 using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model;
 using Microsoft.VisualStudio.PlatformUI;
@@ -16,25 +17,33 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
   public partial class SettingsDialog : DialogWindow
   {
     protected readonly string SolutionRootDirectory;
+    protected readonly bool IsSolutionCreation;
     protected readonly SolutionScopeSettings SolutionScopeSettings;
 
-    public SettingsDialog() : this(string.Empty)
+    public SettingsDialog() : this(string.Empty, false)
     {
     }
 
-    public SettingsDialog(string solutionRootDirectory)
+    public SettingsDialog(string solutionRootDirectory, bool isSolutionCreation)
     {
       SolutionRootDirectory = solutionRootDirectory;
-      SolutionScopeSettings = string.IsNullOrEmpty(solutionRootDirectory)
+      IsSolutionCreation = isSolutionCreation;
+      SolutionScopeSettings = IsSolutionCreation
         ? null
         : new SolutionScopeSettings(solutionRootDirectory);
 
       InitializeComponent();
-      SolutionSettingsTab.IsEnabled = SolutionScopeSettings != null;
+      SolutionSettingsTab.IsEnabled = !IsSolutionCreation;
       InitializeUpdateTemplatesButton();
       LoadSettings();
       this.SetVisualStudioThemeStyles();
       InitializeStyles();
+      SetAboutTexts();
+    }
+
+    private void SetAboutTexts()
+    {
+      AboutVersionText.Text = $"version {AppScopeSettings.Current.InstalledVersion}";
     }
 
     public string GlobalTemplateFolder => GlobalTemplatesFolderTextbox.Text;
@@ -58,8 +67,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       SettingTabs.BorderThickness = new Thickness(0, 2, 0, 0);
       SettingTabs.BorderBrush = (Brush) FindResource(VsBrushes.PanelHyperlinkKey);
       SettingTabs.Margin = new Thickness(0, 5, 15, 5);
-      GlobalSettingsTab.Background = Background;
-      GlobalSettingsTab.Style = Style;
+
       GlobalSettingsTab.Header = new Label
       {
         Content = "Global",
@@ -67,15 +75,22 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         FontFamily = (FontFamily)FindResource(VsFonts.EnvironmentFontFamilyKey),
         Style = (Style)FindResource(VsResourceKeys.LabelEnvironment133PercentFontSizeStyleKey)
       };
+
       SolutionSettingsTab.Header = new Label
       {
         Content = "Solution",
-        Foreground =  (Brush)FindResource(SolutionScopeSettings != null ? VsBrushes.CaptionTextKey : VsBrushes.InactiveCaptionTextKey),
+        Foreground =  (Brush)FindResource(!IsSolutionCreation ? VsBrushes.CaptionTextKey : VsBrushes.InactiveCaptionTextKey),
         FontFamily = (FontFamily)FindResource(VsFonts.EnvironmentFontFamilyKey),
         Style = (Style)FindResource(VsResourceKeys.LabelEnvironment133PercentFontSizeStyleKey)
       };
-      SolutionSettingsTab.Background = Background;
-      SolutionSettingsTab.Style = Style;
+
+      AboutTab.Header = new Label
+      {
+        Content = "About",
+        Foreground = (Brush)FindResource(VsBrushes.CaptionTextKey),
+        FontFamily = (FontFamily)FindResource(VsFonts.EnvironmentFontFamilyKey),
+        Style = (Style)FindResource(VsResourceKeys.LabelEnvironment133PercentFontSizeStyleKey)
+      };
     }
 
     private void InitializeUpdateTemplatesButton()
@@ -225,6 +240,12 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       MessageBox.Show(success ? "Templates installed" : "Could not install templates.", "", MessageBoxButton.OK);
       UnpackBuiltInButton.IsEnabled = true;
       return success;
+    }
+
+
+    private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+    {
+      System.Diagnostics.Process.Start(e.Uri.AbsoluteUri);
     }
   }
 }

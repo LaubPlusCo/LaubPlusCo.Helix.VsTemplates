@@ -17,7 +17,9 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
 
     protected DirectoryInfo GetTemporaryDirectory()
     {
-      var tempPath = Path.Combine(Path.GetTempPath(), ".vst");
+
+      //TODO: LONG PATH EXCEPTION.. HAS TO BE FIXED!!!
+       var tempPath = Path.Combine(Path.GetTempPath(), "_vst");
       if (Directory.Exists(tempPath))
         Delete(tempPath);
       return Directory.CreateDirectory(tempPath);

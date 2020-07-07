@@ -7,7 +7,7 @@
         WindowStyle="None"
         SizeToContent="Width" 
         IsCloseButtonEnabled="False"
-        Height="350"
+        Height="400"
         Width="380"
         ResizeMode="NoResize"
         AllowsTransparency="True"
@@ -81,7 +81,23 @@
         <TextBlock Margin="0,0,0,10" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">Module templates for current solution - use relative path to solution root</TextBlock>
         </StackPanel>
     </TabItem>
-  </TabControl>
+      <TabItem Name="AboutTab">
+        <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+          <StackPanel>
+            <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.PanelHyperlinkKey }}" Name="AboutHeadline" FontSize="16">
+              Sitecore Helix Module &amp; Solution Templates for VisualStudio
+            </TextBlock>
+            <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontStyle="Italic" Name="AboutVersionText" FontSize="12">
+            </TextBlock>
+            <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" TextWrapping="Wrap" Margin="5,20,0,20"><Bold>Example templates can now be updated from online sources using the Settings dialog.</Bold><LineBreak></LineBreak><Italic>Please check regularly for updates to the example templates.</Italic></TextBlock>
+            <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" TextWrapping="Wrap" Margin="5,0,0,20"><Bold>The default example templates are now maintained in a separate repository on <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/LaubPlusCo/Helix-Templates">Github</Hyperlink>.</Bold><LineBreak></LineBreak>By default templates are fetched from the 'master' branch. Version and/or feature specific branches for specialized templates may be added in the future.</TextBlock>
+            <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" TextWrapping="Wrap" Margin="5,0,0,20">Please help to evolve the common development practices by updating and sharing templates. Just make pull requests to the above github repo.</TextBlock>
+            <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" TextWrapping="Wrap" Margin="5,0,0,20"><Italic>Feedback, suggestions and bug reports for the Visual Studio extension (not the templates) is made in this <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/LaubPlusCo/LaubPlusCo.Helix.VsTemplates">repository</Hyperlink></Italic></TextBlock>
+            <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" Margin="25" TextAlignment="Right">-Anders Laub</TextBlock>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+    </TabControl>
     <Button Content="OK" IsDefault="True" Click="SaveSettings_Click" Margin="0,0,0,10" Grid.Row="1" />
   </Grid>
 </platformUi:DialogWindow>

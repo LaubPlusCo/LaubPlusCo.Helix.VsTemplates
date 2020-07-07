@@ -47,8 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Manifest\ConditionalValue.cs" />
+    <Compile Include="Manifest\DefaultConditionEvaluator.cs" />
+    <Compile Include="Manifest\IEvaluateCondition.cs" />
     <Compile Include="Manifest\ITokenDescription.cs" />
     <Compile Include="Manifest\ITokenSection.cs" />
+    <Compile Include="Manifest\TemplateHyperLink.cs" />
     <Compile Include="Manifest\TemplateType.cs" />
     <Compile Include="Manifest\TokenSection.cs" />
     <Compile Include="Services\BinaryExtensions.cs" />

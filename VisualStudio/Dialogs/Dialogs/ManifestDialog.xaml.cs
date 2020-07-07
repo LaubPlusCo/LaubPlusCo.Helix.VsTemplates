@@ -56,9 +56,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       _initialTokens = initialTokens.ToDictionary(t => t.Key, t => t.Value);
       _isSolutionCreation = isSolutionCreation;
       _solutionRoot = solutionRoot;
-
-      if (!_isSolutionCreation)
-        _solutionScopeSettings = new SolutionScopeSettings(solutionRoot);
+      _solutionScopeSettings = new SolutionScopeSettings(solutionRoot);
 
       var typeText = isSolutionCreation ? "solution" : "module";
       HeadlineText.Text = $"Create new {typeText}";
@@ -119,7 +117,9 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       }
 
       moduleTemplateFolder = TemplateInstallService.CreateTemplateFolder(solutionRoot);
-      foreach (var manifest in _manifests.Where(m => m.TemplateType != TemplateType.Solution))
+
+      var globalManifests = new ReadAllManifestFilesService(globalTemplatesFolder, _initialTokens).Read();
+      foreach (var manifest in globalManifests.Where(m => m.TemplateType != TemplateType.Solution))
         TemplateInstallService.CopyDirectory(new DirectoryInfo(manifest.ManifestRootPath), moduleTemplateFolder);
       _solutionScopeSettings.RelativeTemplatesFolder = moduleTemplateFolder;
       return moduleTemplateFolder;
@@ -242,7 +242,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     protected void SettingsButton_Clicked(object sender, RoutedEventArgs e)
     {
-      var settingsDialog = new SettingsDialog(_solutionRoot);
+      var settingsDialog = new SettingsDialog(_solutionRoot, _isSolutionCreation);
       var settingsUpdated = settingsDialog.ShowDialog();
       if (!settingsUpdated.HasValue || !settingsUpdated.Value)
         return;
@@ -323,9 +323,8 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         if (!(tabItem is TokenSectionTabItem tokenSectionTabItem)) continue;
         foreach (var inputChild in tokenSectionTabItem.InnerPanel.Children)
         {
-          var tokenInput = (TokenInputControl) inputChild;
-          if (tokenInput == null) continue;
-          yield return tokenInput;
+          if (inputChild is TokenInputControl tokenInput)
+            yield return tokenInput;
         }
       }
     }

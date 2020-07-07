@@ -22,9 +22,14 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       throw new ManifestParseException($"Could not find Manifest file {ManifestFilePath}");
     }
 
+    protected IEvaluateCondition DefaultConditionEvaluator = new BooleanConditionEvaluator();
+
     protected virtual XPathNavigator RootNavigator { get; set; }
+
     protected virtual HelixTemplateManifest Manifest { get; set; }
+
     protected string ManifestFilePath { get; set; }
+
     protected virtual ManifestTypeInstantiator ManifestTypeInstantiator { get; set; }
 
     public virtual HelixTemplateManifest Parse(IDictionary<string, string> replacementTokens)
@@ -53,7 +58,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       ParseProjectsToAttach();
       ParseSkipAttach();
       ParseVirtualSolutionFolders();
-      ParseIgnoreFiles();
+      ParseIgnorePaths();
       ParseType();
       return Manifest;
     }
@@ -62,7 +67,9 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
     {
       var skipAttachPaths = GetNodeByXPath("/templateManifest/skipAttach");
       if (skipAttachPaths == null) return;
-      Manifest.SkipAttachPaths = GetPaths(skipAttachPaths).Concat(GetPaths(skipAttachPaths, "folder")).ToList(); ;
+      Manifest.SkipAttachPaths = GetPathValues(skipAttachPaths)
+        .Concat(GetPathValues(skipAttachPaths, "folder"))
+        .Concat(GetPathValues(skipAttachPaths, "path")).ToList(); ;
     }
 
     protected virtual void ParseType()
@@ -82,11 +89,21 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       Manifest.TemplateType = (TemplateType)Enum.Parse(typeof(TemplateType), typeOfTemplate);
     }
 
-    protected virtual void ParseIgnoreFiles()
+    protected virtual void ParseIgnorePaths()
     {
-      var ignoreFilesNavigator = GetNodeByXPath("/templateManifest/ignoreFiles");
-      if (ignoreFilesNavigator == null) return;
-      Manifest.IgnoreFiles = GetPaths(ignoreFilesNavigator);
+      var ignoreNavigator = GetIgnoredPathsNavigator();
+      if (ignoreNavigator == null) return;
+      Manifest.IgnorePaths = GetPathValues(ignoreNavigator)
+        .Concat(GetPathValues(ignoreNavigator, "folder"))
+        .Concat(GetPathValues(ignoreNavigator, "path")).ToList();
+    }
+
+    protected XPathNavigator GetIgnoredPathsNavigator()
+    {
+      var ignoreNavigator = GetNodeByXPath("/templateManifest/ignoreFiles");
+      if (ignoreNavigator != null) return ignoreNavigator;
+      ignoreNavigator = GetNodeByXPath("/templateManifest/ignorePaths");
+      return ignoreNavigator;
     }
 
     protected virtual void ParseVirtualSolutionFolders()
@@ -105,21 +122,22 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
         virtualSolutionFolders.Add(new VirtualSolutionFolder
         {
           Name = tokenNavigator.GetAttribute("name", ""),
-          Files = GetPaths(tokenNavigator),
+          Files = GetPathValues(tokenNavigator).Select(cv => cv.Value).ToList(),
           SubFolders = GetVirtualSolutionFolders(tokenNavigator)
         });
       }
       return virtualSolutionFolders;
     }
 
-    protected virtual IList<string> GetPaths(XPathNavigator tokenNavigator, string attributeName = "file")
+    protected virtual IList<ConditionalValue> GetPathValues(XPathNavigator tokenNavigator, string attributeName = "file")
     {
-      var paths = new List<string>();
-      foreach (XPathNavigator fileNavigator in tokenNavigator.SelectChildren(attributeName, ""))
+      var paths = new List<ConditionalValue>();
+      foreach (XPathNavigator navigator in tokenNavigator.SelectChildren(attributeName, ""))
       {
-        var filePath = fileNavigator.GetAttribute("path", "");
-        if (string.IsNullOrEmpty(filePath)) throw new ManifestParseException("Missing path attribute on element.");
-        paths.Add(GetFullPath(filePath));
+        var conditionValue = GetConditionalValue(navigator);
+        if (string.IsNullOrEmpty(conditionValue.Value))
+          throw new ManifestParseException("Missing path attribute on element.");
+        paths.Add(conditionValue);
       }
       return paths;
     }
@@ -129,10 +147,24 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       var projectFileNavigator = GetRequiredNodeByXPath("/templateManifest/projectsToAttach");
       foreach (XPathNavigator tokenNavigator in projectFileNavigator.SelectChildren("projectFile", ""))
       {
-        var projectFilePath = tokenNavigator.GetAttribute("path", "");
-        if (string.IsNullOrEmpty(projectFilePath)) throw new ManifestParseException("Missing path attribute on project file to attach");
-        Manifest.ProjectsToAttach.Add(GetFullPath(projectFilePath));
+        var value = GetConditionalValue(tokenNavigator);
+        if (string.IsNullOrEmpty(value.Value)) throw new ManifestParseException("Missing path attribute on project file to attach");
+        Manifest.ProjectsToAttach.Add(value);
       }
+    }
+
+    protected ConditionalValue GetConditionalValue(XPathNavigator navigator)
+    {
+      var evaluatorType = navigator.GetAttribute("type", "");
+      var path = navigator.GetAttribute("path", "");
+      return new ConditionalValue
+      {
+        // TODO: if glob, Directory.EnumerateFiles search pattern
+        Value = !path.StartsWith("*") ? GetFullPath(path) : path,
+        Condition = navigator.GetAttribute("condition", ""),
+        ConditionEvaluator = !string.IsNullOrEmpty(evaluatorType) ? 
+          ManifestTypeInstantiator.CreateInstance<IEvaluateCondition>(evaluatorType) : DefaultConditionEvaluator
+      };
     }
 
     protected virtual void ParseReplacementTokens()
@@ -148,7 +180,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
           Tokens = new List<ITokenDescription>()
         };
         if (string.IsNullOrWhiteSpace(section.DisplayName))
-          section.DisplayName = "[Tokens]";
+          section.DisplayName = "[Section]";
         ParseTokens(sectionNavigator, section.Tokens);
         Manifest.TokenSections.Add(section);
       }
@@ -257,7 +289,8 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
     {
       path = path.Replace("/", @"\");
       var fullPath = path.StartsWith(Manifest.ManifestRootPath) ? path : CombinePaths(Manifest.ManifestRootPath, path);
-      if (!File.Exists(fullPath) && !Directory.Exists(fullPath)) throw new ManifestParseException($"Could not find file or directory on {path} - expected full path {fullPath}");
+      if (!File.Exists(fullPath) && !Directory.Exists(fullPath))
+        throw new ManifestParseException($"Could not find file or directory on relative {path} - expected file on full path {fullPath}");
       return fullPath;
     }
 

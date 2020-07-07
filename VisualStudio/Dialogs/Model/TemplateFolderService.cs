@@ -25,7 +25,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
       if (string.IsNullOrEmpty(templateFolder))
         return false;
 
-      fullPath = templateFolder.Contains(":\\")
+      fullPath = templateFolder.Contains(":\\") || templateFolder.StartsWith("\\\\")
         ? templateFolder
         : Path.Combine(RootDirectory, templateFolder);
 
@@ -37,7 +37,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
     protected virtual string SearchForTemplatesFolder()
     {
       return Directory.GetDirectories(RootDirectory)
-        .Where(rd => !rd.EndsWith("node_modules") && !rd.EndsWith("src")).FirstOrDefault(IsTemplateFolder);
+        .Where(rd => !rd.EndsWith("images") && !rd.EndsWith("docker") && !rd.EndsWith("node_modules") && !rd.EndsWith("src")).FirstOrDefault(IsTemplateFolder);
     }
 
     protected bool IsTemplateFolder(string folderPath)
