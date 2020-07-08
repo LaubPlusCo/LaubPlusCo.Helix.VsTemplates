@@ -84,6 +84,7 @@
     <Compile Include="Repositories\ProjectRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="LaubPlusCo.VisualStudio.Helix.Wizard.key" />
     <None Include="LaubPlusCo.VisualStudio.Helix.Wizard.snk" />
   </ItemGroup>
