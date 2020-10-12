@@ -1,8 +1,8 @@
-﻿<platformUi:DialogWindow x:Class="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs.SettingsDialog"
+﻿<platformUi1:DialogWindow x:Class="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs.SettingsDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
-        xmlns:vsui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
+        xmlns:platformUi1="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+        xmlns:vsui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
         Title="Helix Templates Settings" 
         WindowStyle="None"
         SizeToContent="Width" 
@@ -100,5 +100,5 @@
     </TabControl>
     <Button Content="OK" IsDefault="True" Click="SaveSettings_Click" Margin="0,0,0,10" Grid.Row="1" />
   </Grid>
-</platformUi:DialogWindow>
+</platformUi1:DialogWindow>
 

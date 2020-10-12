@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs"
-             xmlns:vsui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
+             xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
              mc:Ignorable="d" d:DesignWidth="300">
   <StackPanel Margin="0,5,0,0" HorizontalAlignment="Stretch">
-    <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" Width="Auto" HorizontalAlignment="Stretch" Name="TokenDisplayNameLabel" />
+    <Label Foreground="{DynamicResource {x:Static shell:VsBrushes.CaptionTextKey }}" Width="Auto" HorizontalAlignment="Stretch" Name="TokenDisplayNameLabel" />
     <ComboBox  Height="25" HorizontalAlignment="Stretch" Name="TokenComboInput" />
-    <TextBlock Margin="5,0,0,0" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10"  FontStyle="Italic" HorizontalAlignment="Stretch"  Name="TokenHelpTextBlock" />
+    <TextBlock Margin="5,0,0,0" Foreground="{DynamicResource {x:Static shell:VsBrushes.InactiveCaptionTextKey }}" FontSize="10"  FontStyle="Italic" HorizontalAlignment="Stretch"  Name="TokenHelpTextBlock" />
   </StackPanel>
 </local:TokenInputControl>

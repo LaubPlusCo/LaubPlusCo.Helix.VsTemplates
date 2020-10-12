@@ -1,11 +1,11 @@
-﻿<platformUi:DialogWindow x:Class="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs.ManifestDialog"
+﻿<platformUi1:DialogWindow x:Class="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs.ManifestDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
-        xmlns:vsui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
         xmlns:dialogs="clr-namespace:LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs"
+        xmlns:platformUi1="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+        xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
         mc:Ignorable="d"
         ShowInTaskbar="True"
         WindowStyle="None"
@@ -13,7 +13,7 @@
         MinWidth="750"
         MaxWidth="750"
         BorderThickness="1"
-        BorderBrush="{DynamicResource {x:Static vsui:VsBrushes.ToolWindowBorderKey }}"
+        BorderBrush="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey }}"
         AllowsTransparency="True"
         Title="Helix Templates" 
         SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
@@ -32,7 +32,7 @@
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <TextBlock Name="HeadlineText" Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" Margin="0,0,0,25" Grid.Row="0" HorizontalAlignment="Left" Style="{DynamicResource {x:Static vsui:VsResourceKeys.TextBlockEnvironment310PercentFontSizeStyleKey }}" />
+    <TextBlock Name="HeadlineText" Foreground="{DynamicResource {x:Static shell:VsBrushes.CaptionTextKey }}" Margin="0,0,0,25" Grid.Row="0" HorizontalAlignment="Left" Style="{DynamicResource {x:Static shell:VsResourceKeys.TextBlockEnvironment310PercentFontSizeStyleKey }}" />
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="0">
       <Button BorderThickness="0"  VerticalAlignment="Top" Background="Transparent" Height="30" Click="OpenTrace_Clicked" Margin="0,0,10,0">
         <ContentControl Content="{StaticResource IconBug}" />
@@ -42,10 +42,10 @@
       </Button>
     </StackPanel>
     <StackPanel Grid.Row="1" >
-      <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Select template</Label>
+      <Label Foreground="{DynamicResource {x:Static shell:VsBrushes.CaptionTextKey }}">Select template</Label>
       <ComboBox HorizontalAlignment="Stretch" Height="25" Name="AvailableManifestsComboBox" SelectionChanged="SelectionChanged" />
-      <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" Name="TemplateDescription" HorizontalAlignment="Stretch"  TextWrapping="WrapWithOverflow" Margin="5,20" />
-      <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontStyle="Italic" FontSize="10" Name="TemplateAuthor" HorizontalAlignment="Right" TextWrapping="WrapWithOverflow" />
+      <TextBlock Foreground="{DynamicResource {x:Static shell:VsBrushes.CaptionTextKey }}" Name="TemplateDescription" HorizontalAlignment="Stretch"  TextWrapping="WrapWithOverflow" Margin="5,20" />
+      <TextBlock Foreground="{DynamicResource {x:Static shell:VsBrushes.InactiveCaptionTextKey }}" FontStyle="Italic" FontSize="10" Name="TemplateAuthor" HorizontalAlignment="Right" TextWrapping="WrapWithOverflow" />
 
         <TabControl Name="TokenSectionTabs" TabStripPlacement="Left">
           <TabControl.Resources>
@@ -63,10 +63,10 @@
                       </Grid>
                       <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                        <Setter TargetName="Panel" Property="Background" Value="{DynamicResource {x:Static vsui:VsBrushes.PanelHyperlinkKey }}" />
+                        <Setter TargetName="Panel" Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.PanelHyperlinkKey }}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
-                        <Setter TargetName="Panel" Property="Background" Value="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionKey }}" />
+                        <Setter TargetName="Panel" Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.InactiveCaptionKey }}" />
                         </Trigger>
                       </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -167,5 +167,5 @@
       </Button>
     </Grid>
     </Grid>
-</platformUi:DialogWindow>
+</platformUi1:DialogWindow>
 

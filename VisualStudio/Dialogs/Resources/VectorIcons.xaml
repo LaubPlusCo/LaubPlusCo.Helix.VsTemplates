@@ -1,13 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0">
+                    xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0">
 
   <Style x:Key="HoverIconStyle" TargetType="Path">
-    <Setter Property="Fill" Value="{DynamicResource {x:Static vsfx:VsBrushes.CaptionTextKey}}" />
+    <Setter Property="Fill" Value="{DynamicResource {x:Static shell:VsBrushes.CaptionTextKey}}" />
     <Setter Property="Stretch" Value="Uniform" />
     <Style.Triggers>
       <Trigger Property="IsMouseOver" Value="True">
-        <Setter Property="Fill" Value="{DynamicResource {x:Static vsfx:VsBrushes.PanelHyperlinkKey}}" />
+        <Setter Property="Fill" Value="{DynamicResource {x:Static shell:VsBrushes.PanelHyperlinkKey}}" />
         <Trigger.EnterActions>
           <BeginStoryboard>
             <Storyboard>
@@ -132,10 +132,10 @@
     </DrawingGroup.Transform>
     <DrawingGroup Opacity="1">
       <GeometryDrawing Brush="#A1D6DA" Geometry="{StaticResource LaubplusCoGeometry1}" />
-      <GeometryDrawing Brush="{DynamicResource {x:Static vsfx:VsBrushes.InactiveCaptionTextKey}}" Geometry="{StaticResource LaubplusCoGeometry2}" />
-      <GeometryDrawing Brush="{DynamicResource {x:Static vsfx:VsBrushes.InactiveCaptionTextKey}}" Geometry="{StaticResource LaubplusCoGeometry3}" />
-      <GeometryDrawing Brush="{DynamicResource {x:Static vsfx:VsBrushes.InactiveCaptionTextKey}}" Geometry="{StaticResource LaubplusCoGeometry4}" />
-      <GeometryDrawing Brush="{DynamicResource {x:Static vsfx:VsBrushes.InactiveCaptionTextKey}}" Geometry="{StaticResource LaubplusCoGeometry5}" />
+      <GeometryDrawing Brush="{DynamicResource {x:Static shell:VsBrushes.InactiveCaptionTextKey}}" Geometry="{StaticResource LaubplusCoGeometry2}" />
+      <GeometryDrawing Brush="{DynamicResource {x:Static shell:VsBrushes.InactiveCaptionTextKey}}" Geometry="{StaticResource LaubplusCoGeometry3}" />
+      <GeometryDrawing Brush="{DynamicResource {x:Static shell:VsBrushes.InactiveCaptionTextKey}}" Geometry="{StaticResource LaubplusCoGeometry4}" />
+      <GeometryDrawing Brush="{DynamicResource {x:Static shell:VsBrushes.InactiveCaptionTextKey}}" Geometry="{StaticResource LaubplusCoGeometry5}" />
     </DrawingGroup>
   </DrawingGroup>
   <DrawingGroup x:Key="LaubplusCoDrawingGroupHover">
