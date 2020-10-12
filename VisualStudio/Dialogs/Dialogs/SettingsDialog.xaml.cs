@@ -239,6 +239,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       var success = templateInstallService.Install();
       MessageBox.Show(success ? "Templates installed" : "Could not install templates.", "", MessageBoxButton.OK);
       UnpackBuiltInButton.IsEnabled = true;
+      FileStorageService.Instance.RemoveTempFolder();
       return success;
     }
 

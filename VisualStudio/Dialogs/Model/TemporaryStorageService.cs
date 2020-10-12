@@ -6,6 +6,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
   public class FileStorageService
   {
     private static FileStorageService _instance;
+    protected const string TempFolderPath = @"C:\_vst";
     public DirectoryInfo TemporaryDirectory;
 
     public FileStorageService()
@@ -17,12 +18,11 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
 
     protected DirectoryInfo GetTemporaryDirectory()
     {
-
       //TODO: LONG PATH EXCEPTION.. HAS TO BE FIXED!!!
-       var tempPath = Path.Combine(Path.GetTempPath(), "_vst");
-      if (Directory.Exists(tempPath))
-        Delete(tempPath);
-      return Directory.CreateDirectory(tempPath);
+
+      if (Directory.Exists(TempFolderPath))
+        Delete(TempFolderPath);
+      return Directory.CreateDirectory(TempFolderPath);
     }
 
     public void CleanTempFolder()
@@ -37,6 +37,11 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
       foreach (var file in allFiles) File.Delete(file);
       Directory.Delete(path, true);
       Thread.Sleep(500);
+    }
+
+    public void RemoveTempFolder()
+    {
+      Delete(TempFolderPath);
     }
   }
 }
