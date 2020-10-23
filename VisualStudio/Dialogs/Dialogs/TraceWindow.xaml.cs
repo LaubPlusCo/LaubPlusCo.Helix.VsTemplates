@@ -13,6 +13,8 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
   {
     protected readonly TextTraceListener TraceListener;
 
+    private ManifestDialog _manifestDialog;
+
     public TraceWindow(TextTraceListener traceListener)
     {
       TraceListener = traceListener;
@@ -22,6 +24,12 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       InitializeComponent();
       this.SetVisualStudioThemeStyles();
       SetTraceText(TraceListener.Trace);
+    }
+
+    public void SetManifestDialog(ManifestDialog manifestDialog)
+    {
+      _manifestDialog = manifestDialog;
+      ReloadButton.IsEnabled = _manifestDialog != null;
     }
 
     private void TraceListenerOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -43,6 +51,11 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       WeakEventManager<INotifyPropertyChanged, PropertyChangedEventArgs>.RemoveHandler(TraceListener, "PropertyChanged",
         TraceListenerOnPropertyChanged);
       Close();
+    }
+
+    private void ReloadManifests(object sender, RoutedEventArgs e)
+    {
+      _manifestDialog?.Reload();
     }
   }
 }

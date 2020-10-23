@@ -7,7 +7,7 @@
         WindowStyle="None"
         SizeToContent="Width" 
         IsCloseButtonEnabled="False"
-        Height="400"
+        Height="440"
         Width="380"
         ResizeMode="NoResize"
         AllowsTransparency="True"
@@ -65,7 +65,8 @@
             </CheckBox>
             <TextBox Height="25"  Width="350" HorizontalAlignment="Stretch" Name="DownloadUrl" />
           <TextBlock Margin="5,0,0,0" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">URL to zip archive with templates</TextBlock>
-        </StackPanel>
+            <Button Name="SetDefaultUrlButton" Content="Reset to default download URL" Click="SetDefaultUrlClicked" Margin="0,5" />
+          </StackPanel>
         <Button BorderThickness="0" MinHeight="75" MinWidth="75" HorizontalAlignment="Center" Margin="0,15,0,0" Background="Transparent" Click="UnpackTemplates_Clicked" Name="UnpackBuiltInButton" >
           <StackPanel>
             <ContentControl Content="{StaticResource IconUnbox}" Width="70" Height="70" />

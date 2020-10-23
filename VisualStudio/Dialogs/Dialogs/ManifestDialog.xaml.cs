@@ -28,6 +28,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     private bool _isSolutionCreation;
     private HelixTemplateManifest[] _manifests;
     private HelixTemplateManifest _selectedManifest;
+    private string _globalTemplatesFolder;
     private string _solutionRoot;
 
     private SolutionScopeSettings _solutionScopeSettings;
@@ -53,6 +54,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     public void Initialize(string globalTemplatesFolder, string solutionRoot, IDictionary<string, string> initialTokens,
       bool isSolutionCreation)
     {
+      _globalTemplatesFolder = globalTemplatesFolder;
       _initialTokens = initialTokens.ToDictionary(t => t.Key, t => t.Value);
       _isSolutionCreation = isSolutionCreation;
       _solutionRoot = solutionRoot;
@@ -62,8 +64,8 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       HeadlineText.Text = $"Create new {typeText}";
 
       var templatesFolder = _isSolutionCreation
-        ? globalTemplatesFolder
-        : FindModuleTemplatesRootDirectory(solutionRoot, globalTemplatesFolder);
+        ? _globalTemplatesFolder
+        : FindModuleTemplatesRootDirectory(solutionRoot, _globalTemplatesFolder);
 
       _manifests = new ReadAllManifestFilesService(templatesFolder, initialTokens).Read();
       _manifests = _manifests.Where(m =>
@@ -254,6 +256,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     {
       if (TraceWindow == null)
         TraceWindow = new TraceWindow(_traceListener);
+      TraceWindow.SetManifestDialog(this);
       if (!TraceWindow.IsVisible)
         TraceWindow.Show();
     }
@@ -307,7 +310,8 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     {
       if (TraceWindow != null && TraceWindow.IsVisible)
       {
-        WriteTraceService.WriteToTrace("Please close this window..", "\nDone");
+        TraceWindow.SetManifestDialog(null);
+        WriteTraceService.WriteToTrace("Please close this window..", "\nDisconnected");
         TraceWindow.Focus();
       }
 
@@ -345,6 +349,11 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     {
       Process.Start(new ProcessStartInfo("https://github.com/LaubPlusCo/Helix.VsTemplates"));
       e.Handled = true;
+    }
+
+    public void Reload()
+    {
+      Initialize(_globalTemplatesFolder, _solutionRoot, _initialTokens, _isSolutionCreation);
     }
   }
 }

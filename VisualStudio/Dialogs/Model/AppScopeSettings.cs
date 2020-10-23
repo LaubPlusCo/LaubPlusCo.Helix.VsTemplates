@@ -29,6 +29,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
 
     public string TemplatesFolder { get; set; }
     public string DownloadUrl { get; set; }
+    public string DefaultDownloadUrl { get; set; }
     public string InstalledVersion { get; set; }
     public bool DownloadTemplates { get; set; }
     public bool ShowVsTokensTab { get; set; }
@@ -67,12 +68,12 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
         !string.IsNullOrEmpty(templateFolder) ? templateFolder : DefaultRootPath);
 
       InstalledVersion = settings.GetSetting(InstalledVersionKey, currentVersion);
-      var versionSpecificDownloadUrl = string.Concat(DefaultDownloadPath, $"v{currentVersion}.zip");
-      DownloadUrl = settings.GetSetting(DownloadFromUrlKey, versionSpecificDownloadUrl);
-      if (!DownloadUrl.Equals(versionSpecificDownloadUrl, StringComparison.Ordinal)
+      DefaultDownloadUrl = string.Concat(DefaultDownloadPath, $"v{currentVersion}.zip");
+      DownloadUrl = settings.GetSetting(DownloadFromUrlKey, DefaultDownloadUrl);
+      if (!DownloadUrl.Equals(DefaultDownloadUrl, StringComparison.Ordinal)
           && DownloadUrl.StartsWith(DefaultDownloadPath, StringComparison.OrdinalIgnoreCase))
       { 
-        DownloadUrl = versionSpecificDownloadUrl;
+        DownloadUrl = DefaultDownloadUrl;
         saveSettings = true;
       }
 

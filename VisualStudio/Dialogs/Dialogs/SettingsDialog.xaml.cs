@@ -248,5 +248,10 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     {
       System.Diagnostics.Process.Start(e.Uri.AbsoluteUri);
     }
+
+    private void SetDefaultUrlClicked(object sender, RoutedEventArgs e)
+    {
+      DownloadUrl.Text = AppScopeSettings.Current.DefaultDownloadUrl;
+    }
   }
 }
