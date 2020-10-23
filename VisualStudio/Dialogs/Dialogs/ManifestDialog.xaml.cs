@@ -56,6 +56,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     {
       _globalTemplatesFolder = globalTemplatesFolder;
       _initialTokens = initialTokens.ToDictionary(t => t.Key, t => t.Value);
+      
       _isSolutionCreation = isSolutionCreation;
       _solutionRoot = solutionRoot;
       _solutionScopeSettings = new SolutionScopeSettings(solutionRoot);
@@ -210,7 +211,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     {
       var tabItem = new TokenSectionTabItem("VS Tokens");
       TokenSectionTabs.Items.Add(tabItem);
-      foreach (var token in _initialTokens)
+      foreach (var token in _initialTokens.OrderByDescending(t => t.Key))
         tabItem.InnerPanel.Children.Add(new TextBlock
         {
           Text = $"{token.Key}:   {token.Value}",

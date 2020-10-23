@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Xml;
 using System.Xml.XPath;
 using LaubPlusCo.Foundation.HelixTemplating.Manifest;
@@ -274,7 +275,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       Manifest.Link = GetHyperLink(GetNodeByXPath("/templateManifest/link"));
       Manifest.Version = GetRequiredValue("/templateManifest/version");
       Manifest.Author = GetRequiredValue("/templateManifest/author");
-      Manifest.SourceFolder = GetFullPath(GetRequiredValue("/templateManifest/sourceFolder"));
+      Manifest.SourceFolder = GetFullPath(GetRequiredValue("/templateManifest/sourceFolder"), true);
       Manifest.SaveOnCreate = bool.TryParse(GetRequiredValue("/templateManifest/saveOnCreate"), out bool saveOnCreate) && saveOnCreate;
     }
 
@@ -285,13 +286,19 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       return new TemplateHyperLink { LinkText = linkNode.GetAttribute("text", ""), LinkUri = new Uri(linkUrl) };
     }
 
-    protected string GetFullPath(string path)
+    protected string GetFullPath(string path, bool createFolder = false)
     {
       path = path.Replace("/", @"\");
       var fullPath = path.StartsWith(Manifest.ManifestRootPath) ? path : CombinePaths(Manifest.ManifestRootPath, path);
-      if (!File.Exists(fullPath) && !Directory.Exists(fullPath))
-        throw new ManifestParseException($"Could not find file or directory on relative {path} - expected file on full path {fullPath}");
-      return fullPath;
+      if (File.Exists(fullPath)  || Directory.Exists(fullPath))
+        return fullPath;
+      
+      if (createFolder)
+      {
+        return Directory.CreateDirectory(path).FullName;
+      }
+
+      throw new ManifestParseException($"Could not find file or directory on relative {path} - expected file on full path {fullPath}");
     }
 
     protected string CombinePaths(string path1, string path2)

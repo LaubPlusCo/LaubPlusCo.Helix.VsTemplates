@@ -28,6 +28,7 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
 {
   public class HelixTemplateWizard : IWizard
   {
+    private const int TotalGuidTokens = 99;
     private string _destinationDirectory;
     private DTE2 _dte;
     private bool? _isExclusive;
@@ -46,7 +47,8 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
       }
 
       _dte = automationObject as DTE2;
-      _replacementTokens = replacementTokens;
+      _replacementTokens = AddExtraGuidTokens(replacementTokens);
+
       _destinationDirectory = replacementTokens["$destinationdirectory$"];
       _solutionRootDirectory = replacementTokens["$solutiondirectory$"];
       _isExclusive = replacementTokens["$exclusiveproject$"] == null ? null :
@@ -57,6 +59,13 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
         ShowInitSetupDialog();
 
       ShowManifestDialog();
+    }
+
+    private Dictionary<string, string> AddExtraGuidTokens(Dictionary<string, string> replacementTokens)
+    {
+      for (var i = 11; i <= TotalGuidTokens; i++)
+        replacementTokens.Add($"$guid{i}$", Guid.NewGuid().ToString().ToLowerInvariant());
+      return replacementTokens;
     }
 
     public bool ShouldAddProjectItem(string filePath)
