@@ -1,22 +1,23 @@
-﻿<platformUi1:DialogWindow x:Class="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs.ManifestDialog"
+﻿<platformUi:DialogWindow  x:Class="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs.ManifestDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dialogs="clr-namespace:LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs"
-        xmlns:platformUi1="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
         xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+        xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
         mc:Ignorable="d"
-        ShowInTaskbar="True"
         WindowStyle="None"
         MinHeight="450"
         MinWidth="750"
         MaxWidth="750"
+        HasDialogFrame="False"
         BorderThickness="1"
         BorderBrush="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey }}"
-        AllowsTransparency="True"
-        Title="Helix Templates" 
-        SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Helix Templates"
+        SizeToContent="WidthAndHeight" 
+        ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen">
   <Window.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -33,7 +34,7 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
     <TextBlock Name="HeadlineText" Foreground="{DynamicResource {x:Static shell:VsBrushes.CaptionTextKey }}" Margin="0,0,0,25" Grid.Row="0" HorizontalAlignment="Left" Style="{DynamicResource {x:Static shell:VsResourceKeys.TextBlockEnvironment310PercentFontSizeStyleKey }}" />
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="0">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="0" Margin="0,15">
       <Button BorderThickness="0"  VerticalAlignment="Top" Background="Transparent" Height="30" Click="OpenTrace_Clicked" Margin="0,0,10,0">
         <ContentControl Content="{StaticResource IconBug}" />
       </Button>
@@ -167,5 +168,5 @@
       </Button>
     </Grid>
     </Grid>
-</platformUi1:DialogWindow>
+</platformUi:DialogWindow>
 

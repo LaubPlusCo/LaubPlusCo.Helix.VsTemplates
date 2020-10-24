@@ -6,11 +6,12 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
   public class FileStorageService
   {
     private static FileStorageService _instance;
-    protected const string TempFolderPath = @"C:\_vst";
+    protected readonly string TempFolderPath;
     public DirectoryInfo TemporaryDirectory;
 
     public FileStorageService()
     {
+      TempFolderPath = AppScopeSettings.Current.TempFolderPath;
       TemporaryDirectory = GetTemporaryDirectory();
     }
 
@@ -18,8 +19,6 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
 
     protected DirectoryInfo GetTemporaryDirectory()
     {
-      //TODO: LONG PATH EXCEPTION.. HAS TO BE FIXED!!!
-
       if (Directory.Exists(TempFolderPath))
         Delete(TempFolderPath);
       return Directory.CreateDirectory(TempFolderPath);

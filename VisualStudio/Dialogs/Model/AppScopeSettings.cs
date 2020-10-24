@@ -6,6 +6,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
   public class AppScopeSettings
   {
     protected const string TemplatesFolderKey = "global.folder";
+    protected const string TempFolderPathKey = "global.temppath";
     protected const string DownloadFromUrlKey = "global.downloadurl";
     protected const string InstalledVersionKey = "global.version";
     protected const string ShowVsTokensTabKey = "global.showvstokenstab";
@@ -13,7 +14,8 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
     protected const string VersionNoticeShownKey = "global.versionnoticeshown";
     protected const string VersionNoticeShownForKey = "global.versionnoticefor";
     protected const string DefaultRootPath = @"c:\projects\helix.templates\";
-    protected const string DefaultDownloadPath = "https://github.com/LaubPlusCo/Helix-Templates/archive/release/";
+    protected const string GithubTemplatesArchiveRootPath = "https://github.com/LaubPlusCo/Helix-Templates/archive/";
+    public string LatestTemplatesDownloadPath => $"{GithubTemplatesArchiveRootPath}master.zip";
 
     private static AppScopeSettings _instance;
 
@@ -28,6 +30,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
     public static AppScopeSettings Current => _instance ?? (_instance = new AppScopeSettings());
 
     public string TemplatesFolder { get; set; }
+    public string TempFolderPath { get; set; }
     public string DownloadUrl { get; set; }
     public string DefaultDownloadUrl { get; set; }
     public string InstalledVersion { get; set; }
@@ -68,11 +71,13 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
         !string.IsNullOrEmpty(templateFolder) ? templateFolder : DefaultRootPath);
 
       InstalledVersion = settings.GetSetting(InstalledVersionKey, currentVersion);
-      DefaultDownloadUrl = string.Concat(DefaultDownloadPath, $"v{currentVersion}.zip");
+      TempFolderPath = settings.GetSetting(TempFolderPathKey, @"c:\_vstemp");
+      DefaultDownloadUrl = string.Concat(GithubTemplatesArchiveRootPath, $"release/v{currentVersion}.zip");
       DownloadUrl = settings.GetSetting(DownloadFromUrlKey, DefaultDownloadUrl);
+
       if (!DownloadUrl.Equals(DefaultDownloadUrl, StringComparison.Ordinal)
-          && DownloadUrl.StartsWith(DefaultDownloadPath, StringComparison.OrdinalIgnoreCase))
-      { 
+          && DownloadUrl.StartsWith($"{GithubTemplatesArchiveRootPath}release/v", StringComparison.OrdinalIgnoreCase))
+      {
         DownloadUrl = DefaultDownloadUrl;
         saveSettings = true;
       }

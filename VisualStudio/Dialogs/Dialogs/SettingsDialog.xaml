@@ -5,12 +5,14 @@
         xmlns:vsui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
         Title="Helix Templates Settings" 
         WindowStyle="None"
-        SizeToContent="Width" 
+        HasDialogFrame="False"
+        BorderThickness="1"
+        BorderBrush="{DynamicResource {x:Static vsui:VsBrushes.ToolWindowBorderKey }}"
+        SizeToContent="WidthAndHeight" 
         IsCloseButtonEnabled="False"
-        Height="440"
-        Width="380"
+        Height="Auto"
+        Width="Auto"
         ResizeMode="NoResize"
-        AllowsTransparency="True"
         WindowStartupLocation="CenterScreen">
   <Window.Resources>
     <ResourceDictionary>
@@ -22,9 +24,12 @@
   <Grid Margin="10">
     <Grid.RowDefinitions>
       <RowDefinition Height="*" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <TabControl Name="SettingTabs" Grid.Row="0">
+    <TextBlock Text="Settings" Name="SettingsHeadlineText" Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" Margin="0,0,0,10" Grid.Row="0" HorizontalAlignment="Left" Style="{DynamicResource {x:Static vsui:VsResourceKeys.TextBlockEnvironment310PercentFontSizeStyleKey }}" />
+    <TabControl Name="SettingTabs" Grid.Row="1">
       <TabControl.Resources>
         <Style TargetType="TabItem">
           <Setter Property="Template">
@@ -54,20 +59,30 @@
       <TabItem Name="GlobalSettingsTab">
       <StackPanel Margin="0,0,0,20">
         <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Global Helix templates folder</Label>
-        <TextBox Height="25" Width="350" Name="GlobalTemplatesFolderTextbox" />
+          <TextBox Height="25" Name="GlobalTemplatesFolderTextbox" />
         <TextBlock Margin="0,0,0,10" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">For Solution and module templates</TextBlock>
           <CheckBox Name="ShowVsTokens" IsChecked="True">
-          <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" HorizontalAlignment="Stretch">Show Visual Studio tokens tab</Label>
+          <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Show Visual Studio tokens tab</Label>
         </CheckBox>
           <StackPanel Margin="0,5,0,0" HorizontalAlignment="Stretch">
+          <StackPanel Orientation="Horizontal">
             <CheckBox Name="DownloadTemplates" IsChecked="True">
-              <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" HorizontalAlignment="Stretch">Download templates from</Label>
+              <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Download templates from</Label>
             </CheckBox>
-            <TextBox Height="25"  Width="350" HorizontalAlignment="Stretch" Name="DownloadUrl" />
-          <TextBlock Margin="5,0,0,0" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">URL to zip archive with templates</TextBlock>
-            <Button Name="SetDefaultUrlButton" Content="Reset to default download URL" Click="SetDefaultUrlClicked" Margin="0,5" />
+              <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}"  Opacity="0.6" FontSize="10" FontStyle="Italic" Margin="80,0,0,0">Reset URL:</Label>
+              <Button Name="SetDefaultUrlButton"  Opacity="0.6" Content="Default" Click="SetDefaultUrlClicked" FontSize="10" BorderThickness="0" Background="Transparent" Margin="5,0,0,0" />
+              <Button Name="SetLatestUrlButton" Opacity="0.6" Content="Latest" Click="SetLatestUrlClicked" FontSize="10" HorizontalAlignment="Right" BorderThickness="0" Background="Transparent" Margin="20,0,0,0" />
           </StackPanel>
-        <Button BorderThickness="0" MinHeight="75" MinWidth="75" HorizontalAlignment="Center" Margin="0,15,0,0" Background="Transparent" Click="UnpackTemplates_Clicked" Name="UnpackBuiltInButton" >
+            <TextBox Height="25" HorizontalAlignment="Stretch" Name="DownloadUrl" />
+          <TextBlock Margin="5,0,0,0" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">URL to zip archive with templates</TextBlock>
+            <StackPanel Orientation="Vertical" Opacity="0.6">
+            <StackPanel Orientation="Horizontal">
+            </StackPanel>
+            <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Download temporary path</Label>
+            <TextBox Height="25" HorizontalAlignment="Stretch" Name="TempFolderPath" />
+          </StackPanel>
+          </StackPanel>
+          <Button BorderThickness="0" MinHeight="75" MinWidth="75" HorizontalAlignment="Center" Margin="0,15,0,0" Background="Transparent" Click="UnpackTemplates_Clicked" Name="UnpackBuiltInButton" >
           <StackPanel>
             <ContentControl Content="{StaticResource IconUnbox}" Width="70" Height="70" />
             <TextBlock HorizontalAlignment="Center" Foreground="{DynamicResource {x:Static vsui:VsBrushes.PanelHyperlinkKey }}" Margin="0" TextAlignment="Center" Name="InstallTemplatesLabel" />
@@ -78,7 +93,7 @@
     <TabItem Name="SolutionSettingsTab">
       <StackPanel>
       <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Solution module Templates folder</Label>
-          <TextBox Height="25" Width="350" Name="SolutionTemplatesFolderTextbox" />
+          <TextBox Height="25" Name="SolutionTemplatesFolderTextbox" />
         <TextBlock Margin="0,0,0,10" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">Module templates for current solution - use relative path to solution root</TextBlock>
         </StackPanel>
     </TabItem>
@@ -99,7 +114,8 @@
         </ScrollViewer>
       </TabItem>
     </TabControl>
-    <Button Content="OK" IsDefault="True" Click="SaveSettings_Click" Margin="0,0,0,10" Grid.Row="1" />
+    <Button Content="Save" IsDefault="True" Click="SaveSettingsClicked" Margin="0,0,0,10" Grid.Row="2" />
+    <Button Content="Cancel" Click="CancelClicked"  Margin="0,0,0,10" Grid.Row="3" BorderThickness="0" Background="Transparent" />
   </Grid>
 </platformUi1:DialogWindow>
 

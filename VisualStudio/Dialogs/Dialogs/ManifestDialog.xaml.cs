@@ -46,6 +46,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       TokenSectionTabs.BorderBrush = (Brush) FindResource(VsBrushes.PanelHyperlinkKey);
       TokenSectionTabs.Margin = new Thickness(0, 5, 15, 5);
       TokenSectionTabs.Style = Style;
+      HeadlineText.MouseLeftButtonDown += (sender, args) => { DragMove(); };
     }
 
     public IHelixProjectTemplate HelixProjectTemplate { get; protected set; }

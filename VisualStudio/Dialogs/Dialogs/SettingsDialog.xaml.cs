@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,8 +17,8 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
   /// </summary>
   public partial class SettingsDialog : DialogWindow
   {
-    protected readonly string SolutionRootDirectory;
     protected readonly bool IsSolutionCreation;
+    protected readonly string SolutionRootDirectory;
     protected readonly SolutionScopeSettings SolutionScopeSettings;
 
     public SettingsDialog() : this(string.Empty, false)
@@ -39,11 +40,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       this.SetVisualStudioThemeStyles();
       InitializeStyles();
       SetAboutTexts();
-    }
-
-    private void SetAboutTexts()
-    {
-      AboutVersionText.Text = $"version {AppScopeSettings.Current.InstalledVersion}";
+      SettingsHeadlineText.MouseLeftButtonDown += (sender, args) => { DragMove(); };
     }
 
     public string GlobalTemplateFolder => GlobalTemplatesFolderTextbox.Text;
@@ -52,12 +49,18 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       ? DownloadUrl.Text
       : AppScopeSettings.Current.DownloadUrl;
 
+    private void SetAboutTexts()
+    {
+      AboutVersionText.Text = $"version {AppScopeSettings.Current.InstalledVersion}";
+    }
+
     private void LoadSettings()
     {
       GlobalTemplatesFolderTextbox.Text = AppScopeSettings.Current.TemplatesFolder;
       ShowVsTokens.IsChecked = AppScopeSettings.Current.ShowVsTokensTab;
       DownloadTemplates.IsChecked = AppScopeSettings.Current.DownloadTemplates;
       DownloadUrl.Text = AppScopeSettings.Current.DownloadUrl;
+      TempFolderPath.Text = AppScopeSettings.Current.TempFolderPath;
     }
 
     private void InitializeStyles()
@@ -71,25 +74,26 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       GlobalSettingsTab.Header = new Label
       {
         Content = "Global",
-        Foreground = (Brush)FindResource(VsBrushes.CaptionTextKey),
-        FontFamily = (FontFamily)FindResource(VsFonts.EnvironmentFontFamilyKey),
-        Style = (Style)FindResource(VsResourceKeys.LabelEnvironment133PercentFontSizeStyleKey)
+        Foreground = (Brush) FindResource(VsBrushes.CaptionTextKey),
+        FontFamily = (FontFamily) FindResource(VsFonts.EnvironmentFontFamilyKey),
+        Style = (Style) FindResource(VsResourceKeys.LabelEnvironment133PercentFontSizeStyleKey)
       };
 
       SolutionSettingsTab.Header = new Label
       {
         Content = "Solution",
-        Foreground =  (Brush)FindResource(!IsSolutionCreation ? VsBrushes.CaptionTextKey : VsBrushes.InactiveCaptionTextKey),
-        FontFamily = (FontFamily)FindResource(VsFonts.EnvironmentFontFamilyKey),
-        Style = (Style)FindResource(VsResourceKeys.LabelEnvironment133PercentFontSizeStyleKey)
+        Foreground =
+          (Brush) FindResource(!IsSolutionCreation ? VsBrushes.CaptionTextKey : VsBrushes.InactiveCaptionTextKey),
+        FontFamily = (FontFamily) FindResource(VsFonts.EnvironmentFontFamilyKey),
+        Style = (Style) FindResource(VsResourceKeys.LabelEnvironment133PercentFontSizeStyleKey)
       };
 
       AboutTab.Header = new Label
       {
         Content = "About",
-        Foreground = (Brush)FindResource(VsBrushes.CaptionTextKey),
-        FontFamily = (FontFamily)FindResource(VsFonts.EnvironmentFontFamilyKey),
-        Style = (Style)FindResource(VsResourceKeys.LabelEnvironment133PercentFontSizeStyleKey)
+        Foreground = (Brush) FindResource(VsBrushes.CaptionTextKey),
+        FontFamily = (FontFamily) FindResource(VsFonts.EnvironmentFontFamilyKey),
+        Style = (Style) FindResource(VsResourceKeys.LabelEnvironment133PercentFontSizeStyleKey)
       };
     }
 
@@ -117,7 +121,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       DownloadUrl.Text = AppScopeSettings.Current.DownloadUrl;
     }
 
-    private void SaveSettings_Click(object sender, RoutedEventArgs e)
+    private void SaveSettingsClicked(object sender, RoutedEventArgs e)
     {
       if (!ValidateInput())
         return;
@@ -134,6 +138,12 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         return;
 
       DialogResult = true;
+      Close();
+    }
+
+    private void CancelClicked(object sender, RoutedEventArgs e)
+    {
+      DialogResult = false;
       Close();
     }
 
@@ -183,6 +193,8 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
       AppScopeSettings.Current.ShowVsTokensTab = ShowVsTokens.IsChecked.HasValue && ShowVsTokens.IsChecked.Value;
       AppScopeSettings.Current.TemplatesFolder = GlobalTemplatesFolderTextbox.Text;
+      if (!string.IsNullOrEmpty(TempFolderPath.Text) && Path.IsPathRooted(TempFolderPath.Text))
+        AppScopeSettings.Current.TempFolderPath = TempFolderPath.Text;
       AppScopeSettings.Current.DownloadTemplates =
         DownloadTemplates.IsChecked.HasValue && DownloadTemplates.IsChecked.Value;
       AppScopeSettings.Current.DownloadUrl = DownloadUrl.Text;
@@ -246,12 +258,17 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
     {
-      System.Diagnostics.Process.Start(e.Uri.AbsoluteUri);
+      Process.Start(e.Uri.AbsoluteUri);
     }
 
     private void SetDefaultUrlClicked(object sender, RoutedEventArgs e)
     {
       DownloadUrl.Text = AppScopeSettings.Current.DefaultDownloadUrl;
+    }
+
+    private void SetLatestUrlClicked(object sender, RoutedEventArgs e)
+    {
+      DownloadUrl.Text = AppScopeSettings.Current.LatestTemplatesDownloadPath;
     }
   }
 }

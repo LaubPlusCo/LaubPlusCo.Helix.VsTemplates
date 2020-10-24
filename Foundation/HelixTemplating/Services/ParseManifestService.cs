@@ -295,7 +295,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
       
       if (createFolder)
       {
-        return Directory.CreateDirectory(path).FullName;
+        return Directory.CreateDirectory(fullPath).FullName;
       }
 
       throw new ManifestParseException($"Could not find file or directory on relative {path} - expected file on full path {fullPath}");
