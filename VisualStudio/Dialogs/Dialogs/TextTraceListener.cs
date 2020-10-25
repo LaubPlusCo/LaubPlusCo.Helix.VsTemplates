@@ -8,12 +8,19 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
   {
     private readonly StringBuilder _builder;
     public bool IsDisposed;
+
     public TextTraceListener()
     {
       _builder = new StringBuilder();
     }
 
     public string Trace => _builder.ToString();
+
+    #region INotifyPropertyChanged Members
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    #endregion
 
     public override void Write(string message)
     {
@@ -28,12 +35,6 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       _builder.AppendLine(message);
       OnPropertyChanged(new PropertyChangedEventArgs("Trace"));
     }
-
-    #region INotifyPropertyChanged Members
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion
 
     protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
     {

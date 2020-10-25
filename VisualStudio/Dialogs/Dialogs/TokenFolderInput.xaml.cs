@@ -14,7 +14,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
   /// </summary>
   public partial class TokenFolderInput : TokenInputControl
   {
-    public TokenFolderInput(TokenDescription tokenDescription)
+    public TokenFolderInput(ITokenDescription tokenDescription)
     {
       InitializeComponent();
       TokenValueAsPathInputBox.TextChanged += InputChangedEventHandler;

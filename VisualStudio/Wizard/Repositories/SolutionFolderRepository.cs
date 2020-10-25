@@ -45,20 +45,22 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard.Repositories
       return solutionFolders;
     }
 
-    public void Create(string folderName)
+    public string Create(string folderName)
     {
       var folder = GetByName(folderName);
       if (folder != null)
-        return;
+        return folderName;
       Solution.AddSolutionFolder(folderName);
+      return folderName;
     }
 
-    public void Create(string folderName, SolutionFolder parentFolder)
+    public string Create(string folderName, SolutionFolder parentFolder)
     {
       var folder = GetByName(folderName);
       if (folder != null)
-        return;
+        return folderName;
       parentFolder.AddSolutionFolder(folderName);
+      return folderName;
     }
   }
 }

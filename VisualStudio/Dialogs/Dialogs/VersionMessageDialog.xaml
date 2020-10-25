@@ -1,0 +1,30 @@
+﻿<platformUi1:DialogWindow x:Class="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs.VersionMessageDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:platformUi1="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+        xmlns:vsui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+        mc:Ignorable="d"
+        SizeToContent="WidthAndHeight" 
+        IsCloseButtonEnabled="False"
+        Title="Release notes" Height="430" Width="700">
+  <Grid Margin="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <StackPanel>
+      <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.PanelHyperlinkKey }}" Name="Headline" FontSize="18">
+        Release note for version
+      </TextBlock>
+            <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey}}" TextWrapping="Wrap" Margin="5,20,0,20"><Bold><Run Text="Example templates can now be updated from online sources using the Settings dialog."/></Bold><LineBreak/><Run FontStyle="Italic" Text="Please check regularly for updates to the example templates."/></TextBlock>
+            <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" TextWrapping="Wrap" Margin="5,0,0,20"><Bold>The default example templates are now maintained in a separate repository on <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/LaubPlusCo/Helix-Templates">Github</Hyperlink>.</Bold><LineBreak></LineBreak>By default templates are fetched from the corresponding 'release' branch.</TextBlock>
+      <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" TextWrapping="Wrap" Margin="5,0,0,20"><Bold>Extra Guids for item .yml generation.</Bold><LineBreak></LineBreak>Visual Studio automatically generate 10 guid tokens $guid1$-$guid10$ - this extension now adds up to $guid99$. These tokens can f.ex. be used to auto-generate serialized items in yaml.</TextBlock>
+      <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" TextWrapping="Wrap" Margin="5,0,0,20">Please help to evolve the common development practices by updating and sharing templates. Just make pull requests to the above github repo.</TextBlock>
+      <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" TextWrapping="Wrap" Margin="5,0,0,20"><Italic>Feedback, suggestions and bug reports for the Visual Studio extension (not the templates) is made in this <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/LaubPlusCo/LaubPlusCo.Helix.VsTemplates">repository</Hyperlink></Italic></TextBlock>
+      <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" Margin="25" TextAlignment="Right">- @anderslaub</TextBlock>
+    </StackPanel>
+    <Button Content="Okay.." Height="30" IsDefault="True" Click="Close_Clicked" Margin="20" Grid.Row="1" />
+  </Grid>
+</platformUi1:DialogWindow>

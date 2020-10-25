@@ -12,7 +12,6 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard.Services
 {
   public class AttachToVisualStudioService
   {
-    protected const string VsProjectKindSolutionFolder = "{66A26720-8FB5-11D2-AA7E-00C04F688DDE}";
     protected readonly DTE2 DteInterface;
     protected readonly ProjectRepository ProjectsRepository;
     protected readonly SolutionFolderRepository SolutionFolderRepository;
@@ -28,62 +27,71 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard.Services
     {
       var sourceRoot = FindSourceRootTemplateObjectService.Find(projectTemplate.TemplateObjects);
       if (sourceRoot == null) throw new ArgumentException("Missing a source root folder in Helix template - the start location for Visual Studio to attach files and folders from");
-      AttachTemplateObjects(sourceRoot, new List<string>());
+      AttachTemplateObject(sourceRoot, null);
     }
 
-    private void AttachTemplateObjects(ITemplateObject rootTemplateObject, IList<string> solutionLocation)
+    private void AttachTemplateObject(ITemplateObject templateObject, string currentSolutionFolder)
     {
-      if (rootTemplateObject.ChildObjects.All(c => c.Type != TemplateObjectType.Project))
-        solutionLocation.Add(rootTemplateObject.Name);
-
-      foreach (var templateObject in rootTemplateObject.ChildObjects.Where(to => !to.IsIgnored && !to.SkipAttach))
+      if (templateObject.Type == TemplateObjectType.Folder 
+          && templateObject.ChildObjects.All(c => c.Type != TemplateObjectType.Project))
       {
-        if (templateObject.Type == TemplateObjectType.Folder)
-        {
-          if (templateObject.ChildObjects == null || !templateObject.ChildObjects.Any())
-          {
-            EnsureSolutionFolder(templateObject, solutionLocation);
-            continue;
-          }
-          if (templateObject.ChildObjects.All(t => t.Type != TemplateObjectType.Project))
-            EnsureSolutionFolder(templateObject, solutionLocation);
-          AttachTemplateObjects(templateObject, solutionLocation.ToList());
-        }
-        if (templateObject.Type == TemplateObjectType.File || templateObject.Type == TemplateObjectType.Project)
-          AttachFile(templateObject, solutionLocation);
+        currentSolutionFolder = AttachSolutionFolder(templateObject, currentSolutionFolder);
       }
-    }
 
-    protected virtual void EnsureSolutionFolder(ITemplateObject templateObject, IList<string> solutionLocation)
-    {
-      if (solutionLocation.Count == 1)
-      {
-        SolutionFolderRepository.Create(templateObject.Name);
+      if (templateObject.ChildObjects == null)
         return;
+
+      foreach (var childObject in templateObject.ChildObjects.Where(to => !to.IsIgnored))
+      {
+        if (childObject.Type == TemplateObjectType.File 
+            || childObject.Type == TemplateObjectType.Project)
+          Attach(childObject, currentSolutionFolder);
+
+        if (childObject.Type == TemplateObjectType.Folder)
+        {
+          AttachTemplateObject(childObject, currentSolutionFolder);
+        }
       }
-      var parentFolder = SolutionFolderRepository.GetByName(solutionLocation[solutionLocation.Count - 1]);
-      if (parentFolder == null)
-        throw new ArgumentException($"Scaffolding failed. Cannot find parent solution folder called {solutionLocation[solutionLocation.Count - 1]} for {templateObject.Name}.");
-      SolutionFolderRepository.Create(templateObject.Name, parentFolder);
     }
 
-    protected virtual void AttachFile(ITemplateObject templateObject, IList<string> solutionLocation)
+    protected virtual string AttachSolutionFolder(ITemplateObject templateObject, string parentFolderName = null)
     {
-      if (!solutionLocation.Any())
-        throw new ArgumentException("Miss solution root object");
-      if (solutionLocation.Count == 1)
+      if (templateObject.SkipAttach)
+        return parentFolderName;
+
+      if (string.IsNullOrEmpty(parentFolderName))
+      {
+        return SolutionFolderRepository.Create(templateObject.Name);
+      }
+
+      var parentFolder = SolutionFolderRepository.GetByName(parentFolderName);
+      if (parentFolder == null)
+        throw new ArgumentException($"Scaffolding failed. Cannot find parent solution folder called {parentFolderName} for {templateObject.Name}.");
+
+      return SolutionFolderRepository.Create(templateObject.Name, parentFolder);
+    }
+
+    protected virtual void Attach(ITemplateObject templateObject, string parentFolderName = null)
+    {
+      if (templateObject.SkipAttach)
+        return;
+
+      if (string.IsNullOrEmpty(parentFolderName))
       {
         ProjectsRepository.AddFromFile(templateObject.DestinationFullPath);
         return;
       }
-      var parentFolder = SolutionFolderRepository.GetByName(solutionLocation[solutionLocation.Count - 1]);
+
+      var parentFolder = SolutionFolderRepository.GetByName(parentFolderName);
       if (parentFolder == null)
         throw new ArgumentException($"Scaffolding failed. Cannot find parent solution folder for file {templateObject.DestinationFullPath}.");
+
       if (templateObject.Type == TemplateObjectType.Project)
       {
         ProjectsRepository.AddProjectFromFile(templateObject.DestinationFullPath, parentFolder);
         return;
       }
+
       ProjectsRepository.AddFromFile(templateObject.DestinationFullPath, parentFolder);
     }
   }

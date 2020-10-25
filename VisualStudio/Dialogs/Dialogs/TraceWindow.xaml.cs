@@ -1,15 +1,7 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Threading;
 using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Extensions;
-using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model;
 using Microsoft.VisualStudio.PlatformUI;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
@@ -21,14 +13,23 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
   {
     protected readonly TextTraceListener TraceListener;
 
+    private ManifestDialog _manifestDialog;
+
     public TraceWindow(TextTraceListener traceListener)
     {
       TraceListener = traceListener;
-      WeakEventManager<INotifyPropertyChanged, PropertyChangedEventArgs>.AddHandler(TraceListener, "PropertyChanged", TraceListenerOnPropertyChanged);
+      WeakEventManager<INotifyPropertyChanged, PropertyChangedEventArgs>.AddHandler(TraceListener, "PropertyChanged",
+        TraceListenerOnPropertyChanged);
       Trace.Listeners.Add(TraceListener);
       InitializeComponent();
       this.SetVisualStudioThemeStyles();
       SetTraceText(TraceListener.Trace);
+    }
+
+    public void SetManifestDialog(ManifestDialog manifestDialog)
+    {
+      _manifestDialog = manifestDialog;
+      ReloadButton.IsEnabled = _manifestDialog != null;
     }
 
     private void TraceListenerOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -47,8 +48,14 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     private void CloseDialog(object sender, RoutedEventArgs e)
     {
-      WeakEventManager<INotifyPropertyChanged, PropertyChangedEventArgs>.RemoveHandler(TraceListener, "PropertyChanged", TraceListenerOnPropertyChanged);
+      WeakEventManager<INotifyPropertyChanged, PropertyChangedEventArgs>.RemoveHandler(TraceListener, "PropertyChanged",
+        TraceListenerOnPropertyChanged);
       Close();
+    }
+
+    private void ReloadManifests(object sender, RoutedEventArgs e)
+    {
+      _manifestDialog?.Reload();
     }
   }
 }

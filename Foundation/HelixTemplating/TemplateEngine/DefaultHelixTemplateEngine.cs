@@ -1,6 +1,6 @@
 ﻿/* Sitecore Helix Visual Studio Templates 
  * 
- * Copyright (C) 2019, Anders Laub - Laub plus Co, DK 29 89 76 54 contact@laubplusco.net https://laubplusco.net
+ * Copyright (C) 2020, Anders Laub - Laub plus Co, DK 29 89 76 54 contact@laubplusco.net https://laubplusco.net
  * 
  * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, 
  * provided that the above copyright notice and this permission notice appear in all copies.
@@ -14,7 +14,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using LaubPlusCo.Foundation.HelixTemplating.Data;
@@ -33,10 +32,12 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
     public IHelixProjectTemplate Run(HelixTemplateManifest manifest, string solutionRootPath)
     {
       Manifest = manifest;
-      WriteTraceService.WriteToTrace($"Template Engine started", "\nInfo", $"Manifest: {manifest.Name}", $"root path: {solutionRootPath} ");
+      WriteTraceService.WriteToTrace("Template Engine started", "\nInfo", $"Manifest: {manifest.Name}",
+        $"root path: {solutionRootPath} ");
       ReplaceTokensService = new ReplaceTokensService(Manifest.ReplacementTokens);
       DestinationRootPath = solutionRootPath;
       BuildDestinationPathService = new BuildDestinationPathService(Manifest.ManifestRootPath, DestinationRootPath);
+      ExpandConditions();
 
       var templateObjects = new List<ITemplateObject>();
       templateObjects.AddRange(GetTemplateObjectFromDirectory(Manifest.ManifestRootPath));
@@ -53,8 +54,9 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
 
       var replaceFileTokensService = new ReplaceTokensInFilesService(copiedFilePaths, Manifest.ReplacementTokens);
       replaceFileTokensService.Replace();
-      MarkIfSkipped(templateObjects);
+      EvaluateSkipAttach(templateObjects);
       CreateVirtualSolutionFolders(templateObjects);
+
       return new HelixProjectTemplate
       {
         Manifest = Manifest,
@@ -63,15 +65,33 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
       };
     }
 
+    protected virtual void ExpandConditions()
+    {
+      ExpandConditionTokens(Manifest.IgnorePaths);
+      ExpandConditionTokens(Manifest.ProjectsToAttach);
+      ExpandConditionTokens(Manifest.SkipAttachPaths);
+      Manifest.IgnorePaths = Manifest.IgnorePaths.Where(cv => cv.Evaluate()).ToList();
+      Manifest.ProjectsToAttach = Manifest.ProjectsToAttach.Where(cv => cv.Evaluate()).ToList();
+      Manifest.SkipAttachPaths = Manifest.SkipAttachPaths.Where(cv => cv.Evaluate()).ToList();
+    }
+
+    protected void ExpandConditionTokens(IList<ConditionalValue> conditionalValues)
+    {
+      foreach (var conditionalValue in conditionalValues.Where(cv => !string.IsNullOrEmpty(cv.Condition)))
+        conditionalValue.Condition = ReplaceTokensService.Replace(conditionalValue.Condition);
+    }
+
     protected virtual void CreateVirtualSolutionFolders(IList<ITemplateObject> templateObjects)
     {
       if (Manifest.VirtualSolutionFolders == null || !Manifest.VirtualSolutionFolders.Any())
         return;
       var sourceRootObject = FindSourceRootTemplateObjectService.Find(templateObjects);
-      GetVirtualSolutionFolderTemplateObjects(sourceRootObject, Manifest.VirtualSolutionFolders, Path.Combine(sourceRootObject.DestinationFullPath));
+      GetVirtualSolutionFolderTemplateObjects(sourceRootObject, Manifest.VirtualSolutionFolders,
+        Path.Combine(sourceRootObject.DestinationFullPath));
     }
 
-    protected virtual void GetVirtualSolutionFolderTemplateObjects(ITemplateObject root, IList<VirtualSolutionFolder> virtualSolutionFolders, string parentPath)
+    protected virtual void GetVirtualSolutionFolderTemplateObjects(ITemplateObject root,
+      IList<VirtualSolutionFolder> virtualSolutionFolders, string parentPath)
     {
       foreach (var virtualSolutionFolder in virtualSolutionFolders)
       {
@@ -82,7 +102,6 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
         };
 
         foreach (var filePath in virtualSolutionFolder.Files)
-        {
           virtualFolderObject.ChildObjects.Add(new TemplateObject
           {
             ChildObjects = null,
@@ -90,60 +109,55 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
             OriginalFullPath = filePath,
             DestinationFullPath = ReplaceTokensService.Replace(BuildDestinationPathService.Build(filePath))
           });
-        }
 
         if (virtualSolutionFolder.SubFolders == null || !virtualSolutionFolders.Any())
           continue;
-        GetVirtualSolutionFolderTemplateObjects(virtualFolderObject, virtualSolutionFolder.SubFolders, virtualFolderObject.DestinationFullPath);
+        GetVirtualSolutionFolderTemplateObjects(virtualFolderObject, virtualSolutionFolder.SubFolders,
+          virtualFolderObject.DestinationFullPath);
         root.ChildObjects.Add(virtualFolderObject);
       }
     }
 
-    protected virtual void MarkIfSkipped(IList<ITemplateObject> templateObjects)
+    protected virtual void EvaluateSkipAttach(IList<ITemplateObject> templateObjects)
     {
       foreach (var templateObject in templateObjects)
       {
-        if (SkipAttach(templateObject.OriginalFullPath))
+        templateObject.SkipAttach = SkipAttach(templateObject);
+        if (templateObject.ChildObjects == null || !templateObject.ChildObjects.Any())
+          continue;
+        if (templateObject.SkipAttach)
         {
-          templateObject.SkipAttach = true;
-          if (templateObject.ChildObjects != null && templateObject.ChildObjects.Any())
-            SetSkipAttachFlag(templateObject.ChildObjects);
+          SetSkipAttachFlag(templateObject.ChildObjects);
           continue;
         }
 
-        if (templateObject.Type == TemplateObjectType.Project)
-          SetSkipAttachFlag(templateObjects.Where(to => to.Type != TemplateObjectType.Project));
-        if (templateObject.ChildObjects == null || !templateObject.ChildObjects.Any())
-          continue;
-        MarkIfSkipped(templateObject.ChildObjects);
+        EvaluateSkipAttach(templateObject.ChildObjects);
       }
     }
 
     protected virtual void SetSkipAttachFlag(IEnumerable<ITemplateObject> skipAttachTemplateObjects)
     {
-      foreach (var skipAttachTemplateObject in skipAttachTemplateObjects)
+      foreach (var templateObject in skipAttachTemplateObjects)
       {
-        skipAttachTemplateObject.SkipAttach = true;
-        Trace.WriteLine("");
-        if (skipAttachTemplateObject.ChildObjects == null || !skipAttachTemplateObject.ChildObjects.Any())
+        templateObject.SkipAttach = templateObject.Type != TemplateObjectType.Project;
+        if (templateObject.ChildObjects == null || !templateObject.ChildObjects.Any())
           continue;
-        SetSkipAttachFlag(skipAttachTemplateObject.ChildObjects);
+        SetSkipAttachFlag(templateObject.ChildObjects);
       }
     }
 
     protected virtual IList<ITemplateObject> GetTemplateObjectFromDirectory(string directoryPath)
     {
-      var templateObjects = Directory.EnumerateFiles(directoryPath).Select(GetTemplateObjectFromFile).Where(objectFromFile => objectFromFile != null).ToList();
+      var templateObjects = Directory.EnumerateFiles(directoryPath).Select(GetTemplateObjectFromFile)
+        .Where(objectFromFile => objectFromFile != null).ToList();
       templateObjects.AddRange(Directory.EnumerateDirectories(directoryPath)
         .Select(directory => new TemplateObject
         {
           Type = IsSourceRoot(directory) ? TemplateObjectType.SourceRoot : TemplateObjectType.Folder,
           ChildObjects = GetTemplateObjectFromDirectory(directory),
           OriginalFullPath = directory,
-          SkipAttach = SkipAttach(directoryPath),
           DestinationFullPath = ReplaceTokensService.Replace(BuildDestinationPathService.Build(directory))
         }));
-      //TODO: Write template objects to trace
       return templateObjects;
     }
 
@@ -155,7 +169,6 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
         Type = IsProjectToAttach(filePath) ? TemplateObjectType.Project : TemplateObjectType.File,
         ChildObjects = null,
         OriginalFullPath = filePath,
-        SkipAttach = SkipAttach(filePath),
         IsIgnored = isIgnored,
         DestinationFullPath = isIgnored ? "" : ReplaceTokensService.Replace(BuildDestinationPathService.Build(filePath))
       };
@@ -163,12 +176,36 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
 
     protected virtual bool IsIgnored(string filePath)
     {
-      return Manifest.IgnoreFiles.Any(skipFilePath => skipFilePath.Equals(filePath, StringComparison.InvariantCultureIgnoreCase));
+      return IsFileNameInList(filePath, Manifest.IgnorePaths) || Manifest.IgnorePaths.Select(i => i.Value)
+               .Any(ignore => filePath.Equals(ignore, StringComparison.OrdinalIgnoreCase) ||
+                              filePath.StartsWith(ignore, StringComparison.OrdinalIgnoreCase));
     }
 
-    protected virtual bool SkipAttach(string path)
+    protected virtual bool SkipAttach(ITemplateObject templateObject)
     {
-      return Manifest.SkipAttachPaths.Any(p => p.Equals(path, StringComparison.InvariantCultureIgnoreCase));
+      return templateObject.Type != TemplateObjectType.Project &&
+             (SkipPath(templateObject.OriginalFullPath) || templateObject.ChildObjects != null
+              && templateObject.ChildObjects.Any(c => c.Type == TemplateObjectType.Project));
+    }
+
+    protected virtual bool SkipPath(string path)
+    {
+      return IsFileNameInList(path, Manifest.SkipAttachPaths) || Manifest.SkipAttachPaths.Any(skipPath =>
+               skipPath.Value.Equals(path, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    protected bool IsFileNameInList(string path, IList<ConditionalValue> pathList)
+    {
+      var fileName = Path.GetFileName(path);
+      if (string.IsNullOrEmpty(fileName)) return false;
+
+      //TODO: Implement glob support and expand paths and merge lists rather than loop-i-loop n^2*n^2..
+      var fileNames = pathList.Where(cv =>
+          cv.Value.Length > 0 && cv.Value.IndexOf("/", StringComparison.OrdinalIgnoreCase) < 0
+                              && cv.Value.IndexOf("\\", StringComparison.OrdinalIgnoreCase) < 0)
+        .Select(skipFile => skipFile.Value);
+
+      return fileNames.Any(skipFile => skipFile.Equals(fileName, StringComparison.OrdinalIgnoreCase));
     }
 
     protected virtual bool IsSourceRoot(string path)
@@ -178,7 +215,8 @@ namespace LaubPlusCo.Foundation.HelixTemplating.TemplateEngine
 
     protected virtual bool IsProjectToAttach(string filePath)
     {
-      return Manifest.ProjectsToAttach.Any(projectPath => projectPath.Equals(filePath, StringComparison.InvariantCultureIgnoreCase));
+      return Manifest.ProjectsToAttach.Any(projectPath =>
+        projectPath.Value.Equals(filePath, StringComparison.InvariantCultureIgnoreCase));
     }
   }
 }

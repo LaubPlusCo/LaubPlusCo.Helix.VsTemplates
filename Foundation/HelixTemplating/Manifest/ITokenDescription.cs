@@ -3,16 +3,16 @@ using LaubPlusCo.Foundation.HelixTemplating.Tokens;
 
 namespace LaubPlusCo.Foundation.HelixTemplating.Manifest
 {
-  public class TokenDescription
+  public interface ITokenDescription
   {
-    public string Key { get; set; }
-    public string DisplayName { get; set; }
-    public string HelpText { get; set; }
-    public IValidateToken Validator { get; set; }
-    public ISuggestToken Suggestor { get; set; }
-    public bool IsRequired { get; set; }
-    public string Default { get; set; }
-    public TokenInputForm InputType { get; set; }
-    public IList<KeyValuePair<string,string>> SelectionOptions { get; set; }
+    string Key { get; set; }
+    string DisplayName { get; set; }
+    string HelpText { get; set; }
+    IValidateToken Validator { get; set; }
+    ISuggestToken Suggestor { get; set; }
+    bool IsRequired { get; set; }
+    string Default { get; set; }
+    TokenInputForm InputType { get; set; }
+    IList<KeyValuePair<string, string>> SelectionOptions { get; set; }
   }
 }

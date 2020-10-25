@@ -8,6 +8,45 @@ Visual Studio extension that accelerates creating new Visual Studio solutions an
 
 ## Change log  
 
+_2020-10-25 v20.06.0719_ 
+(released)
+- Bug fix of long paths issue when copying templates from within VS
+- Manifest and setting dialogs can now be drag moved.
+- Added extra GUID tokens that can be used for generating item yml
+- Settings dialog updates
+---
+
+_2020-06-07 v20.06.0719_ 
+(not released)
+- Standard templates removed from this repo
+- Bug fixing of new features
+- Templates updated [here](https://github.com/LaubPlusCo/Helix-Templates) for templates. Please contribute.
+
+---
+
+
+_2020-02-18 v20.02.1722_ 
+(not released)
+- Changed versioning style.
+- New feature; Simple conditional includes in templates.
+- New feature: download templates online
+- New feature: Token sections in manifest for better UI eXperience
+- New feature: Enhanced Settings dialog, now show solution settings in separate tab and more.
+- New feature: Display all preset VS tokens in tab.
+- UI fixes and updates.
+- Templates for Sitecore 9.3 - kept simple in ootb zip.  
+    - See [this repository here!](https://github.com/LaubPlusCo/Helix-Templates) for templates. Please contribute.
+
+---
+
+_2020-01-12 v0.9.9.20_
+
+- Bug fix; Proper TDS project support.
+- Added New templates for Sitecore 9.3.
+
+---
+
+
 _2019-04-30 v0.9.9.14_
 
 - Bug fix; relative folder path in .helixtemplates file fixed. Fix also allow templates on fileshare.

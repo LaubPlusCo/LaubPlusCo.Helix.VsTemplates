@@ -14,6 +14,8 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
     {
       RootDirectory = rootDirectory;
       ReplacementTokens = replacementTokens;
+      if (!ReplacementTokens.ContainsKey("$emptyString$"))
+        ReplacementTokens.Add("$emptyString$", string.Empty);
     }
 
     public HelixTemplateManifest[] Read()

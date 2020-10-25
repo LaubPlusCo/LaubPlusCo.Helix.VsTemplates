@@ -1,7 +1,7 @@
-﻿<platformUi:DialogWindow x:Class="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs.TraceWindow"
+﻿<platformUi1:DialogWindow x:Class="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs.TraceWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
+        xmlns:platformUi1="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
         Title="Trace" 
         WindowStyle="SingleBorderWindow"
         SizeToContent="WidthAndHeight" 
@@ -22,9 +22,11 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
     <TextBox Grid.Row="0" Name="TraceTextBox" MinWidth="250"  VerticalScrollBarVisibility="Visible"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" IsReadOnly="True" AcceptsReturn="True" />
-    <Button Grid.Row="1" Content="Close" IsDefault="True" Click="CloseDialog" Margin="0,10"  />
+    <Button Grid.Row="1" Name="ReloadButton" Content="Reload template manifests" IsEnabled="False" Click="ReloadManifests" Margin="0,10"  />
+    <Button Grid.Row="2" Content="Close trace" IsDefault="True" Click="CloseDialog" Margin="0,10" />
   </Grid>
-</platformUi:DialogWindow>
+</platformUi1:DialogWindow>
 

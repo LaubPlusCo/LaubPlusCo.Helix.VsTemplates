@@ -4,6 +4,6 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Manifest
   {
     Solution = 0,
     Module = 1,
-    Item = 2
+    Item = 2,
   }
 }

@@ -1,6 +1,6 @@
 ﻿/* Sitecore Helix Visual Studio Templates 
  * 
- * Copyright (C) 2019, Anders Laub - Laub plus Co, DK 29 89 76 54 contact@laubplusco.net https://laubplusco.net
+ * Copyright (C) 2020, Anders Laub - Laub plus Co, DK 29 89 76 54 contact@laubplusco.net https://laubplusco.net
  * 
  * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, 
  * provided that the above copyright notice and this permission notice appear in all copies.
@@ -12,9 +12,7 @@
  * OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using LaubPlusCo.Foundation.HelixTemplating.Services;
 using LaubPlusCo.Foundation.HelixTemplating.TemplateEngine;
@@ -29,11 +27,12 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Manifest
     {
       var manifestFileInfo = new FileInfo(manifestFile);
       ManifestFileName = manifestFileInfo.Name;
-      ManifestRootPath = manifestFileInfo.Directory.FullName;
-      Tokens = new List<TokenDescription>();
-      ProjectsToAttach = new List<string>();
-      IgnoreFiles = new List<string>();
-      SkipAttachPaths = new List<string>();
+      ManifestRootPath = manifestFileInfo.Directory?.FullName;
+      Tokens = new List<ITokenDescription>();
+      TokenSections = new List<ITokenSection>();
+      ProjectsToAttach = new List<ConditionalValue>();
+      IgnorePaths = new List<ConditionalValue>();
+      SkipAttachPaths = new List<ConditionalValue>();
     }
 
     public string Name { get; set; }
@@ -45,18 +44,13 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Manifest
     public string SourceFolder { get; set; }
     public bool SaveOnCreate { get; set; }
     public IHelixTemplateEngine TemplateEngine { get; set; }
-    public IList<TokenDescription> Tokens { get; set; }
-    public IList<string> ProjectsToAttach { get; set; }
-    public IList<string> SkipAttachPaths { get; set; }
-    public IList<string> IgnoreFiles { get; set; }
+    public IList<ITokenSection> TokenSections { get; set; }
+    public IList<ITokenDescription> Tokens { get; set; }
+    public IList<ConditionalValue> ProjectsToAttach { get; set; }
+    public IList<ConditionalValue> SkipAttachPaths { get; set; }
+    public IList<ConditionalValue> IgnorePaths { get; set; }
     public IList<VirtualSolutionFolder> VirtualSolutionFolders { get; set; }
     public TemplateType TemplateType { get; set; }
     public IDictionary<string,string> ReplacementTokens { get; set; }
-  }
-
-  public class TemplateHyperLink
-  {
-    public Uri LinkUri { get; set; }
-    public string LinkText { get; set; }
   }
 }
