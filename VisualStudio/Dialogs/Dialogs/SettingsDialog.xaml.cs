@@ -57,10 +57,14 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
     private void LoadSettings()
     {
       GlobalTemplatesFolderTextbox.Text = AppScopeSettings.Current.TemplatesFolder;
-      ShowVsTokens.IsChecked = AppScopeSettings.Current.ShowVsTokensTab;
+      ShowContextTokens.IsChecked = AppScopeSettings.Current.ShowVsTokensTab;
       DownloadTemplates.IsChecked = AppScopeSettings.Current.DownloadTemplates;
       DownloadUrl.Text = AppScopeSettings.Current.DownloadUrl;
       TempFolderPath.Text = AppScopeSettings.Current.TempFolderPath;
+      if (SolutionSettingsTab.IsEnabled)
+      {
+        SolutionTemplatesFolderTextbox.Text = SolutionScopeSettings.RelativeTemplatesFolder;
+      }
     }
 
     private void InitializeStyles()
@@ -191,7 +195,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         SolutionScopeSettings.SaveSettings();
       }
 
-      AppScopeSettings.Current.ShowVsTokensTab = ShowVsTokens.IsChecked.HasValue && ShowVsTokens.IsChecked.Value;
+      AppScopeSettings.Current.ShowVsTokensTab = ShowContextTokens.IsChecked.HasValue && ShowContextTokens.IsChecked.Value;
       AppScopeSettings.Current.TemplatesFolder = GlobalTemplatesFolderTextbox.Text;
       if (!string.IsNullOrEmpty(TempFolderPath.Text) && Path.IsPathRooted(TempFolderPath.Text))
         AppScopeSettings.Current.TempFolderPath = TempFolderPath.Text;

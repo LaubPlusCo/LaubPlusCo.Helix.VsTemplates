@@ -8,8 +8,16 @@ Visual Studio extension that accelerates creating new Visual Studio solutions an
 
 ## Change log  
 
+_2020-10-25 v20.06.0719_ 
+(released)
+- Bug fix of long paths issue when copying templates from within VS
+- Manifest and setting dialogs can now be drag moved.
+- Added extra GUID tokens that can be used for generating item yml
+- Settings dialog updates
+---
+
 _2020-06-07 v20.06.0719_ 
-("silent" release)
+(not released)
 - Standard templates removed from this repo
 - Bug fixing of new features
 - Templates updated [here](https://github.com/LaubPlusCo/Helix-Templates) for templates. Please contribute.

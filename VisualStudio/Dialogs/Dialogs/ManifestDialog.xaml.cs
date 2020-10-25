@@ -176,7 +176,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         foreach (var tokenSection in _selectedManifest.TokenSections)
           AddTokenSectionTabItem(tokenSection.DisplayName, tokenSection.Tokens);
       if (AppScopeSettings.Current.ShowVsTokensTab)
-        AddVsTokensTab();
+        AddContextTokensTab();
 
       TokenSectionTabs.SelectedIndex = 0;
 
@@ -208,9 +208,9 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       TemplateAuthor.Text = templateMetaText;
     }
 
-    private void AddVsTokensTab()
+    private void AddContextTokensTab()
     {
-      var tabItem = new TokenSectionTabItem("VS Tokens");
+      var tabItem = new TokenSectionTabItem("Context Tokens");
       TokenSectionTabs.Items.Add(tabItem);
       foreach (var token in _initialTokens.OrderByDescending(t => t.Key))
         tabItem.InnerPanel.Children.Add(new TextBlock
@@ -256,11 +256,11 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
 
     protected void OpenTrace_Clicked(object sender, RoutedEventArgs e)
     {
-      if (TraceWindow == null)
+      if (TraceWindow == null || !TraceWindow.IsVisible)
         TraceWindow = new TraceWindow(_traceListener);
       TraceWindow.SetManifestDialog(this);
-      if (!TraceWindow.IsVisible)
-        TraceWindow.Show();
+
+      TraceWindow.Show();
     }
 
     private void CreateButton_OnClick(object sender, RoutedEventArgs e)

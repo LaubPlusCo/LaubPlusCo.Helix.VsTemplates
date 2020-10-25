@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Threading;
 using LaubPlusCo.Foundation.HelixTemplating.Manifest;
+using LaubPlusCo.Foundation.HelixTemplating.Services;
 using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Properties;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
@@ -95,24 +98,60 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
       if (!TemplateFolders.ContainsKey(templateType))
         return false;
       foreach (var directoryInfo in TemplateFolders[templateType])
-        CopyDirectory(directoryInfo, Path.Combine(TemplatesRootPath, directoryInfo.Name));
+        CopyDirectory(directoryInfo, TemplatesRootPath);
       return true;
     }
 
-    public static void CopyDirectory(DirectoryInfo sourceDir, string destinationPath)
+    public static void CopyDirectory(DirectoryInfo sourceDir, string destinationRootPath)
     {
-      if (Directory.Exists(destinationPath)) FileStorageService.Instance.Delete(destinationPath);
+      //Note: This is to circumvent long path issues when running within Visual Studio.
+      RunXCopy(sourceDir.FullName, Path.Combine(destinationRootPath, sourceDir.Name));
+    }
 
-      Directory.CreateDirectory(destinationPath);
-      var files = sourceDir.GetFiles();
-      foreach (var file in files)
+    private static void RunXCopy(string sourceDirectory, string destinationDirectory)
+    {
+      var processInfo = new ProcessStartInfo
       {
-        var temppath = Path.Combine(destinationPath, file.Name);
-        file.CopyTo(temppath, true);
+        CreateNoWindow = true,
+        UseShellExecute = false,
+        RedirectStandardError = true,
+        RedirectStandardInput = true,
+        RedirectStandardOutput = true,
+        FileName = "xcopy",
+        WindowStyle = ProcessWindowStyle.Hidden,
+        Arguments = $"\"{sourceDirectory}\" \"{destinationDirectory}\" /e /y /I"
+      };
+      StreamReader outputReader = null;
+      try
+      {
+        using (var process = Process.Start(processInfo))
+        {
+          if (process == null)
+            return;
+          outputReader = process.StandardOutput;
+          var waitCount = 0;
+          while (!process.HasExited)
+          {
+            if (waitCount > 30)
+            {
+              WriteTraceService.WriteToTrace($"xcopy {sourceDirectory} to {destinationDirectory} locked:");
+              process.Kill();
+              break;
+            }
+            Thread.Sleep(100);
+            waitCount++;
+          }
+          WriteTraceService.WriteToTrace($"Templates copied using xcopy:\n{outputReader.ReadToEnd()}");
+        }
       }
-
-      var subDirectories = sourceDir.GetDirectories();
-      foreach (var subdir in subDirectories) CopyDirectory(subdir, Path.Combine(destinationPath, subdir.Name));
+      catch (Exception exception)
+      {
+        WriteTraceService.WriteToTrace(exception.Message, "Error");
+      }
+      finally
+      {
+        outputReader?.Close();
+      }
     }
   }
 }

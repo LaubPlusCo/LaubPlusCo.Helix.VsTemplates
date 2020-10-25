@@ -60,20 +60,20 @@
       <StackPanel Margin="0,0,0,20">
         <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Global Helix templates folder</Label>
           <TextBox Height="25" Name="GlobalTemplatesFolderTextbox" />
-        <TextBlock Margin="0,0,0,10" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">For Solution and module templates</TextBlock>
-          <CheckBox Name="ShowVsTokens" IsChecked="True">
-          <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Show Visual Studio tokens tab</Label>
+        <TextBlock Margin="0,0,0,10" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">For Solution and Module templates</TextBlock>
+          <CheckBox Name="ShowContextTokens" IsChecked="True">
+          <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Show Context Tokens tab</Label>
         </CheckBox>
           <StackPanel Margin="0,5,0,0" HorizontalAlignment="Stretch">
           <StackPanel Orientation="Horizontal">
             <CheckBox Name="DownloadTemplates" IsChecked="True">
               <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Download templates from</Label>
             </CheckBox>
-              <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}"  Opacity="0.6" FontSize="10" FontStyle="Italic" Margin="80,0,0,0">Reset URL:</Label>
-              <Button Name="SetDefaultUrlButton"  Opacity="0.6" Content="Default" Click="SetDefaultUrlClicked" FontSize="10" BorderThickness="0" Background="Transparent" Margin="5,0,0,0" />
-              <Button Name="SetLatestUrlButton" Opacity="0.6" Content="Latest" Click="SetLatestUrlClicked" FontSize="10" HorizontalAlignment="Right" BorderThickness="0" Background="Transparent" Margin="20,0,0,0" />
+
+              <Button Name="SetDefaultUrlButton"  Opacity="0.6" Content="Default" Click="SetDefaultUrlClicked" FontSize="10" BorderThickness="0" Background="Transparent" Margin="255,0,0,0" />
+              <Button Name="SetLatestUrlButton" Opacity="0.6" Content="Latest" Click="SetLatestUrlClicked" FontSize="10" HorizontalAlignment="Right" BorderThickness="0" Background="Transparent" Margin="2,0,0,0" />
           </StackPanel>
-            <TextBox Height="25" HorizontalAlignment="Stretch" Name="DownloadUrl" />
+            <TextBox Height="25" HorizontalAlignment="Stretch" Name="DownloadUrl" Width="500" />
           <TextBlock Margin="5,0,0,0" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">URL to zip archive with templates</TextBlock>
             <StackPanel Orientation="Vertical" Opacity="0.6">
             <StackPanel Orientation="Horizontal">
@@ -93,8 +93,8 @@
     <TabItem Name="SolutionSettingsTab">
       <StackPanel>
       <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Solution module Templates folder</Label>
-          <TextBox Height="25" Name="SolutionTemplatesFolderTextbox" />
-        <TextBlock Margin="0,0,0,10" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">Module templates for current solution - use relative path to solution root</TextBlock>
+          <TextBox Height="25" Name="SolutionTemplatesFolderTextbox" Width="350" />
+        <TextBlock Margin="0,0,0,10" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">Module templates for current solution - relative path to solution root</TextBlock>
         </StackPanel>
     </TabItem>
       <TabItem Name="AboutTab">
@@ -106,16 +106,16 @@
             <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontStyle="Italic" Name="AboutVersionText" FontSize="12">
             </TextBlock>
             <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" TextWrapping="Wrap" Margin="5,20,0,20"><Bold>Example templates can now be updated from online sources using the Settings dialog.</Bold><LineBreak></LineBreak><Italic>Please check regularly for updates to the example templates.</Italic></TextBlock>
-            <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" TextWrapping="Wrap" Margin="5,0,0,20"><Bold>The default example templates are now maintained in a separate repository on <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/LaubPlusCo/Helix-Templates">Github</Hyperlink>.</Bold><LineBreak></LineBreak>By default templates are fetched from the 'master' branch. Version and/or feature specific branches for specialized templates may be added in the future.</TextBlock>
-            <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" TextWrapping="Wrap" Margin="5,0,0,20">Please help to evolve the common development practices by updating and sharing templates. Just make pull requests to the above github repo.</TextBlock>
+            <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" TextWrapping="Wrap" Margin="5,0,0,20"><Bold>The default example templates are now maintained in a separate repository on <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/LaubPlusCo/Helix-Templates">Github</Hyperlink>.</Bold><LineBreak></LineBreak>By default the extension will use a version specific branch to fetch the example templates. The version specific templates will not contain unsupported features.<LineBreak></LineBreak> The latest updated example templates can be fetched from the 'master' branch. Specialized feature branches may be added in the future.<LineBreak></LineBreak>All templates are made as simple examples and may contain issues.</TextBlock>
+            <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" TextWrapping="Wrap" Margin="5,0,0,20">Please help evolve the common development practices by updating and sharing templates. Just make a pull requests to the above github repo.</TextBlock>
             <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" TextWrapping="Wrap" Margin="5,0,0,20"><Italic>Feedback, suggestions and bug reports for the Visual Studio extension (not the templates) is made in this <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/LaubPlusCo/LaubPlusCo.Helix.VsTemplates">repository</Hyperlink></Italic></TextBlock>
             <TextBlock Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" Margin="25" TextAlignment="Right">-Anders Laub</TextBlock>
           </StackPanel>
         </ScrollViewer>
       </TabItem>
     </TabControl>
-    <Button Content="Save" IsDefault="True" Click="SaveSettingsClicked" Margin="0,0,0,10" Grid.Row="2" />
-    <Button Content="Cancel" Click="CancelClicked"  Margin="0,0,0,10" Grid.Row="3" BorderThickness="0" Background="Transparent" />
+    <Button Content="Save" IsDefault="True" Click="SaveSettingsClicked" Margin="5,0,5,10" Grid.Row="2" />
+    <Button Content="Cancel" Click="CancelClicked"  Margin="5,0,5,5" Grid.Row="3" BorderThickness="0" Background="Transparent" />
   </Grid>
 </platformUi1:DialogWindow>
 

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Security.AccessControl;
 using System.Threading;
 
 namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
@@ -19,9 +20,11 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
 
     protected DirectoryInfo GetTemporaryDirectory()
     {
-      if (Directory.Exists(TempFolderPath))
-        Delete(TempFolderPath);
-      return Directory.CreateDirectory(TempFolderPath);
+      var tempDirectory = new DirectoryInfo(TempFolderPath);
+      if (tempDirectory.Exists)
+        tempDirectory.Delete(true);
+      tempDirectory.Create();
+      return tempDirectory;
     }
 
     public void CleanTempFolder()
@@ -31,11 +34,9 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
 
     public void Delete(string path)
     {
-      if (!Directory.Exists(path)) return;
-      var allFiles = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories);
-      foreach (var file in allFiles) File.Delete(file);
-      Directory.Delete(path, true);
-      Thread.Sleep(500);
+      var directoryInfo = new DirectoryInfo(path);
+      if (!directoryInfo.Exists) return;
+      directoryInfo.Delete(true);
     }
 
     public void RemoveTempFolder()
