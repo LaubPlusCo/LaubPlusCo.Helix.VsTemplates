@@ -8,7 +8,7 @@ Visual Studio extension that accelerates creating new Visual Studio solutions an
 
 ## Change log  
 
-_2020-10-25 v20.06.0719_ 
+_2020-10-25 v20.10.2517_ 
 (released)
 - Bug fix of long paths issue when copying templates from within VS
 - Manifest and setting dialogs can now be drag moved.
