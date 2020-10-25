@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="LaubCo.Helix.VsInstaller.Anders Laub.8dfd2e63-cc8c-48c0-bc01-f8718ee55772" Version="20.06.0719" Language="en-US" Publisher="Anders Laub" />
+        <Identity Id="LaubCo.Helix.VsInstaller.Anders Laub.8dfd2e63-cc8c-48c0-bc01-f8718ee55772" Version="20.10.2517" Language="en-US" Publisher="Anders Laub" />
         <DisplayName>Sitecore Helix Visual Studio Templates</DisplayName>
         <Description xml:space="preserve">Sitecore Helix Visual Studio project and solution templates</Description>
         <License>license.txt</License>

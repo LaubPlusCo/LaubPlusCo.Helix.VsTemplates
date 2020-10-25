@@ -95,7 +95,7 @@
       <Label Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}">Solution module Templates folder</Label>
           <TextBox Height="25" Name="SolutionTemplatesFolderTextbox" Width="350" />
         <TextBlock Margin="0,0,0,10" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">Module templates for current solution - relative path to solution root</TextBlock>
-        </StackPanel>
+      </StackPanel>
     </TabItem>
       <TabItem Name="AboutTab">
         <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">

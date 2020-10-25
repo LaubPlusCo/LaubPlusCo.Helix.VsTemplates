@@ -24,6 +24,8 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model
       fullPath = string.Empty;
       if (string.IsNullOrEmpty(templateFolder))
         return false;
+      if (templateFolder.StartsWith(".\\"))
+        templateFolder = templateFolder.Substring(2);
 
       fullPath = templateFolder.Contains(":\\") || templateFolder.StartsWith("\\\\")
         ? templateFolder
