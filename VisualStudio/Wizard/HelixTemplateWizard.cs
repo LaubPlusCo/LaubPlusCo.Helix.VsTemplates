@@ -75,7 +75,9 @@ namespace LaubPlusCo.VisualStudio.Helix.Wizard
 
     public void RunFinished()
     {
-      DeleteAutoCreatedDirectory();
+      if (!_isExclusive.HasValue || !_isExclusive.Value)
+        DeleteAutoCreatedDirectory();
+
       var attachToVisualStudioService = new AttachToVisualStudioService(_dte);
       attachToVisualStudioService.Attach(_projectTemplate);
       if (_projectTemplate.Manifest.SaveOnCreate)

@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Navigation;
+using LaubPlusCo.Foundation.HelixTemplating.Manifest;
+using LaubPlusCo.Foundation.HelixTemplating.Services;
 using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Extensions;
 using LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Model;
 using Microsoft.VisualStudio.PlatformUI;
@@ -188,9 +190,6 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       if (SolutionScopeSettings != null
           && !string.IsNullOrEmpty(SolutionTemplatesFolderTextbox.Text))
       {
-        var templateFolderService = new TemplateFolderService(SolutionRootDirectory);
-        if (!templateFolderService.TryGetAbsolutePath(SolutionTemplatesFolderTextbox.Text, out var fullPath))
-          return false;
         SolutionScopeSettings.RelativeTemplatesFolder = SolutionTemplatesFolderTextbox.Text;
         SolutionScopeSettings.SaveSettings();
       }
