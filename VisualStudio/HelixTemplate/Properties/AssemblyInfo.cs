@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Laub + Co")]
 [assembly: AssemblyProduct("LaubPlusCo.Helix.VsTemplates")]
-[assembly: AssemblyCopyright("Copyright © Laub + Co  2019")]
+[assembly: AssemblyCopyright("Copyright © Laub + Co  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -34,3 +34,4 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("20.10.2517.*")]
 [assembly: AssemblyFileVersion("20.10.2517")]
+[assembly: AssemblyKeyFile("LaubPlusCo.VisualStudio.Helix.Template.snk")]
