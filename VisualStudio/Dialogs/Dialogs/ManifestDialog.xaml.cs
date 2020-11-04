@@ -244,7 +244,7 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
       }
     }
 
-    protected void SettingsButton_Clicked(object sender, RoutedEventArgs e)
+    protected void SettingsButtonClicked(object sender, RoutedEventArgs e)
     {
       var settingsDialog = new SettingsDialog(_solutionRoot, _isSolutionCreation);
       var settingsUpdated = settingsDialog.ShowDialog();
@@ -252,6 +252,15 @@ namespace LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs
         return;
 
       Initialize(settingsDialog.GlobalTemplateFolder, _solutionRoot, _initialTokens, _isSolutionCreation);
+    }
+
+    protected void ExploreButtonClicked(object sender, RoutedEventArgs e)
+    {
+      var exploreDialog = new ExploreDialog(_solutionRoot, _isSolutionCreation);
+      var shouldReload = exploreDialog.ShowDialog();
+      if (!shouldReload.HasValue || !shouldReload.Value)
+        return;
+      Reload();
     }
 
     protected void OpenTrace_Clicked(object sender, RoutedEventArgs e)

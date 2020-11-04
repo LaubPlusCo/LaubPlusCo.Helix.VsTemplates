@@ -15,6 +15,7 @@ namespace LaubPlusCo.Foundation.HelixTemplating.Services
   public class ParseManifestService
   {
     protected ReplaceTokensService ReplaceTokensService;
+
     public ParseManifestService(string manifestFilePath)
     {
       ManifestFilePath = manifestFilePath;

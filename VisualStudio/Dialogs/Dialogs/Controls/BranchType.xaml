@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs.Controls.BranchType"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs"
+             xmlns:anims="clr-namespace:LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Animations"
+             xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+             mc:Ignorable="d" d:DesignWidth="300"
+>
+  <StackPanel Margin="0,5,0,0" HorizontalAlignment="Stretch" >
+    <Grid HorizontalAlignment="Stretch">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Name="BranchTypeName" Text="Lorem-ipsum" FontSize="20" Cursor="Hand" Grid.Column="0" Foreground="{DynamicResource {x:Static shell:VsBrushes.CaptionTextKey }}" />
+    </Grid>
+    <StackPanel Name="BranchLinksPanel" Margin="20,5,0,5" anims:VisibilityAnimation.AnimationType="Fade" />
+    <Separator/>
+
+  </StackPanel>
+
+</UserControl>

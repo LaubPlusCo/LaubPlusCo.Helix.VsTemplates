@@ -1,46 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$(SolutionDir)_Build\Solution.Version.props" />
+  <Import Project="$(SolutionDir)_Build\Solution.Configurations.props" />
   <PropertyGroup>
-    <_HelixTemplatesRootDir>C:\Projects\Helix-Templates\</_HelixTemplatesRootDir>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{39015C0E-25A4-4F4A-8F0D-8A6BA8D86548}</ProjectGuid>
-    <OutputType>library</OutputType>
-    <RootNamespace>LaubPlusCo.VisualStudio.HelixTemplates.Dialogs</RootNamespace>
     <AssemblyName>LaubPlusCo.VisualStudio.HelixTemplates.Dialogs</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
+    <RootNamespace>LaubPlusCo.VisualStudio.HelixTemplates.Dialogs</RootNamespace>
+    <OutputType>library</OutputType>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
     <AssemblyOriginatorKeyFile>LaubPlusCo.VisualStudio.Helix.Dialogs.snk</AssemblyOriginatorKeyFile>
+    <_HelixTemplatesRootDir>C:\Projects\Helix-Templates\</_HelixTemplatesRootDir>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -62,7 +30,26 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
   </ItemGroup>
+
   <ItemGroup>
+
+    <Page Include="Dialogs\Controls\BranchType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+
+    <Page Include="Dialogs\Controls\ExploreTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Dialogs\Controls\ExploreBranches.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Dialogs\Controls\BranchLink.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
     <Page Include="Dialogs\ManifestDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -99,10 +86,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\ExploreDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animations\VisibilityAnimation.cs" />
+    <Compile Include="Dialogs\Controls\BranchType.xaml.cs">
+      <DependentUpon>BranchType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\Controls\ExploreTemplates.xaml.cs">
+      <DependentUpon>ExploreTemplates.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\Controls\ExploreBranches.xaml.cs">
+      <DependentUpon>ExploreBranches.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\Controls\BranchLink.xaml.cs">
+      <DependentUpon>BranchLink.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\ManifestDialog.xaml.cs">
       <DependentUpon>ManifestDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ExploreDialog.xaml.cs">
+      <DependentUpon>ExploreDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Dialogs\TextTraceListener.cs" />
     <Compile Include="Dialogs\TokenSectionTabItem.cs" />
@@ -143,9 +151,6 @@
     <Compile Include="Model\AppScopeSettings.cs" />
     <Compile Include="Model\TemporaryStorageService.cs" />
     <Compile Include="Model\VsixManifest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -156,26 +161,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Resources\ModuleTemplates.zip" />
     <None Include="Resources\SolutionTemplates.zip" />
-    <Content Include="ZipStandardTemplates.ps1" />
+    <None Include="ZipStandardTemplates.ps1" />
     <None Include="LaubPlusCo.VisualStudio.Helix.Dialogs.snk" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Foundation\HelixTemplating\LaubPlusCo.Foundation.Helix.Templating.csproj">
-      <Project>{196eb1b2-6313-4c48-bbc0-0399b89e3ad8}</Project>
-      <Name>LaubPlusCo.Foundation.Helix.Templating</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="license.txt">
@@ -187,8 +181,13 @@
       <Version>15.6.27413</Version>
     </PackageReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Foundation\HelixTemplating\LaubPlusCo.Foundation.Helix.Templating.csproj" />
+    <ProjectReference Include="..\..\Foundation\TemplateRepository\LaubPlusCo.Foundation.Helix.TemplateRepository.csproj" />
+  </ItemGroup>
+
   <Target Name="ZipTemplates" BeforeTargets="Build">
     <Exec Command="C:\WINDOWS\system32\windowspowershell\v1.0\powershell.exe -NoLogo -NonInteractive -ExecutionPolicy Unrestricted -Command .'$(ProjectDir)ZipStandardTemplates.ps1' -ProjectDir:'$(ProjectDir)' -RootDir:'$(_HelixTemplatesRootDir)'" />
   </Target>
+
 </Project>

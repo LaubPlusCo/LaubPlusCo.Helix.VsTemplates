@@ -1,0 +1,47 @@
+﻿<platformUi1:DialogWindow x:Class="LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs.ExploreDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:platformUi1="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+        xmlns:vsui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0" xmlns:controls="clr-namespace:LaubPlusCo.VisualStudio.HelixTemplates.Dialogs.Dialogs.Controls"
+                          Title="Helix Templates Settings" 
+        WindowStyle="None"
+        HasDialogFrame="False"
+        BorderThickness="1"
+        BorderBrush="{DynamicResource {x:Static vsui:VsBrushes.ToolWindowBorderKey }}"
+        Background="Transparent"
+        SizeToContent="WidthAndHeight" 
+        IsCloseButtonEnabled="False"
+        MinHeight="500"
+        MinWidth="750"
+        Height="Auto"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+  <Window.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Resources/VectorIcons.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Window.Resources>
+  
+  <Grid Margin="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <StackPanel Grid.Row="0">
+      <TextBlock Text="Explore" Name="ExploreHeadline" Foreground="{DynamicResource {x:Static vsui:VsBrushes.CaptionTextKey }}" Margin="0,0,0,10" HorizontalAlignment="Left" Style="{DynamicResource {x:Static vsui:VsResourceKeys.TextBlockEnvironment310PercentFontSizeStyleKey }}" />
+      <TextBlock Margin="0,0,0,10" Foreground="{DynamicResource {x:Static vsui:VsBrushes.InactiveCaptionTextKey }}" FontSize="10" FontStyle="Italic" HorizontalAlignment="Left">Example templates</TextBlock>
+    </StackPanel>
+    <StackPanel Grid.Row="1" VerticalAlignment="Top" >
+      <controls:ExploreBranches x:Name="BranchesControl" />
+      <controls:ExploreTemplates  x:Name="TemplatesControl" Visibility="Collapsed" />
+    </StackPanel>
+
+    
+
+    <Button Content="Close" IsDefault="True" Click="CloseButtonClicked"  Margin="5,0,5,10" Grid.Row="2" />
+  </Grid>
+</platformUi1:DialogWindow>
+

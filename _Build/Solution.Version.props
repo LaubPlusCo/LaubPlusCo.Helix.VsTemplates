@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyVersion>20.10.2517.0</AssemblyVersion>
+    <FileVersion>20.10.2517</FileVersion>
+    <Company>Laub + Co</Company>
+    <Authors>AuthorName</Authors>
+    <Product>LaubPlusCo.Helix.VsTemplates</Product>
+    <Copyright>Copyright © Laub + Co  2020</Copyright>
+  </PropertyGroup>
+</Project>

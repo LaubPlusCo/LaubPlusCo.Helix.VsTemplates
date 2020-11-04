@@ -38,7 +38,10 @@
       <Button BorderThickness="0"  VerticalAlignment="Top" Background="Transparent" Height="30" Click="OpenTrace_Clicked" Margin="0,0,10,0">
         <ContentControl Content="{StaticResource IconBug}" />
       </Button>
-      <Button BorderThickness="0" Background="Transparent" Height="30" Click="SettingsButton_Clicked">
+      <Button BorderThickness="0" Background="Transparent" Height="30" Click="ExploreButtonClicked">
+        <ContentControl Content="{StaticResource IconSettings}" />
+      </Button>
+      <Button BorderThickness="0" Background="Transparent" Height="30" Click="SettingsButtonClicked">
         <ContentControl Content="{StaticResource IconSettings}" />
       </Button>
     </StackPanel>
