@@ -8,6 +8,12 @@ Visual Studio extension that accelerates creating new Visual Studio solutions an
 
 ## Change log  
 
+_2021-12-13 v21.12.1314_ 
+(released)
+- Visual Studio 2022 support
+- New example templates for Sitecore 10.2 / AspNet Rendering Host
+---
+
 _2020-10-25 v20.10.2517_ 
 (released)
 - Bug fix of long paths issue when copying templates from within VS
