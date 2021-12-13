@@ -6,6 +6,8 @@ Visual Studio extension that accelerates creating new Visual Studio solutions an
 
 **[Install extension from Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=AndersLaublaubplusco.SitecoreHelixVisualStudioTemplates)**
 
+**For reporting issues with the example templates - or if you'd like to contribute your own templates - [use this repository](https://github.com/LaubPlusCo/Helix-Templates)**
+
 ## Change log  
 
 _2021-12-13 v21.12.1314_ 
