@@ -1,7 +1,7 @@
 ISC License (ISC)
 
 Sitecore Helix Visual Studio Templates
-Copyright (C) 2020, Anders Laub - Laub plus Co, DK 29 89 76 54 
+Copyright (C) 2021, Anders Laub - Laub plus Co, DK 29 89 76 54 
 contact@laubplusco.net  
 https://laubplusco.net
 
