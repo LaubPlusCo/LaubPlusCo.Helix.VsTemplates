@@ -95,7 +95,7 @@ _2019-04-10 v0.9.9.10_
 
 The extension can be installed via Visual Studio Extensions and Updates
 
-Visual Studio 2015, 2017 and 2019 are supported but the built-in module templates does not support being loaded in Visual Studio 2015. You will need to make your own templates or upgrade VS.
+Visual Studio 2015, 2017, 2019 and 2022 are supported but the built-in module templates does not support being loaded in Visual Studio 2015. You will need to make your own templates or upgrade VS.
 
 > **Important Note:** You need to run Visual Studio as administrator to use this extension.  
 > *Guide to always start Visual Studio as administrator*
@@ -111,9 +111,9 @@ Visual Studio 2015, 2017 and 2019 are supported but the built-in module template
 
 When the extension has been installed a new project template is available under Visual C# templates.
 
-In Visual Studio 2019 - Search for Helix to easily find the templates.
+In Visual Studio 2019 / 2022 - Search for Helix to easily find the templates.
 
-![VS 2019 - Create new project dialog](Docs/Images/vs2019-search-helix.png)
+![VS 2019 / 2022 - Create new project dialog](Docs/Images/vs2019-search-helix.png)
 
 Using the template for the first time you will be asked to select a root directory for storing your Helix templates. This directory can be changed at any time from the Settings dialog. When an empty root folder is selected you will be asked if you want to install the built-in templates.
 
